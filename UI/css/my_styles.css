@@ -1,0 +1,145 @@
+html,
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+  color: #fff;
+  text-align: center;
+  line-height: 2rem;
+  width: 100%;
+  height: 100vh;
+}
+header.header .container{
+  margin-left: .4rem;
+}
+header.header{
+  text-align: left;
+  background-color: purple;
+  color: #fff;
+  line-height: 3rem;
+  width: 100%;
+  height: 5rem;
+  margin: 0;
+}
+.header h1{
+  margin: 0;
+  line-height: 5rem;
+  color: #fff;
+}
+.head{
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+.container{
+  color: #333;
+}
+.head .container{
+  z-index: 99;
+}
+h1{
+  color: #333;
+}
+.head .container h1{
+  color: orange;
+  font-size: 4rem;
+  margin: 0;
+}
+.btn{
+  text-decoration: none;
+  color: #fff;
+  padding: .5rem .9rem;
+  opacity: 1;
+  border: none;
+  border-radius: .5rem;
+}
+
+.btn:hover{
+  background-color: #fff;
+  color: #333;
+}
+.btn-green{
+  background-color: #279b27;
+}
+.btn-green:hover{
+  background-color: #10cf10;
+}
+.btn-border-y{
+  border: 1px solid orange;
+}
+.btn-border-y:hover{
+  background-color: orange;
+  color: #fff;
+}
+.image{
+  width: 100%;
+  height: 100vh;
+
+  background-image: url('../images/bank-banking-business-462368.jpg');
+  background-size: 100% 100vh;
+  background-repeat: no-repeat;
+  position: absolute;
+  opacity: .4;
+  z-index: 1;
+}
+section.grid{  
+  padding-top: 10vh;
+  color: #333;
+}
+
+/*form*/
+form{
+  padding: 1rem .6rem;
+  text-align: left;
+  color: #333;
+}
+form h3{
+  text-align: center;
+}
+label{
+  font-family: 'Italic' sans-serif;
+  width: 100%;
+  display: block;
+}
+.form-group{
+  width: 100%;
+  display: flex;
+  margin-bottom: .4rem;
+}
+.form-control{
+  width: 100%;
+  border: .5px solid #333;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: .2rem .7rem;
+  color: #333;
+  border-radius: .3rem;
+}
+form button{
+  margin-top: 1rem;
+}
+
+@media (min-width: 700px){
+  .grid{
+    display: grid;
+    grid-template-columns: 1fr repeat(2,minmax(auto, 20em)) 1fr;
+  }
+  section.grid{
+    display: grid;
+    grid-template-columns: 1fr repeat(2,minmax(auto, 15em)) 1fr;
+    padding-top: 10vh;
+  }
+  .container{
+    grid-column: 2/4;
+  }
+  .sect form{
+    height: 70vh;
+  }
+  form {
+    text-align: left;
+  }
+}
