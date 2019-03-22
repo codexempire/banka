@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/my_styles.css">
+  <title>Banka create account</title>
+</head>
+<body>
+  <main class="flex">
+    <div class="one-third aside">
+      <h1>Banka</h1>
+      <ul>
+        <li><a href="profile.html">Dashboard</a></li>
+        <li><a href="create_account.html">Create Account</a></li>
+        <li><a href="#">History</a></li>
+      </ul>
+    </div>
+    <div class="two-third main">
+      <div class="form sm-grid">
+        <div class="container">
+          <h2 class="form-head">Create an Account</h2>
+          <form>
+            <label>Account Name</label>
+            <div class="form-group">
+              <input type="text" class="form-control" id="name">
+            </div>
+            <label>Account type</label>
+            <div class="form-group">
+              <select id="select" class="select">
+                <option disabled selected>Choose an account type</option>
+                <option value="current">Current</option>
+                <option value="savings">Savings</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-green">Create</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
