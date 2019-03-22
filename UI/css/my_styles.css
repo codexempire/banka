@@ -48,7 +48,7 @@ header.header {
 .head .container {
   z-index: 99;
 }
-.form-head{
+.form-head {
   padding-top: 5rem;
   color: #800080;
 }
@@ -118,9 +118,9 @@ label {
   width: 100%;
   display: block;
 }
-.select{
-  padding: .6rem .2rem;
-  border-radius: .3rem;
+.select {
+  padding: 0.6rem 0.2rem;
+  border-radius: 0.3rem;
   color: #fff;
   background-color: purple;
   background-image: linear-gradient(180deg, #fa2afa, #800080);
@@ -149,8 +149,8 @@ form button {
   position: fixed;
   top: 0;
 }
-@media(max-width: 700px){
-  .aside{
+@media (max-width: 700px) {
+  .aside {
     width: 100%;
   }
 }
@@ -218,9 +218,51 @@ main.flex {
 .deactivate {
   color: #333;
 }
+/*table*/
+table {
+  border-collapse: collapse;
+  width: 95%;
+  margin: 0 2.5%;
+}
 
-@media (min-width: 700px) {  
-  .main{
+th,
+td {
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th {
+  background-color: #800080;
+  background-image: linear-gradient(180deg, #fa2afa, #800080);
+  color: white;
+}
+.status{
+  padding: .2rem .4rem;
+  border-radius: .2rem;
+}
+.status-green{
+  color: #fff;
+  background-color: #4CAF50;
+  transition: all .5s ease-in;
+}
+.status-red{
+  color: #fff;
+  background-color: rgb(175, 83, 76);
+  transition: all .5s ease-in;
+}
+.status-green:hover{  
+  opacity: .6;
+}
+.status-red:hover{  
+  opacity: .6;
+}
+
+@media (min-width: 700px) {
+  .main {
     margin-top: 0;
   }
   .grid {
