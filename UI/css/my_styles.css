@@ -153,6 +153,9 @@ form button {
   .aside {
     width: 100%;
   }
+  .aside ul.hide{
+    display: none;
+  }
 }
 .aside h1 {
   color: #fff;
@@ -207,6 +210,12 @@ form button {
   margin-top: 6.4rem;
   color: #800080;
 }
+.main-d{
+  background-color: #eaeaea;
+  margin-top: 4rem;
+  color: #800080;
+  padding-top: 2rem;
+}
 main.flex {
   height: 100%;
   color: #333;
@@ -260,9 +269,40 @@ th {
 .status-red:hover{  
   opacity: .6;
 }
+/*card*/
+.centee{
+  width: 95%;
+  margin: 0 2.5% 0 2.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 80vh;
+  align-content: center;
+  flex-wrap: wrap;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  width: 45%;
+  margin: 2rem 0;
+  padding: 2rem 0;
+  border: 1px solid purple;
+}
+.card p{
+  margin: 0;
+}
+
+/* Add rounded corners to the top left and the top right corner of the image */
+img {
+  border-radius: 5px 5px 0 0;
+}
+
+
+
 
 @media (min-width: 700px) {
-  .main {
+  .main,  .main-d{
     margin-top: 0;
   }
   .grid {
