@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../css/my_styles.css">
+  <title>Banka create account</title>
+</head>
+<body>
+  <main class="flex">
+    <div class="one-third aside">
+      <h1>Banka</h1>
+      <ul class="hide">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="create_staff.html">Create Account</a></li>
+        <li><a href="#">View Account</a></li>
+        <li><a href="#">Credit Account</a></li>
+        <li><a href="#">Debit Account</a></li>
+      </ul>
+    </div>
+    <div class="two-third main-d grid">
+      <div class="container">
+          <h3>CREATE ACCOUNT</h3>
+          <form>
+            <label>Firstname</label>
+            <div class="form-group">
+              <input type="text" class="form-control" id="firstName">
+            </div>
+            <label>Lastname</label>
+            <div class="form-group">
+              <input type="text" class="form-control" id="lastNam">
+            </div>
+            <label>Email</label>
+            <div class="form-group">
+              <input type="email" class="form-control" id="email">
+            </div>
+            <label>Password</label>
+            <div class="form-group">
+              <input type="password" class="form-control" id="password">
+            </div>
+            <label>Account type</label>
+            <div class="form-group">
+              <select id="select" class="select">
+                <option disabled selected>Choose an account type</option>
+                <option value="admin">Administrator</option>
+                <option value="staff">Staff</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-green">Create</button>
+          </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
