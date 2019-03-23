@@ -228,6 +228,31 @@ main.flex {
   color: #333;
 }
 /*table*/
+.vertical-table{
+  display: block;
+  width: 95%;
+  margin: 0 2.5%;
+}
+.vertical-table a{
+  display: block;
+  width: 95%;
+  margin: 0 2.5%;
+  padding: .5rem 0 .5rem .5rem;
+  text-decoration: none;
+  color: #333;
+  text-align: left;
+  transition: .5s all ease-in;
+}
+.vertical-table a:hover{
+  background-color: #000;
+}
+.vertical-table a:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.vertical-table a:nth-child(odd) {
+  background-color: #f3f3f3;
+}
+
 table {
   border-collapse: collapse;
   width: 95%;
@@ -365,3 +390,4 @@ img {
     width: 100%;
   }
 }
+tr:hover {background-color: #f5f5f5;}
