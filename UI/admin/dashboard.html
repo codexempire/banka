@@ -10,7 +10,7 @@
 <body>
   <main class="flex">
     <div class="one-third aside">
-      <h1>Banka</h1>
+      <h1>Banka</h1><a href="../login.html">Logout</a>
       <ul class="hide">
         <li><a href="dashboard.html">Dashboard</a></li>
         <li><a href="create_staff.html">Create Account</a></li>
@@ -21,23 +21,26 @@
     </div>
     <div class="two-third main-d grid">
       <div class="container">
-        <h2>DASHBOARD</h2>
         <div class="centee">
-          <div class="card">
+          <h2>DASHBOARD</h2>
+          <p>Welcome to the Administrative page</p>
+          <p id="time"></p>
+          <div class="card" id="create">
             <p>Create Account</p>
           </div>
-          <div class="card">
+          <div class="card" id="view">
             <p>View Accounts</p>
           </div>
-          <div class="card">
+          <div class="card" id="credit">
             <p>Credit Account</p>
           </div>
-          <div class="card">
+          <div class="card" id="debit">
             <p>Debit Account</p>
           </div>
         </div>
       </div>
     </div>
   </main>
+  <script src="../js/mine.js"></script>
 </body>
 </html>
