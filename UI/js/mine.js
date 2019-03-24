@@ -10,6 +10,7 @@ const time = (timer) => {
 const startApp = () => {
   const timer = document.getElementById('time');
   const btn = document.getElementById('login');
+
   if (btn) {
     btn.onclick = () => {
       location.replace('profile.html');
@@ -28,6 +29,6 @@ const startApp = () => {
       location.replace("list.html");
     };
   }
-  time(timer);
+  setInterval(time(timer), 1000);
 }
 startApp();
