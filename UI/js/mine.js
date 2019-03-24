@@ -31,6 +31,9 @@ const startApp = () => {
     credit.onclick = () => {
       location.replace("credit.html");
     };
+    debit.onclick = () => {
+      location.replace("debit.html");
+    };
   }
   setInterval(time(timer), 1000);
 }
