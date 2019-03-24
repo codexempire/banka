@@ -28,6 +28,9 @@ const startApp = () => {
     view.onclick = () => {
       location.replace("list.html");
     };
+    credit.onclick = () => {
+      location.replace("credit.html");
+    };
   }
   setInterval(time(timer), 1000);
 }
