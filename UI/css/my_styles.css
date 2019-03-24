@@ -82,12 +82,21 @@ h1 {
 }
 .btn-green {
   color: #fff;
-  background-color: purple;
+  background-color: #800080;
   background-image: linear-gradient(180deg, #fa2afa, #800080);
+}
+.btn-red {
+  color: #fff;
+  background-color: 800000;
+  background-image: linear-gradient(180deg, #fa2a2a, #800000);
 }
 .btn-green:hover {
   color: #fff;
   background-color: #fa2afa;
+}
+.btn-red:hover {
+  color: #fff;
+  background-color: #fa2a2a;
 }
 .btn-border-y {
   border: 1px solid #800080;
@@ -95,6 +104,11 @@ h1 {
 .btn-border-y:hover {
   background-color: #800080;
   color: #fff;
+}
+.buttons{
+  text-align: left;
+  width: 95%;
+  margin: 2rem 2.5% 0 2.5%;
 }
 .image {
   width: 100%;
