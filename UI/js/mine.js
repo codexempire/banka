@@ -10,13 +10,20 @@ const time = (timer) => {
 const startApp = () => {
   const timer = document.getElementById('time');
   const btn = document.getElementById('login');
+  const butn = document.getElementById('signup');
 
   if (btn) {
     btn.onclick = () => {
       location.replace('profile.html');
     }
   }
+  if (butn) {
+    butn.onclick = () => {
+      location.replace("./admin/dashboard.html");
+    };
+  }
   if (timer) {
+    time(timer);
     const create = document.getElementById('create');
     const view = document.getElementById('view');
     const credit = document.getElementById('credit');
@@ -35,6 +42,5 @@ const startApp = () => {
       location.replace("debit.html");
     };
   }
-  setInterval(time(timer), 1000);
 }
 startApp();
