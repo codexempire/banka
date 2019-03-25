@@ -32,5 +32,5 @@ For production environments...
 $ npm install --production
 Verify the deployment by navigating to your server address in your preferred browser.
 
-# Author
+### Author
 Princewill Michael
