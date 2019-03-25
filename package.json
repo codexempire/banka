@@ -1,0 +1,48 @@
+{
+  "name": "banka",
+  "version": "1.0.0",
+  "description": "Banka is a light-weight core banking application that powers banking operations like account creation and help in the customer to monitor his\\her account and its transactions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node ./server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codexempire/banka.git"
+  },
+  "author": "princewill michael",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codexempire/banka/issues"
+  },
+  "homepage": "https://github.com/codexempire/banka#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-env": "^2.4.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
+  },
+  "nodemonConfig": {
+    "name": "nodemon",
+    "homepage": "http://nodemon.io",
+    "...": "... other standard package.json values",
+    "nodemonConfig": {
+      "ignore": [
+        "test/*",
+        "docs/*"
+      ],
+      "delay": "2500"
+    }
+  }
+}
