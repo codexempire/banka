@@ -57,11 +57,14 @@ class user {
           name: data.firstname,
           email: data.email
         }
+        // create token
+        const token = jwt.sign(info, process.env.SECRET_KEY, { expiresIn: '1h' });
 
         // success response
         res.status(201).json({
           status: 201,
           data: {
+            token,
             id: data.id,
             firstname: data.firstname,
             lastname: data.lastname,
