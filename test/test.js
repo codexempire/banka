@@ -43,7 +43,6 @@ describe('Users', () => {
         res.should.have.status(201);
         res.body.should.be.a('object');
         res.body.should.have.property('data');
-        res.body.data.should.have.property('token');
         res.body.data.should.have.property('firstname');
         res.body.data.should.have.property('lastname');
         res.body.data.should.have.property("email");
