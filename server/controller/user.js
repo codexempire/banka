@@ -1,13 +1,11 @@
 // import dependencies
 import jwt from 'jsonwebtoken';
-import { config } from 'dotenv';
+import bcrypt from 'bcrypt';
 
 // import files
 import model from '../model/user';
 import middleware from '../middleware/user';
 
-// config
-config();
 
 // create controller class
 class user {
@@ -33,48 +31,59 @@ class user {
       // destructure body
       const { firstname, lastname, email, password, type } = req.body;
 
-      // model
-      model.signup({ firstname, lastname, email, password, type }, ({ success, data }) => {
-        // check for error
-        if (!success) {
-          // server error
+      // hash password
+      bcrypt.hash(password, 10, (err, result) => {
+        if(err){
+          // failed to hash password
           res.status(500).json({
             status: 500,
-            error: data.message
-          });
-        }
-        if (success && data.message) {
-          // user already exists
-          res.status(409).json({
-            status: 409,
-            error: data.message
+            error: `Failed to hash password`
           });
         }
 
-        // key
-        const key = process.env.SECRET_KEY;
-        // data value
-        const info = {
-          id: data.id,
-          name: data.firstname,
-          email: data.email
-        }
-        // create token
-        const token = jwt.sign(info, key, { expiresIn: '1h' });
+        // hash successful
 
-        // success response
-        res.status(201).json({
-          status: 201,
-          data: {
-            token,
-            id: data.id,
-            firstname: data.firstname,
-            lastname: data.lastname,
-            email: data.email,
-            password: data.password,
-            type: data.type,
-            isAdmin: data.isAdmin
+        // model
+        model.signup(firstname, lastname, email, result, type, ({ success, data }) => {
+          // check for error
+          if (!success) {
+            // server error
+            res.status(500).json({
+              status: 500,
+              error: data.message
+            });
           }
+          if (success && data.message) {
+            // user already exists
+            res.status(409).json({
+              status: 409,
+              error: data.message
+            });
+          }
+
+          // data value
+          const info = {
+            id: data.id,
+            name: data.firstname,
+            email: data.email
+          }
+          // create token
+          const token = jwt.sign(info, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+
+          // success response
+          res.status(201).json({
+            status: 201,
+            data: {
+              token,
+              id: data.id,
+              firstname: data.firstname,
+              lastname: data.lastname,
+              email: data.email,
+              password: data.password,
+              type: data.type,
+              isAdmin: data.isAdmin
+            }
+          });
         });
       });
     });
