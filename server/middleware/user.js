@@ -30,12 +30,37 @@ class user {
         .regex(/^[a-zA-Z0-9]{3,30}$/)
         .min(4)
         .required()
-        .label("Choose a valid account type")
+        .label("Choose a valid account type"),
+      isAdmin: Joi.string()
+        .min(4)
+        .max(5)
     });
 
     // validate
     const { error } = Joi.validate(req.body, schema);
 
+    completion(error);
+  }
+
+  // create signin middleware
+  static verifyFields(req, completion) {
+    // define schema
+    const schema = Joi.object().keys({
+      email: Joi.string()
+        .email({ minDomainAtoms: 2 })
+        .required()
+        .label("Enter a valid Email"),
+      password: Joi.string()
+        .regex(/^[a-zA-Z0-9]{3,30}$/)
+        .min(8)
+        .required()
+        .label("Enter a password of not less than 8 characters")
+    });
+
+    // validate fields
+    const { error } = Joi.validate(req.body, schema);
+
+    // return validation
     completion(error);
   }
 }

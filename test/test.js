@@ -52,7 +52,7 @@ describe('Users', () => {
         done();
       });
   });
-  // return 409 if user was created
+  // return 409 if user with the same email exists
   it('Should return status 409', done => {
     chai
       .request(app)
@@ -66,6 +66,76 @@ describe('Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(409);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // test signin route
+  // return 400 if fields are empty
+  it('Should return status 400', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'make'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  // return 200 if user exists
+  it('Should return status 200', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'test@hotmail.com',
+        password: 'password400'
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('token');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
+        res.body.data.should.have.property("email");
+        res.body.data.should.have.property("password");
+        res.body.data.should.have.property("type");
+        done();
+      });
+  });
+  // return 404 if user with the same email was not found
+  it('Should return status 404', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'test@hotail.com',
+        password: 'password00'
+      })
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+  // return 401 if password does not match
+  it('Should return status 401', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'test@hotmail.com',
+        password: 'password00'
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         done();
