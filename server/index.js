@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 
 // import routes
 import user from './router/user';
+import account from './router/account';
 
 // config
 config();
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 
 //use routes
 app.use('/api/v1/auth', user);
+app.use('/api/v1', account);
 
 // error handler
 app.use((req, res) => {

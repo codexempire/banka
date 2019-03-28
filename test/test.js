@@ -142,3 +142,79 @@ describe('Users', () => {
       });
   });
 });
+
+describe('Accounts', () => {
+  // test post create account route
+  // it should respond with status 401 and relevant error message
+  it('respond with 401', (done) => {
+    chai
+      .request(app)
+      .post("/api/v1/accounts")
+      .send({
+        type: "currents"
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // it should respond with status 400 and relevant error message
+  it('respond with 400', (done) => {
+    chai
+      .request(app)
+      .post("/api/v1/accounts")
+      .send({
+        type: "currents"
+      })
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // it should respond with status 200
+  it("respond with 200", done => {
+    chai
+      .request(app)
+      .post('/api/v1/accounts')
+      .send({
+        type: 'current',
+        owner: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('id');
+        res.body.data.should.have.property('accountNumber');
+        res.body.data.should.have.property('createdOn');
+        res.body.data.should.have.property('owner');
+        res.body.data.should.have.property('type').eql('current');
+        res.body.data.should.have.property('status');
+        res.body.data.should.have.property('balance').eql(0);
+        done();
+      });
+  });
+
+
+  // it should respond with status 400 and relevant error message
+  it('respond with 409', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/accounts')
+      .send({
+        type: 'savings',
+        owner: 1
+      })
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(409);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+});
