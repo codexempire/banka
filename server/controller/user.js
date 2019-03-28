@@ -38,7 +38,8 @@ class user {
         }
 
         // calling model
-        model.signup(firstname, lastname, email, result, type, isAdmin,({success,data})=>{
+        model.signup(firstname, lastname, email, result, type, isAdmin, ({ success, data }) => {
+          
           if(!success){
             // server error
             return res.status(500).json({ status: 500, error: data.message });
@@ -49,13 +50,15 @@ class user {
             return res.status(409).json({status:409,error:data.message});
           }
 
-          const token = ({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+          // create token
+          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
 
-          if(!token){
+          if (!token) {
             // failed to generate token
             return res.status(500).json({ status: 500, error: 'Failed to generate token' });
           }
 
+          // success response
           return res.status(201).json({
             status: 201,
             data: {
