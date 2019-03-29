@@ -13,7 +13,12 @@ route
   .post('/', authentication.isUser, account.createUserAccount);
 
 // activation and deactivation of account route
-route.patch("/:accountNumber", authentication.isUser, account.activateDeactivate);
+route
+  .patch('/:accountNumber', authentication.isStaff, account.activateDeactivate);
+
+// debit account route
+route
+  .post('/:accountNumber/debit', authentication.isStaff, account.debitAccount);
 
 // export route
-export default route;;
+export default route;

@@ -287,4 +287,93 @@ describe('Accounts', () => {
         done();
       });
   });
+
+  // debit account route tests
+  // if token is not in the head return 401
+  it('return 401 if no token', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .send({
+        cashier: 2
+      })
+      .end((err, res)=>{
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // if the fields are not filled
+  it('return 400 for empty field',(done)=>{
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .send({
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err,res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // if account not found
+  it('should return 404 if the account is not found', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585831}/debit`)
+      .send({
+        amount: 4000,
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // return 409 if funds are insufficient
+  it('should return 409 if balance is insufficient', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .send({
+        amount: 10000000000,
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(409);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // return 200 status and data
+  it('should return 200 and data', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .send({
+        amount: 1000,
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('transactionId');
+        res.body.data.should.have.property('accountNumber').eql(3451585830);
+        res.body.data.should.have.property('amount').eql(1000);
+        res.body.data.should.have.property('cashier').eql(2);
+        res.body.data.should.have.property('transactionType').eql('debit');
+        res.body.data.should.have.property('accountBalance');
+        done();
+      })
+  })
 });
