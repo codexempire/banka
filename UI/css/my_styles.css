@@ -90,6 +90,10 @@ h1 {
   background-color: 800000;
   background-image: linear-gradient(180deg, #fa2a2a, #800000);
 }
+.btn-purple{
+  background-color: #800080;
+  color: #fff;
+}
 .btn-green:hover {
   color: #fff;
   background-color: #fa2afa;
@@ -100,6 +104,7 @@ h1 {
 }
 .btn-border-y {
   border: 1px solid #800080;
+  color:#333;
 }
 .btn-border-y:hover {
   background-color: #800080;
@@ -351,9 +356,9 @@ th {
 img {
   border-radius: 5px 5px 0 0;
 }
-
-
-
+hr{
+  display: none;
+}
 
 @media (min-width: 700px) {
   .aside a{
@@ -392,13 +397,13 @@ img {
     flex-direction: row;
   }
   .one-third {
-    flex: 1 0 25%;
-    width: 25%;
+    flex: 1 0 15%;
+    width: 15%;
   }
   .two-third {
-    flex: 2 0 75%;
-    width: 70%;
-    margin-left: 25%;
+    flex: 2 0 80%;
+    width: 80%;
+    margin-left: 20%;
     color: #333;
   }
   .aside {
@@ -408,14 +413,25 @@ img {
     height: 100%;
     background-color: #10cf10;
   }
+  .aside h1{
+    margin-bottom: 3rem;
+  }
   .aside ul {
+    width: 90%;
+    margin-top: 3rem;
+    margin-left: 5%;
     list-style: none;
     display: flex;
     flex-direction: column;
-    height: 60%;
+    height: 50%;
     justify-content: center;
+    text-align: left;
+  }  
+  hr{
+    display: block;
   }
   .aside li a {
+    text-align: left;
     text-decoration: none;
     color: #fff;
     display: block;
