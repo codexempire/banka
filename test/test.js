@@ -9,6 +9,10 @@ import app from '../server/index';
 chai.use(chaiHttp);
 chai.should();
 
+// define variables
+let accountNumber;
+const accountNumberError = 567749889785;
+
 describe('Users', () => {
   // test signup route
   // return 400 if fields are empty
@@ -149,13 +153,13 @@ describe('Accounts', () => {
   it('respond with 401', (done) => {
     chai
       .request(app)
-      .post("/api/v1/accounts")
+      .post('/api/v1/accounts')
       .send({
-        type: "currents"
+        type: 'currents'
       })
       .end((err, res) => {
         res.should.have.status(401);
-        res.body.should.have.property("error");
+        res.body.should.have.property('error');
         done();
       });
   });
@@ -164,9 +168,9 @@ describe('Accounts', () => {
   it('respond with 400', (done) => {
     chai
       .request(app)
-      .post("/api/v1/accounts")
+      .post('/api/v1/accounts')
       .send({
-        type: "currents"
+        type: 'currents'
       })
       .set("x-access-token", process.env.TEST_TOKEN)
       .end((err, res) => {
@@ -177,7 +181,7 @@ describe('Accounts', () => {
   });
 
   // it should respond with status 200
-  it("respond with 200", done => {
+  it('respond with 200', done => {
     chai
       .request(app)
       .post('/api/v1/accounts')
@@ -187,15 +191,14 @@ describe('Accounts', () => {
       })
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
+        accountNumber = res.body.data.accountNumber;
         res.should.have.status(200);
         res.body.should.have.property('data');
-        res.body.data.should.have.property('id');
         res.body.data.should.have.property('accountNumber');
-        res.body.data.should.have.property('createdOn');
-        res.body.data.should.have.property('owner');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
         res.body.data.should.have.property('type').eql('current');
-        res.body.data.should.have.property('status');
-        res.body.data.should.have.property('balance').eql(0);
+        res.body.data.should.have.property('openingBalance').eql(0);
         done();
       });
   });
@@ -214,6 +217,73 @@ describe('Accounts', () => {
       .end((err, res) => {
         res.should.have.status(409);
         res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // testing activate or deactivate account route
+  // it should respond with status 401 and relevant error message
+  it('respond with 401 for activate', (done) => {
+    chai
+      .request(app)
+      .patch(`/api/v1/accounts/${accountNumber}`)
+      .send({
+        status: 'dormant'
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // it should respond with status 400 and relevant error message
+  it("respond with 400 for activate", done => {
+    chai
+      .request(app)
+      .patch(`/api/v1/accounts/${accountNumber}`)
+      .send({
+        status: 'front'
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // it should respond with status 200
+  it("respond with 200 for activate", done => {
+    chai
+      .request(app)
+      .patch(`/api/v1/accounts/${3451585830}`)
+      .send({
+        status: 'dormant'
+      })
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property("data");
+        res.body.data.should.have.property("accountNumber");
+        res.body.data.should.have.property("status").eql("dormant");
+        done();
+      });
+  });
+
+
+  // it should respond with status 404 and relevant error message
+  it('respond with 404 for activate', (done) => {
+    chai
+      .request(app)
+      .patch(`/api/v1/accounts/${accountNumberError}`)
+      .send({
+        status: 'dormant'
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
         done();
       });
   });

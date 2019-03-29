@@ -21,14 +21,19 @@ class user {
       let { firstname, lastname, email, password, type, isAdmin } = req.body;
       
       // verify the type
-      if (type !== 'user' && type !== 'admin') {
+      if (type !== 'user' && type !== 'staff') {
         return res.status(400).json({ status: 400, error: 'Choose a valid type' });
       }
 
       // verify isAdmin
-      if (isAdmin === undefined) {
+      if (isAdmin === undefined || isAdmin !== 'true') {
         // isAdmin is false
         isAdmin = false
+      }
+
+      if (isAdmin === 'true') {
+        // if isAdmin
+        isAdmin = true
       }
       // hash password
       bcrypt.hash(password, 10, (err, result) => {

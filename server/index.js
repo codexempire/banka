@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 
 //use routes
 app.use('/api/v1/auth', user);
-app.use('/api/v1', account);
+app.use('/api/v1/accounts', account);
 
 // error handler
 app.use((req, res) => {

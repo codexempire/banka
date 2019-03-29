@@ -10,7 +10,10 @@ const route = Router();
 
 // account creation route
 route
-  .post('/accounts', authentication.isUser, account.createUserAccount);
+  .post('/', authentication.isUser, account.createUserAccount);
+
+// activation and deactivation of account route
+route.patch("/:accountNumber", authentication.isUser, account.activateDeactivate);
 
 // export route
 export default route;;
