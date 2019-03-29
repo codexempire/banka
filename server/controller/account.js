@@ -13,12 +13,13 @@ class account {
     middleware.verifyAccountCreation(req, (error) => {
       // check for error
       if (error) {
-        return res.status(400).json({ status:400, error:error.details[0].context.label });
+        return res.status(400).json({ status: 400, error: error.details[0].context.label });
       }
 
       // get body
-      const { type, owner } = req.body;
+      const type = req.body.type;
 
+      const owner = parseInt(req.body.owner, 10);
       // verify type
       if (type !== 'savings' && type !== 'current') {
         return res.status(400).json({ status:400, error:error.details[0].context.label });
@@ -56,6 +57,53 @@ class account {
         // return the user data
         return res.status(200).json({ status: 200, data: data });
       });
+      return null;
+    });
+    return null;
+  }
+
+  // activate or deactivate account
+  static activateDeactivate(req, res) {
+    // collect account number from header
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+
+    // check accountNumber
+    if (!accountNumber) {
+      return res.status(400).json({ status: 400, error: 'No Account Number Found' });
+    }
+
+    // check the header and body for data
+    middleware.checkAccount(req, (error) => {
+      // check for error
+      if (error) {
+        return res.status(400).json({ status: 400, error: error.details[0].context.label });
+      }
+
+      // get the status
+      const status = req.body.status;
+
+      if (status !== 'active' && status !== 'dormant') {
+        return res.status(400).json({ status: 400, error: 'Enter a valid account status' });
+      }
+
+      // calling model get single account
+      model.getSingleAccount(accountNumber, ({ success, data }) => {
+        if (!success) {
+          return res.status(404).json({ status: 404, error: data.message });
+        }
+
+        // call the activate or deactivate users account
+        model.activateDeactivateAccount(data, status, ({ pass, dataa }) => {
+          // check if it failed
+          if (!pass) {
+            return res.status(500).json({ status: 500, error: dataa.message });
+          }
+
+          // if successful
+          return res.status(200).json({ status: 200, data: dataa });
+        });
+        return null;
+      })
       return null;
     });
     return null;

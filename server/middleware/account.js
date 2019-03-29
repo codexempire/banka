@@ -24,6 +24,21 @@ class account {
 
     completion(error);
   }
+
+  static checkAccount(req, completion) {
+    // create schema
+    const schema = Joi.object().keys({
+      status: Joi.string()
+        .min(5)
+        .required()
+        .label('Enter an valid account status')
+    });
+
+    // validate request body
+    const { error } = Joi.validate(req.body, schema);
+
+    completion(error);
+  }
 }
 // export middleware
 export default account;
