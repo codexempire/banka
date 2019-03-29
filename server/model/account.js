@@ -2,6 +2,7 @@
 // import files
 import db from './database/account';
 import userDb from './database/user';
+import transaction from './database/transaction';
 
 // account model
 class account {
@@ -89,6 +90,47 @@ class account {
     }
 
     completion({ pass: false, dataa: new Error(`Failed to ${status} account`) });
+    return null;
+  }
+
+  // debit account model
+  static debitAccount(userAccount, createdOn, oldBalance, accountNumber, amount, cashier, transactionType, accountBalance, completion) {
+    // create a transaction
+    const newTransaction = {
+      id: transaction.length + 1,
+      createdOn,
+      type: transactionType,
+      accountNumber,
+      cashier,
+      amount,
+      oldBalance,
+      newBalance: accountBalance
+    };
+
+    // push into the database
+    transaction.push(newTransaction);
+
+    if (transaction.push(newTransaction)) {
+      // change the user account balance
+      userAccount.balance = accountBalance;
+
+      // create account details
+      const transactionDetails = {
+        transactionId: newTransaction.id,
+        accountNumber,
+        amount,
+        cashier,
+        transactionType,
+        accountBalance
+      };
+
+      // pass to the callback function
+      completion({ pass: true, dataa: transactionDetails });
+      return null;
+    }
+
+    // if it failed to push to database
+    completion({ pass: false, dataa: new Error('Transaction Failed') });
     return null;
   }
 }
