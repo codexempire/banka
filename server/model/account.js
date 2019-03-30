@@ -69,7 +69,7 @@ class account {
   // get a single account model
   static getSingleAccount(accountNumber, completion) {
     // find single account
-    const oneUser = db.find(account => account.accountNumber === accountNumber);
+    const oneUser = db.find(account => account.accountNumber === accountNumber || account.owner === accountNumber);
 
     if (oneUser) {
       completion({ success: true, data: oneUser });
@@ -142,6 +142,30 @@ class account {
 
     // callback
     completion({ success: true, data: new Error('Account successfully deleted') });
+  }
+
+  // get a single account
+  static userInfo(user, completion) {
+    // get the user for the account
+    const userInfo = userDb.find(users => users.id === user.owner);
+
+    // check if user
+    if (!userInfo) {
+      completion({ success: false, data: new Error('No user found') });
+      return null;
+    }
+
+    const accountDetails = {
+      accountName: userInfo.firstname + ' ' + userInfo.lastname,
+      accountNumber: user.accountNumber,
+      accountStatus: user.status,
+      accountBalance: user.balance,
+      accountType: user.type,
+      openingDate: user.createdOn
+    };
+
+    completion({ success: true, data: accountDetails });
+    return null;
   }
 }
 

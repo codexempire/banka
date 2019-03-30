@@ -28,5 +28,9 @@ route
 route
   .delete('/:accountNumber', authentication.isStaff, account.delete);
 
+// get single account details
+route
+  .get('/:id', authentication.isUser, account.getSingleAccount);
+
 // export route
 export default route;
