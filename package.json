@@ -4,6 +4,10 @@
   "description": "Banka is a light-weight core banking application that powers banking operations like account creation and help in the customer to monitor his\\her account and its transactions",
   "main": "index.js",
   "scripts": {
+    "start": "node ./dist",
+    "build": "npm run clean && babel server -d dist && webpack",
+    "clean": "rm -rf dist",
+    "heroku-postbuild": "npm run build",
     "dev": "nodemon --exec babel-node ./server/index.js",
     "test": "nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
