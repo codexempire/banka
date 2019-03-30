@@ -244,6 +244,32 @@ class account {
     });
     return null;
   }
+
+  // delete account controller
+  static delete(req, res) {
+    // collect account number from header
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+
+    // check accountNumber
+    if (!accountNumber) {
+      return res.status(400).json({ status: 400, error: 'No Account Number Found' });
+    }
+
+    // call model
+    model.getSingleAccount(accountNumber, ({ success, data }) => {
+      if (!success) {
+        // account not found
+        return res.status(404).json({ status: 404, error: data.message });
+      }
+
+      // call delete model
+      model.delete(data, ({ success, data }) => {
+        return res.status(200).json({ status: 200, message: data.message });
+      });
+      return null;
+    });
+    return null;
+  }
 }
 // export controller
 export default account;

@@ -131,6 +131,18 @@ class account {
     completion({ pass: false, dataa: new Error('Transaction Failed') });
     return null;
   }
+
+  // delete route
+  static delete(account, completion) {
+    // get the index of the account
+    const index = db.indexOf(account);
+
+    // if account exists remove
+    db.splice(index, 1);
+
+    // callback
+    completion({ success: true, data: new Error('Account successfully deleted') });
+  }
 }
 
 // export model
