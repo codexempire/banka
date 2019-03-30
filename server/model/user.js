@@ -27,9 +27,6 @@ class user {
       isAdmin
     };
 
-    // push to database
-    db.push(newUser);
-
     // if successfull
     if (db.push(newUser)) {
       completion({ success: true, data: newUser });
@@ -37,7 +34,7 @@ class user {
     }
     
     // internal server error
-    completion({ success: false, data: new Error("Internal Server Error") });
+    completion({ success: false, data: new Error('Internal Server Error') });
     return null;
   }
 

@@ -23,14 +23,11 @@ class account {
 
     // if exists
     if (exists) {
-      completion({
-        success: true,
-        data: new Error("Account type exists with the same owner")
-      });
+      completion({ success: true, data: new Error("Account type exists with the same owner") });
       return null;
     }
 
-
+    // new account
     const newAccount = {
       id: db.length + 1,
       accountNumber,
@@ -41,9 +38,8 @@ class account {
       balance
     };
 
-    db.push(newAccount);
-
     if (db.push(newAccount)) {
+      // get owner details
       const userOwned = userDb.find(own => own.id === owner);
       
       if (userOwned !== undefined) {
@@ -55,10 +51,11 @@ class account {
           type: newAccount.type,
           openingBalance: newAccount.balance
         };
+
         completion({ success: true, data: details });
         return null;
       }
-      completion({success:false,data:new Error('User Not Found')})
+      completion({ success: false, data: new Error('User Not Found') });
       return null;
     }
 
@@ -77,6 +74,19 @@ class account {
     }
 
     completion({ success: false, data: new Error('Account Not Found') });
+    return null;
+  }
+
+  // get all account model
+  static getAllAccount(completion) {
+    if (db.length === 0) {
+      //  no account has been created
+      completion({ success: false, data: new Error('No Account has Been Created') });
+      return null;
+    }
+
+    // found account
+    completion({ success: true, data: db });
     return null;
   }
 

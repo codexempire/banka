@@ -32,5 +32,9 @@ route
 route
   .get('/:id', authentication.isUser, account.getSingleAccount);
 
+// get single account details
+route
+  .get('/', authentication.isUser, account.getAllAccount);
+
 // export route
 export default route;
