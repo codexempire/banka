@@ -24,5 +24,9 @@ route
 route
   .post('/:accountNumber/debit', authentication.isStaff, account.debitAccount);
 
+// delete account route
+route
+  .delete('/:accountNumber', authentication.isStaff, account.delete);
+
 // export route
 export default route;

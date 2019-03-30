@@ -442,4 +442,43 @@ describe('Accounts', () => {
         done();
       });
   });
+
+  // the delete route tests
+  // should return 401 if no token
+  it('should return 401 if  no token', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/accounts/${657465784689}`)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // should respond with 404
+  it('should respond with 404 if account is not found', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/accounts/${657465784689}`)
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // respond with status 200
+  it('should respond with 200 if it is successful', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/accounts/${3451585830}`)
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property("message");
+        done();
+      });
+  });
 });
