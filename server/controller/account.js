@@ -301,6 +301,19 @@ class account {
     });
     return null;
   }
+
+  // get all list of all account
+  static getAllAccount(req, res) {
+    model.getAllAccount(({ success, data }) => {
+      if (!success) {
+        // no account Found
+        return res.status(404).json({ status: 404, error: data.message });
+      }
+
+      return res.status(200).json({ status: 200, data });
+    });
+    return null;
+  }
 }
 // export controller
 export default account;

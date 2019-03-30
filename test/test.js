@@ -76,6 +76,87 @@ describe('Users', () => {
       });
   });
 
+  // test signup route
+  // return 401 if fields are empty
+  it('Should return status 401', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signup/staff')
+      .send({
+        email: 'make',
+        firstname: 'malleten',
+        lastname: 'molten',
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  // return 400 if fields are empty
+  it('Should return status 400', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signup/staff')
+      .send({
+        email: 'make',
+        firstname: 'malleten',
+        lastname: 'molten',
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  // return 201 if user was created
+  it('Should return status 201', done => {
+    chai
+      .request(app)
+      .post("/api/v1/auth/signup/staff")
+      .send({
+        firstname: 'malleten',
+        lastname: 'molten',
+        email: 'test1@hotmail.com',
+        password: 'password400',
+        type: 'staff'
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('token');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
+        res.body.data.should.have.property('email');
+        res.body.data.should.have.property('password');
+        res.body.data.should.have.property('type');
+        done();
+      });
+  });
+  // return 409 if user with the same email exists
+  it('Should return status 409', done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signup/staff')
+      .send({
+        firstname: 'malleten',
+        lastname: 'molten',
+        email: 'test@hotmail.com',
+        password: 'password400',
+        type: 'user'
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(409);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
   // test signin route
   // return 400 if fields are empty
   it('Should return status 400', done => {
