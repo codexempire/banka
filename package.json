@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist",
-    "build": "npm run clean && babel server -d dist && webpack",
+    "build": "npm run clean && babel server -d dist",
     "clean": "rm -rf dist",
     "heroku-postbuild": "npm run build",
     "dev": "nodemon --exec babel-node ./server/index.js",
