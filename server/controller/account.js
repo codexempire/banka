@@ -270,6 +270,37 @@ class account {
     });
     return null;
   }
+
+  // get single account details
+  static getSingleAccount(req, res) {
+    // collect account number from header
+    const id = parseInt(req.params.id, 10);
+
+    // check accountNumber
+    if (!id) {
+      return res.status(400).json({ status: 400, error: 'No ID Found' });
+    }
+
+    // call model
+    model.getSingleAccount(id, ({ success, data }) => {
+      if (!success) {
+        // account not found
+        return res.status(404).json({ status: 404, error: data.message });
+      }
+
+      // call delete model
+      model.userInfo(data, ({ success, data }) => {
+        if (!success) {
+          // failed to get user
+          return res.status(404).json({ status: 404, error: data.message });
+        }
+        
+        return res.status(200).json({ status: 200, data: data });
+      });
+      return null;
+    });
+    return null;
+  }
 }
 // export controller
 export default account;

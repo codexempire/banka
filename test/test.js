@@ -443,6 +443,51 @@ describe('Accounts', () => {
       });
   });
 
+  // get a single account detail
+  // should return 401 if no token
+  it('should return 401 if account not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/${0}`)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      })
+  });
+
+  // should return 200 if found
+  it('should return 200 if account not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/${1}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('accountName');
+        res.body.data.should.have.property("accountNumber").eql(3451585830);
+        res.body.data.should.have.property('accountStatus');
+        res.body.data.should.have.property('accountBalance').eql(900000);
+        res.body.data.should.have.property('accountType');
+        res.body.data.should.have.property('openingDate');
+        done();
+      })
+  });
+
+  // should return 404 if account is not found
+  it('should return 404 if account not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/${3}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      })
+  });
+
   // the delete route tests
   // should return 401 if no token
   it('should return 401 if  no token', (done) => {

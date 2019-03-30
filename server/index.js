@@ -15,7 +15,7 @@ config();
 const app = express();
 
 // port
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // use midddleware
 app.use(bodyParser.json());
