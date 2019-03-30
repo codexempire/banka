@@ -375,5 +375,71 @@ describe('Accounts', () => {
         res.body.data.should.have.property('accountBalance');
         done();
       })
-  })
+  });
+
+  // test the credit route
+  // return 401 if no token
+  it('should return 401 if unauthorised', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/credit`)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // return 400 if no input
+  it('should return 400 if no field', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/credit`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // if account not found
+  it('should return 404 if the account is not found', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585831}/credit`)
+      .send({
+        amount: 4000,
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // return 200 status and data
+  it('should return 200 and data', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/accounts/${3451585830}/credit`)
+      .send({
+        amount: 1000,
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('transactionId');
+        res.body.data.should.have.property('accountNumber').eql(3451585830);
+        res.body.data.should.have.property('amount').eql(1000);
+        res.body.data.should.have.property('cashier').eql(2);
+        res.body.data.should.have.property('transactionType').eql('credit');
+        res.body.data.should.have.property('accountBalance');
+        done();
+      });
+  });
 });

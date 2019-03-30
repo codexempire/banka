@@ -42,7 +42,7 @@ class account {
   }
 
   // debit account status middleware
-  static debitVerve(req, completion) {
+  static debitCreditVerve(req, completion) {
     // create schema
     const schema = Joi.object().keys({
       amount: Joi.number()
