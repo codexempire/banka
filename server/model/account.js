@@ -2,7 +2,7 @@
 // import files
 import db from './database/account';
 import userDb from './database/user';
-import transaction from './database/transaction';
+import transact from './database/transaction';
 
 // account model
 class account {
@@ -94,10 +94,10 @@ class account {
   }
 
   // debit account model
-  static debitAccount(userAccount, createdOn, oldBalance, accountNumber, amount, cashier, transactionType, accountBalance, completion) {
+  static debitCreditAccount(userAccount, createdOn, oldBalance, accountNumber, amount, cashier, transactionType, accountBalance, completion) {
     // create a transaction
     const newTransaction = {
-      id: transaction.length + 1,
+      id: transact.length + 1,
       createdOn,
       type: transactionType,
       accountNumber,
@@ -107,10 +107,8 @@ class account {
       newBalance: accountBalance
     };
 
-    // push into the database
-    transaction.push(newTransaction);
 
-    if (transaction.push(newTransaction)) {
+    if (transact.push(newTransaction)) {
       // change the user account balance
       userAccount.balance = accountBalance;
 

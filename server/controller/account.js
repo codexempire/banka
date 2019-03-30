@@ -108,7 +108,7 @@ class account {
     return null;
   }
 
-  // aebit account controller
+  // debit account controller
   static debitAccount(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
@@ -119,7 +119,7 @@ class account {
     }
 
     // call middleware
-    middleware.debitVerve(req, (error) => {
+    middleware.debitCreditVerve(req, (error) => {
       // check for error
       if (error) {
         return res.status(400).json({ status: 400, error: error.details[0].context.label });
@@ -163,7 +163,73 @@ class account {
         const accountBalance = data.balance - amount;
 
         // debit account model
-        model.debitAccount(data,createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{
+        model.debitCreditAccount(data,createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{
+          if(!pass){
+            // server error
+            return res.status(500).json({ status: 500, error: dataa.message });
+          }
+
+          // respond with the transaction details
+          return res.status(200).json({ status: 200, data: dataa });
+        });
+        return null;
+      });
+      return null;
+    });
+    return null;
+  }
+
+  // credit account controller
+  static creditAccount(req, res) {
+    // collect account number from header
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+
+    // check accountNumber
+    if (!accountNumber) {
+      return res.status(400).json({ status: 400, error: 'No Account Number Found' });
+    }
+
+    // call middleware
+    middleware.debitCreditVerve(req, (error) => {
+      // check for error
+      if (error) {
+        return res.status(400).json({ status: 400, error: error.details[0].context.label });
+      }
+
+
+      const date = new Date;
+      const day = date.getDate();
+      const arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const month = arr[date.getMonth()];
+      const year = date.getFullYear();
+      let hour = date.getHours();
+      if (hour.length < 2) {
+        hour = '0' + hour;
+      }
+      let minute = date.getMinutes();
+      if (minute.length < 2) {
+        minute = '0' + minute;
+      }
+
+      const cashier = parseInt(req.body.cashier, 10);
+      const amount = parseFloat(req.body.amount, 10);
+      
+      // set transaction type to debit
+      const transactionType = 'credit';
+
+      const createdOn = day + ' ' + month + ' ' + year + ' ' + hour + ':' + minute;
+      
+      // get account details
+      model.getSingleAccount(accountNumber, ({success,data})=>{
+        if(!success){
+          // account was not found
+          return res.status(404).json({ status: 404, error: data.message });
+        }
+
+        const accountBalance = data.balance + amount;
+
+        // debit account model
+        model.debitCreditAccount( data, createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{
           if(!pass){
             // server error
             return res.status(500).json({ status: 500, error: dataa.message });

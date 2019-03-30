@@ -16,6 +16,10 @@ route
 route
   .patch('/:accountNumber', authentication.isStaff, account.activateDeactivate);
 
+// credit account route
+route
+  .post('/:accountNumber/credit', authentication.isStaff, account.creditAccount);
+
 // debit account route
 route
   .post('/:accountNumber/debit', authentication.isStaff, account.debitAccount);
