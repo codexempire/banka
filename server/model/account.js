@@ -7,15 +7,7 @@ import transact from './database/transaction';
 // account model
 class account {
   // create account model
-  static createUserAccount(
-    type,
-    owner,
-    createdOn,
-    status,
-    balance,
-    accountNumber,
-    completion
-  ) {
+  static createUserAccount(type, owner, createdOn, status, balance, accountNumber, completion) {
     // search if account number exists
     const exists = db.find(
       account => account.type === type && account.owner === owner
@@ -182,9 +174,6 @@ class account {
   static fetchAllTransactions(accountNumber, completion) {
     // map through the database and find the users transaction
     const transactions = transact.filter(transaction => transaction.accountNumber === accountNumber);
-
-    console.log(transact);
-    console.log(transactions);
 
     // callback
     completion({ success: true, data: transactions });
