@@ -314,6 +314,30 @@ class account {
     });
     return null;
   }
+  
+  // get all transactions for a single user controller
+  static getAllTransactionsSpecific(req, res) {
+    // get user account number for params
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+
+    if (!accountNumber) {
+      // no account number
+      return res.status(400).json({ status: 400, error: 'No id found' });
+    }
+
+    // call model
+    model.fetchAllTransactions(accountNumber, ({ success, data }) => {
+      // if the data is empty
+      if (data.length === 0) {
+        // no transaction found
+        return res.status(404).json({ status: 404, error: `No transaction found` });
+      }
+
+      // data found
+      return res.status(200).json({ status: 200, data });
+    });
+    return null;
+  }
 }
 // export controller
 export default account;

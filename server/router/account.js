@@ -36,5 +36,9 @@ route
 route
   .get('/', authentication.isUser, account.getAllAccount);
 
+// get all transactions for a single user
+route
+  .get('/transactions/:accountNumber', account.getAllTransactionsSpecific);
+
 // export route
 export default route;

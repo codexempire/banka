@@ -177,6 +177,19 @@ class account {
     completion({ success: true, data: accountDetails });
     return null;
   }
+
+  // get all transactions for a specific user model
+  static fetchAllTransactions(accountNumber, completion) {
+    // map through the database and find the users transaction
+    const transactions = transact.filter(transaction => transaction.accountNumber === accountNumber);
+
+    console.log(transact);
+    console.log(transactions);
+
+    // callback
+    completion({ success: true, data: transactions });
+    return null;
+  }
 }
 
 // export model
