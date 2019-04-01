@@ -16,14 +16,6 @@ route
 route
   .patch('/:accountNumber', authentication.isStaff, account.activateDeactivate);
 
-// credit account route
-route
-  .post('/:accountNumber/credit', authentication.isStaff, account.creditAccount);
-
-// debit account route
-route
-  .post('/:accountNumber/debit', authentication.isStaff, account.debitAccount);
-
 // delete account route
 route
   .delete('/:accountNumber', authentication.isStaff, account.delete);
@@ -35,10 +27,6 @@ route
 // get single account details
 route
   .get('/', authentication.isStaff, account.getAllAccount);
-
-// get all transactions for a single user
-route
-  .get('/transactions/:accountNumber', authentication.isUser, account.getAllTransactionsSpecific);
 
 // export route
 export default route;
