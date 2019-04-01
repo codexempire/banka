@@ -569,6 +569,59 @@ describe('Accounts', () => {
       })
   });
 
+  // get all transactions of a specific account
+  // if no token
+  it('should return 401 if token is not found in the header', (done)=>{
+    chai
+      .request(app)
+      .get('/api/v1/accounts/transactions')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // if no account number in params
+  it('should return 400 if the parameter does not contain an account number', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/accounts/transactions')
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // if no transaction is found for the account
+  it('should return 404 if no transaction is found for that account', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/transactions/${9943588812}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // it should return a status 200
+  it('should return with a status of 200 if transaction found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/transactions/${3451585830}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        res.body.data[0].should.have.property('accountNumber').eql(3451585830);
+        done();
+      });
+  });
+
   // the delete route tests
   // should return 401 if no token
   it('should return 401 if  no token', (done) => {
