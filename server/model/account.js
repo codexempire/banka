@@ -50,8 +50,7 @@ class account {
       completion({ success: false, data: new Error('User Not Found') });
       return null;
     }
-
-    completion({ success: false, data: new Error("Failed to create Account") });
+    
     return null;
   }
 
