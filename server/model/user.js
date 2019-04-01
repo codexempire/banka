@@ -45,9 +45,11 @@ class user {
 
     if(user){
       completion({ success: true, data: user });
-    } else {
-      completion({ success: false, data: new Error('Invalid Email or Password') });
+      return null;
     }
+    
+    completion({ success: false, data: new Error('Invalid Email or Password') });
+    return null;
   }
 }
 // export middleware

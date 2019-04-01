@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/codexempire/banka.svg?branch=develop)](https://travis-ci.org/codexempire/banka)
 [![Coverage Status](https://coveralls.io/repos/github/codexempire/banka/badge.svg?branch=develop)](https://coveralls.io/github/codexempire/banka?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/274bba1ab699430b7a53/maintainability)](https://codeclimate.com/github/codexempire/banka/maintainability)
 
 # Banka
 Banka is a light-weight core banking application that powers banking operations like account creation and help in the customer to monitor his\her account and its transactions
