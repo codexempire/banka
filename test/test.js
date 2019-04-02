@@ -374,7 +374,7 @@ describe('Accounts', () => {
   it('return 401 if no token', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .post(`/api/v1/transactions/${3451585830}/debit`)
       .send({
         cashier: 2
       })
@@ -389,7 +389,7 @@ describe('Accounts', () => {
   it('return 400 for empty field',(done)=>{
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .post(`/api/v1/transactions/${3451585830}/debit`)
       .send({
         cashier: 2
       })
@@ -405,7 +405,7 @@ describe('Accounts', () => {
   it('should return 404 if the account is not found', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585831}/debit`)
+      .post(`/api/v1/transactions/${3451585831}/debit`)
       .send({
         amount: 4000,
         cashier: 2
@@ -422,7 +422,7 @@ describe('Accounts', () => {
   it('should return 409 if balance is insufficient', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .post(`/api/v1/transactions/${3451585830}/debit`)
       .send({
         amount: 10000000000,
         cashier: 2
@@ -439,7 +439,7 @@ describe('Accounts', () => {
   it('should return 200 and data', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/debit`)
+      .post(`/api/v1/transactions/${3451585830}/debit`)
       .send({
         amount: 1000,
         cashier: 2
@@ -463,7 +463,7 @@ describe('Accounts', () => {
   it('should return 401 if unauthorised', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/credit`)
+      .post(`/api/v1/transactions/${3451585830}/credit`)
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.have.property("error");
@@ -475,7 +475,7 @@ describe('Accounts', () => {
   it('should return 400 if no field', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/credit`)
+      .post(`/api/v1/transactions/${3451585830}/credit`)
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(400);
@@ -488,7 +488,7 @@ describe('Accounts', () => {
   it('should return 404 if the account is not found', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585831}/credit`)
+      .post(`/api/v1/transactions/${3451585831}/credit`)
       .send({
         amount: 4000,
         cashier: 2
@@ -505,7 +505,7 @@ describe('Accounts', () => {
   it('should return 200 and data', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/accounts/${3451585830}/credit`)
+      .post(`/api/v1/transactions/${3451585830}/credit`)
       .send({
         amount: 1000,
         cashier: 2
@@ -571,25 +571,12 @@ describe('Accounts', () => {
 
   // get all transactions of a specific account
   // if no token
-  it('should return 401 if token is not found in the header', (done)=>{
+  it('should return 401 if token is not found in the header1', (done)=>{
     chai
       .request(app)
-      .get('/api/v1/accounts/transactions')
+      .get(`/api/v1/transactions/${476780976987}`)
       .end((err, res) => {
         res.should.have.status(401);
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  // if no account number in params
-  it('should return 400 if the parameter does not contain an account number', (done) => {
-    chai
-      .request(app)
-      .get('/api/v1/accounts/transactions')
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(400);
         res.body.should.have.property('error');
         done();
       });
@@ -599,7 +586,7 @@ describe('Accounts', () => {
   it('should return 404 if no transaction is found for that account', (done) => {
     chai
       .request(app)
-      .get(`/api/v1/accounts/transactions/${9943588812}`)
+      .get(`/api/v1/transactions/${9943588812}`)
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(404);
@@ -612,7 +599,7 @@ describe('Accounts', () => {
   it('should return with a status of 200 if transaction found', (done) => {
     chai
       .request(app)
-      .get(`/api/v1/accounts/transactions/${3451585830}`)
+      .get(`/api/v1/transactions/${3451585830}`)
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(200);
