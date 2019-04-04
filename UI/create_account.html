@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="./css/my_styles.css">
-  <title>Banka create account</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/my_styles.css">
+    <title>Banka create account</title>
 </head>
+
 <body>
-  <div class="container hide" id="heed">
-    <h1 class='white'>Banka</h1>
-  </div>
-  <main class="flex">
-    <div class="one-third aside">
-      <h1>Banka</h1>
-      <hr>
-      <ul>
-        <li><a href="profile.html">Dashboard</a></li>
-        <li><a href="create_account.html">Create Account</a></li>
-        <li><a href="login.html">Logout</a></li>
-      </ul>
+    <div class="container hide" id="heed">
+        <h1 class='white'>Banka</h1>
     </div>
-    <div class="two-third main">
-      <div class="form sm-grid">
-        <div class="container">
-          <h2 class="form-head">Open Account</h2>
-          <form>
-            <label>Account Name</label>
-            <div class="form-group">
-              <input type="text" class="form-control" id="name">
-            </div>
-            <label>Account type</label>
-            <div class="form-group">
-              <select id="select" class="select">
-                <option disabled selected>Choose an account type</option>
-                <option value="current">Current</option>
-                <option value="savings">Savings</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <button type="button" class="btn btn-green">Create</button>
-            </div>
-          </form>
+    <main class="flex">
+        <div class="one-third aside">
+            <h1 class="hide hide-l">Banka</h1>
+            <hr>
+            <ul>
+                <li><a href="profile.html">Dashboard</a></li>
+                <li><a href="create_account.html">Create Account</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
         </div>
-      </div>
-    </div>
-  </main>
+        <div class="two-third main">
+            <div class="form sm-grid">
+                <div class="container x">
+                    <div class="form-card">
+                        <h2>Open Account</h2>
+                        <form>
+                            <label>Account Name</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <label>Account type</label>
+                            <div class="form-group">
+                                <select id="select" class="select">
+                                    <option disabled selected>Choose an account type</option>
+                                    <option value="current">Current</option>
+                                    <option value="savings">Savings</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-green">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </main>
 </body>
+
 </html>
