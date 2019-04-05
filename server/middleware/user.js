@@ -27,13 +27,11 @@ class user {
         .required()
         .label("Enter a password of not less than 8 characters"),
       type: Joi.string()
-        .regex(/^[a-zA-Z0-9]{3,30}$/)
+        .valid('user', 'staff')
         .min(4)
         .required()
         .label("Choose a valid account type"),
       isAdmin: Joi.string()
-        .min(4)
-        .max(5)
     });
 
     // validate

@@ -19,10 +19,6 @@ class account {
       const type = req.body.type;
 
       const owner = parseInt(req.body.owner, 10);
-      // verify type
-      if (type !== 'savings' && type !== 'current') {
-        return res.status(400).json({ status:400, error:error.details[0].context.label });
-      }
 
       const date = new Date;
       const day = date.getDate();
@@ -80,10 +76,6 @@ class account {
 
       // get the status
       const status = req.body.status;
-
-      if (status !== 'active' && status !== 'dormant') {
-        return res.status(400).json({ status: 400, error: 'Enter a valid account status' });
-      }
 
       // calling model get single account
       model.getSingleAccount(accountNumber, ({ success, data }) => {

@@ -9,14 +9,14 @@ class account {
     // create schema
     const schema = Joi.object().keys({
       type: Joi.string()
-        .regex(/^[a-zA-Z0-9]{3,30}$/)
+        .valid('current', 'savings')
         .min(7)
         .required()
-        .label("Choose a valid account type"),
+        .label('Choose a valid account type'),
       owner: Joi.number()
         .min(1)
         .required()
-        .label("Enter your user id")
+        .label('Enter your user id')
     });
 
     // validate request body
@@ -30,9 +30,10 @@ class account {
     // create schema
     const schema = Joi.object().keys({
       status: Joi.string()
+        .valid('active', 'dormant')
         .min(5)
         .required()
-        .label("Enter an valid account status")
+        .label('Enter an valid account status')
     });
 
     // validate request body
