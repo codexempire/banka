@@ -37,7 +37,6 @@ Install the dependencies and devDependencies and start the server.
 For production environments...
 
 * npm install --production
-Verify the deployment by navigating to your server address in your preferred browser.
 
 ### Author
 Princewill Michael
