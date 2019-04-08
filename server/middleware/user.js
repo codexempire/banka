@@ -11,26 +11,26 @@ class user {
         .min(3)
         .max(20)
         .required()
-        .label("Enter your firstname"),
+        .label('Enter your firstname'),
       lastname: Joi.string()
         .min(3)
         .max(20)
         .required()
-        .label("Enter your Lastname"),
+        .label('Enter your Lastname'),
       email: Joi.string()
         .email({ minDomainAtoms: 2 })
         .required()
-        .label("Enter a valid Email"),
+        .label('Enter a valid Email'),
       password: Joi.string()
         .regex(/^[a-zA-Z0-9]{3,30}$/)
         .min(8)
         .required()
-        .label("Enter a password of not less than 8 characters"),
+        .label('Enter a password of not less than 8 characters'),
       type: Joi.string()
         .valid('user', 'staff')
         .min(4)
         .required()
-        .label("Choose a valid account type"),
+        .label('Choose a valid account type'),
       isAdmin: Joi.string()
     });
 
@@ -47,12 +47,12 @@ class user {
       email: Joi.string()
         .email({ minDomainAtoms: 2 })
         .required()
-        .label("Enter a valid Email"),
+        .label('Enter a valid Email'),
       password: Joi.string()
         .regex(/^[a-zA-Z0-9]{3,30}$/)
         .min(8)
         .required()
-        .label("Enter a password of not less than 8 characters")
+        .label('Enter a password of not less than 8 characters')
     });
 
     // validate fields

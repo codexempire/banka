@@ -19,11 +19,6 @@ class user {
       
       // destructure request body
       let { firstname, lastname, email, password, type, isAdmin } = req.body;
-      
-      // verify the type
-      if (type !== 'user' && type !== 'staff') {
-        return res.status(400).json({ status: 400, error: 'Choose a valid type' });
-      }
 
       // verify isAdmin
       if (isAdmin === undefined || isAdmin !== 'true') {
