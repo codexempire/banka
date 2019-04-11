@@ -112,6 +112,7 @@ class account {
     if (transact.push(newTransaction)) {
       // change the user account balance
       userAccount.balance = accountBalance;
+      console.log(accountBalance);
 
       // create account details
       const transactionDetails = {

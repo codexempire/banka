@@ -41,7 +41,7 @@ class account {
       const createdOn = day+' '+month+' '+year+' '+hour+':'+minute;
       const status = 'active';
       const value = 0;
-      const balance = parseFloat(value).toFixed(2);
+      const balance = parseFloat(value);
       
       model.createUserAccount(type, owner, createdOn, status, balance, accountNumber,({ success, data }) => {
         if (!success) {
@@ -150,7 +150,7 @@ class account {
       }
 
       const cashier = parseInt(req.body.cashier,10);
-      const amount = parseFloat(req.body.amount, 10).toFixed(2);
+      const amount = parseFloat(req.body.amount, 10);
       
       // set transaction type to debit
       const transactionType = 'debit';
@@ -170,7 +170,7 @@ class account {
         }
 
         let accountBalance = data.balance - amount;
-        accountBalance = parseFloat(accountBalance, 10).toFixed(2);
+        accountBalance = parseFloat(accountBalance, 10);
 
         // debit account model
         model.debitCreditAccount(data,createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{
@@ -246,7 +246,7 @@ class account {
         }
 
         let accountBalance = data.balance + amount;
-        accountBalance = parseFloat(accountBalance, 10).toFixed(2);
+        accountBalance = parseFloat(accountBalance, 10);
 
         // debit account model
         model.debitCreditAccount( data, createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{

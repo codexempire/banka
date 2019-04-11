@@ -93,7 +93,7 @@ class user {
     return null;
   }
 
-  // create signup controller handle
+  // create staff or admin signup controller handle
   static createStaffAdmin(req, res) {
     // Remove white spaces
     if (req.body.firstname) {
