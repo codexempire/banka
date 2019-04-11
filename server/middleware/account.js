@@ -12,7 +12,7 @@ class account {
         .valid('current', 'savings')
         .min(7)
         .required()
-        .label('Choose a valid account type'),
+        .label('Account type should be savings or current'),
       owner: Joi.number()
         .min(1)
         .required()
@@ -33,7 +33,7 @@ class account {
         .valid('active', 'dormant')
         .min(5)
         .required()
-        .label('Enter an valid account status')
+        .label('Account status should be active or  dormant')
     });
 
     // validate request body

@@ -7,7 +7,11 @@ import middleware from '../middleware/account';
 // account controller
 class account {
   // account creation controller handle
-  static createUserAccount(req, res){
+  static createUserAccount(req, res) {
+    // Remove white spaces
+    if (req.body.owner) {
+      req.body.owner = req.body.owner.replace(/\s+/g, '').trim();
+    }
     // middleware to verify input fields
     middleware.verifyAccountCreation(req, (error) => {
       // check for error
@@ -61,6 +65,10 @@ class account {
   static activateDeactivate(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
+    // Remove white spaces
+    if (req.body.status) {
+      req.body.status = req.body.status.replace(/\s+/g, '').trim();
+    }
 
     // check accountNumber
     if (!accountNumber) {
@@ -104,6 +112,15 @@ class account {
   static debitAccount(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
+    // Remove white spaces
+    if (req.body.amount) {
+      req.body.amount = req.body.amount.replace(/\s+/g, '').trim();
+    }
+
+    // Remove white spaces
+    if (req.body.cashier) {
+      req.body.cashier = req.body.cashier.replace(/\s+/g, '').trim();
+    }
 
     // check accountNumber
     if (!accountNumber) {
@@ -125,11 +142,11 @@ class account {
       const year = date.getFullYear();
       let hour = date.getHours();
       if (hour.length < 2) {
-        hour = '0' + hour;
+        hour = `0${hour}`;
       }
       let minute = date.getMinutes();
       if (minute.length < 2) {
-        minute = '0' + minute;
+        minute = `0${minute}`;
       }
 
       const cashier = parseInt(req.body.cashier,10);
@@ -152,7 +169,8 @@ class account {
           return res.status(409).json({ status: 409, error: 'Insufficient Funds' });
         }
 
-        const accountBalance = data.balance - amount;
+        let accountBalance = data.balance - amount;
+        accountBalance = parseFloat(accountBalance, 10);
 
         // debit account model
         model.debitCreditAccount(data,createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{
@@ -175,6 +193,15 @@ class account {
   static creditAccount(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
+    // Remove white spaces
+    if (req.body.amount) {
+      req.body.amount = req.body.amount.replace(/\s+/g, '').trim();
+    }
+
+    // Remove white spaces
+    if (req.body.cashier) {
+      req.body.cashier = req.body.cashier.replace(/\s+/g, '').trim();
+    }
 
     // check accountNumber
     if (!accountNumber) {
@@ -218,7 +245,8 @@ class account {
           return res.status(404).json({ status: 404, error: data.message });
         }
 
-        const accountBalance = data.balance + amount;
+        let accountBalance = data.balance + amount;
+        accountBalance = parseFloat(accountBalance, 10);
 
         // debit account model
         model.debitCreditAccount( data, createdOn, data.balance, accountNumber, amount, cashier, transactionType, accountBalance, ({pass,dataa})=>{

@@ -4,8 +4,8 @@ const user = [
     firstname: 'Princewill',
     lastname: 'Michael',
     email: 'michael@hotmail.com',
-    password: 'malbourne001',
-    type: 'user',
+    password: '$2b$10$gCU.pMQUpjs1D3Q1SRMco.g7ydXiWcOuYneQiDZT7DcTHfjDwRbVu',//malbourne001
+    type: 'staff',
     isAdmin: true,
   }
 ];

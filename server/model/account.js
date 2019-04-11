@@ -15,7 +15,7 @@ class account {
 
     // if exists
     if (exists) {
-      completion({ success: true, data: new Error("Account type exists with the same owner") });
+      completion({ success: true, data: new Error('Account type exists with the same owner') });
       return null;
     }
 
@@ -112,6 +112,7 @@ class account {
     if (transact.push(newTransaction)) {
       // change the user account balance
       userAccount.balance = accountBalance;
+      console.log(accountBalance);
 
       // create account details
       const transactionDetails = {
@@ -171,7 +172,7 @@ class account {
 
   // get all transactions for a specific user model
   static fetchAllTransactions(accountNumber, completion) {
-    // map through the database and find the users transaction
+    // filter through the database and find the users transaction
     const transactions = transact.filter(transaction => transaction.accountNumber === accountNumber);
 
     // callback
