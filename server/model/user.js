@@ -4,26 +4,26 @@ import db from './database/user';
 // create middleware class
 class user {
   // creating validator
-  static signup(firstname, lastname, email, password, type, isAdmin, completion) {
+  static signup(datta, password, isAdmin, completion) {
     // creating schema
-    const exist = db.find(user => user.email === email);
+    const exist = db.find(user => user.email === datta.email);
 
     // check if user exists
     if (exist) {
       completion({
         success: true,
-        data: new Error("User with the same email already exists")
+        data: new Error('User with the same email already exists')
       });
       return null;
     }
     // create a new user object
     const newUser = {
       id: db.length + 1,
-      firstname,
-      lastname,
-      email,
+      firstname: datta.firstname,
+      lastname: datta.lastname,
+      email: datta.email,
       password,
-      type,
+      type: datta.type,
       isAdmin
     };
 
