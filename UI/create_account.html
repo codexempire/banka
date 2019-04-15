@@ -24,19 +24,25 @@
         <div class="container">
           <h2 class="form-head">Open Account</h2>
           <form>
-            <label>Account Name</label>
-            <div class="form-group">
-              <input type="text" class="form-control" id="name">
+            <div id="input-half">
+              <label>Account Name</label>
+              <div class="form-group">
+                <input type="text" class="form-control" id="name">
+              </div>
             </div>
-            <label>Account type</label>
-            <div class="form-group">
-              <select id="select" class="select">
-                <option disabled selected>Choose an account type</option>
-                <option value="current">Current</option>
-                <option value="savings">Savings</option>
-              </select>
+            <div id="input-half">
+              <label>Account type</label>
+              <div class="form-group">
+                <select id="select" class="select">
+                  <option disabled selected>Choose an account type</option>
+                  <option value="current">Current</option>
+                  <option value="savings">Savings</option>
+                </select>
+              </div>
             </div>
-            <button type="button" class="btn btn-green">Create</button>
+            <div class="form-group">
+              <button type="button" class="btn btn-green">Create</button>
+            </div>
           </form>
         </div>
       </div>
