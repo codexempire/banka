@@ -465,7 +465,6 @@ hr {
     padding: 0.7rem 1rem;
   }  
   #input-half {
-    display: inline-block;
     float: left;
     width: 48%;
     margin: 0 0 1rem 0;
