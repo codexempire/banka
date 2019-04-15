@@ -24,32 +24,42 @@
     <div class="two-third main-d grid">
       <div class="container">
           <h3>CREATE ACCOUNT</h3>
-          <form>
-            <label>Firstname</label>
-            <div class="form-group">
-              <input type="text" class="form-control" id="firstName">
+          <form id="adminCreateAccount">
+            <div id="input-half">
+              <label>Firstname</label>
+              <div class="form-group">
+                <input type="text" class="form-control" id="firstName">
+              </div>
             </div>
-            <label>Lastname</label>
-            <div class="form-group">
-              <input type="text" class="form-control" id="lastNam">
+            <div id="input-half">
+              <label>Lastname</label>
+              <div class="form-group">
+                <input type="text" class="form-control" id="lastNam">
+              </div>
             </div>
             <label>Email</label>
             <div class="form-group">
               <input type="email" class="form-control" id="email">
             </div>
-            <label>Password</label>
-            <div class="form-group">
-              <input type="password" class="form-control" id="password">
+            <div id="input-half">
+              <label>Password</label>
+              <div class="form-group">
+                <input type="password" class="form-control" id="password">
+              </div>
             </div>
-            <label>Account type</label>
-            <div class="form-group">
-              <select id="select" class="select">
-                <option disabled selected>Choose an account type</option>
-                <option value="admin">Administrator</option>
-                <option value="staff">Staff</option>
-              </select>
+            <div id="input-half">
+              <label>Account type</label>
+              <div class="form-group">
+                <select id="select" class="select">
+                  <option disabled selected>Choose an account type</option>
+                  <option value="admin">Administrator</option>
+                  <option value="staff">Staff</option>
+                </select>
+              </div>
             </div>
-            <button type="button" class="btn btn-green">Create</button>
+            <div class="form-group">
+              <button type="button" class="btn btn-green">Create</button>
+            </div>
           </form>
       </div>
     </div>
