@@ -21,9 +21,9 @@ describe('Users', () => {
       .request(app)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'make',
-        firstname: 'malleten',
+        firstname: '',
         lastname: 'molten',
+        email: 'make',
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -37,10 +37,10 @@ describe('Users', () => {
       .request(app)
       .post('/api/v1/auth/signup')
       .send({
-        firstname: 'malleten',
-        lastname: 'molten',
-        email: 'test@hotmail.com',
-        password: 'password400',
+        firstname: 'Micke',
+        lastname: 'Fren',
+        email: 'michaelFrem@mailer.com',
+        password: 'makinh100',
         type: 'user'
       })
       .end((err, res) => {
@@ -50,9 +50,9 @@ describe('Users', () => {
         res.body.data.should.have.property('token');
         res.body.data.should.have.property('firstname');
         res.body.data.should.have.property('lastname');
-        res.body.data.should.have.property("email");
-        res.body.data.should.have.property("password");
-        res.body.data.should.have.property("type");
+        res.body.data.should.have.property('email');
+        res.body.data.should.have.property('password');
+        res.body.data.should.have.property('type');
         done();
       });
   });
@@ -64,7 +64,7 @@ describe('Users', () => {
       .send({
         firstname: 'malleten',
         lastname: 'molten',
-        email: 'test@hotmail.com',
+        email: 'michaelfrem@mailer.com',
         password: 'password400',
         type: 'user'
       })
@@ -144,9 +144,9 @@ describe('Users', () => {
       .send({
         firstname: 'malleten',
         lastname: 'molten',
-        email: 'test@hotmail.com',
+        email: 'test1@hotmail.com',
         password: 'password400',
-        type: 'user'
+        type: 'staff'
       })
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
@@ -176,18 +176,18 @@ describe('Users', () => {
   it('Should return status 200', done => {
     chai
       .request(app)
-      .post('/api/v1/auth/signin')
+      .post("/api/v1/auth/signin")
       .send({
-        email: 'test@hotmail.com',
-        password: 'password400'
+        email: "michael@hotmail.com",
+        password: "malbourne001"
       })
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.should.have.property('data');
-        res.body.data.should.have.property('token');
-        res.body.data.should.have.property('firstname');
-        res.body.data.should.have.property('lastname');
+        res.body.should.be.a("object");
+        res.body.should.have.property("data");
+        res.body.data.should.have.property("token");
+        res.body.data.should.have.property("firstname");
+        res.body.data.should.have.property("lastname");
         res.body.data.should.have.property("email");
         res.body.data.should.have.property("password");
         res.body.data.should.have.property("type");
@@ -216,7 +216,7 @@ describe('Users', () => {
       .request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'test@hotmail.com',
+        email: 'michael@hotmail.com',
         password: 'password00'
       })
       .end((err, res) => {

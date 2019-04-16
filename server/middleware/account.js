@@ -8,7 +8,7 @@ class account {
   static verifyAccountCreation(req, completion) {
     // create schema
     const schema = Joi.object().keys({
-      type: Joi.string()
+      type: Joi.string() 
         .valid('current', 'savings')
         .min(7)
         .required()
@@ -18,9 +18,12 @@ class account {
         .required()
         .label('Enter your user id')
     });
-
+    const request = {
+      type: req.body.type,
+      owner: req.body.owner
+    };
     // validate request body
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = Joi.validate(request, schema);
 
     completion(error);
   }
@@ -35,9 +38,12 @@ class account {
         .required()
         .label('Account status should be active or  dormant')
     });
+    const request = {
+      status: req.body.status
+    };
 
     // validate request body
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = Joi.validate(request, schema);
 
     completion(error);
   }
@@ -55,9 +61,13 @@ class account {
         .required()
         .label('Enter your user id')
     });
+    const request = {
+      amount: req.body.amount,
+      cashier: req.body.cashier
+    };
 
     // validate request body
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = Joi.validate(request, schema);
 
     completion(error);
   }

@@ -4,7 +4,7 @@ import Joi from 'joi';
 // create middleware class
 class user {
   // creating validator
-  static validator(body, completion) {
+  static validator(req, completion) {
     // creating schema
     const schema = Joi.object().keys({
       firstname: Joi.string()
@@ -32,12 +32,18 @@ class user {
         .required()
         .label('Choose a valid type'),
       isAdmin: Joi.string()
-        .valid('false')
-        .label('Account can not be set to Admin')
     });
+    const request = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password,
+      type: req.body.type,
+      isAdmin: req.body.isAdmin
+    };
 
     // validate
-    const { error } = Joi.validate(body, schema);
+    const { error } = Joi.validate(request, schema);
 
     completion(error);
   }
@@ -74,9 +80,17 @@ class user {
         .valid('false', 'true')
         .label('Identify if staff is an Admin or not')
     });
+    const request = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password,
+      type: req.body.type,
+      isAdmin: req.body.isAdmin
+    };
 
     // validate
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = Joi.validate(request, schema);
 
     completion(error);
   }
@@ -95,9 +109,13 @@ class user {
         .required()
         .label('Enter a password of not less than 8 characters')
     });
+    const request = {
+      email: req.body.email,
+      password: req.body.password
+    };
 
     // validate fields
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = Joi.validate(request, schema);
 
     // return validation
     completion(error);
