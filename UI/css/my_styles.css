@@ -25,12 +25,11 @@ ul {
 }
 footer{
   width: 100%;
-  color: purple;
+  color: #333;
   background-color: #fafafa;
   bottom: 0;
   top: auto;
   margin-top: 3rem;
-  border-top: 1px solid purple;
 }
 header.header .container {
   margin-left: 0.4rem;
@@ -70,13 +69,13 @@ header.header {
 }
 .form-head {
   padding-top: 5rem;
-  color: #800080;
+  color: #333;
 }
 h1 {
   color: #333;
 }
 .head .container h1 {
-  color: #800080;
+  color: #333;
   font-size: 4rem;
   margin: 0;
 }
@@ -102,8 +101,9 @@ button:hover {
   color: #800080;
 }
 .btn-green {
-  color: purple;
+  color: #333;
   background-color: rgba(163, 162, 162, 0.2);
+  border: 1px solid purple;
 }
 .btn-red {
   color: #fff;
@@ -158,7 +158,7 @@ section.grid {
 form {
   padding: 1rem 0.6rem;
   text-align: left;
-  color: #800080;
+  color: #333;
 }
 form h3 {
   text-align: center;
@@ -171,8 +171,9 @@ label {
 .select {
   width: 100%;
   padding: 0.6rem 0.2rem;
-  color: purple;
+  color: #333;
   background-color: #ffffff;
+  border-color: purple;
 }
 .form-group {
   width: 100%;
@@ -187,7 +188,7 @@ label {
   border: 0.5px solid purple;
   line-height: 2rem;
   padding: 0.2rem 0.7rem;
-  color: #800080;
+  color: #333;
 }
 
 #input-half {
@@ -210,7 +211,13 @@ form button {
   position: fixed;
   top: 0;
 }
-@media (max-width: 700px) {
+.hide-bg{
+  visibility: hidden;
+}
+@media (max-width: 700px) {    
+  .hide-bg{
+    visibility: visible;
+  }
   .aside {
     width: 100%;
     z-index: 99;
@@ -324,6 +331,7 @@ main.flex {
 
 table {
   border-collapse: collapse;
+  color: #333;
   width: 95%;
   margin: 0 2.5%;
   margin-bottom: 3rem;
@@ -367,6 +375,7 @@ th {
   border-radius: 0.2rem;
 }
 .status-green {
+  padding: 0.2rem 1.1rem;
   color: #fff;
   background-color: #4caf50;
 }
@@ -397,18 +406,16 @@ th {
   width: 40%;
   margin: 2rem 0;
   padding: 2rem 0;
-  border: 1px solid purple;
+  border: 1px solid #fff;
+  color: #333;
+  background-color: rgba(163, 162, 162, 0.2);
 }
 .card:hover {
   cursor: pointer;
-  color: purple;
-  background-color: rgba(163, 162, 162, 0.2);
   animation: 1s linear shake;
 }
 .cam:hover {
   cursor: pointer;
-  color: purple;
-  background-color: rgba(163, 162, 162, 0.2);
   animation: 1s linear shaker;
 }
 .card p {
@@ -439,7 +446,7 @@ hr {
   display: none;
 }
 .drop-btn {
-  background-color: #777777;
+  background-color: #999999;
   color: white;
   padding: .4rem 1.5rem;
   font-size: 1rem;
@@ -456,13 +463,13 @@ hr {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #800080;
+  background-color: #fff;
   width: 100%;
   z-index: -1;
 }
 
 .dropdown-content a {
-  color: #ffffff;
+  color: #333;
   padding: .4rem .5rem;
   text-decoration: none;
   display: block;
@@ -483,6 +490,21 @@ hr {
 .active{
   opacity: .4;
   pointer-events: none;
+}
+#heed{
+  position: fixed;
+  background-color: purple;
+  color: #fff;
+  width: 100%;
+  margin-top: 0;
+  top: 0;
+  text-align: left;
+  padding-left: 2rem;
+  line-height: 3.4rem;
+  z-index: 900;
+}
+h1.white{
+  color: #fff;
 }
 
 @media (min-width: 700px) {
@@ -529,6 +551,7 @@ hr {
   .two-third {
     flex: 2 0 75%;
     width: 75%;
+    padding-top: 7rem;
     margin-left: 25%;
     color: #333;
     flex-direction: column;
