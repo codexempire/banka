@@ -11,7 +11,8 @@ import middleware from '../middleware/user';
 class user {
   // create signup controller handle
   static signup(req, res) {  
-     // Remove white spaces
+
+    try {
       if (req.body.firstname) {
         req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
       }
@@ -20,18 +21,24 @@ class user {
       if (req.body.lastname) {
         req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
       }
-      
+
       // Remove white spaces
       if (req.body.email) {
         req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
       }
-      
+
       // Remove white spaces
       if (req.body.password) {
         req.body.password = req.body.password.replace(/\s+/g, '').trim();
       }
 
-    middleware.validator(req.body, (error) => {
+      // Remove white spaces
+      if (req.body.type) {
+        req.body.type = req.body.type.replace(/\s+/g, '').trim().toLowerCase();
+      }
+    } catch (error) { }
+
+    middleware.validator(req, (error) => {
       
       // check for error
       if (error) {
@@ -52,15 +59,15 @@ class user {
 
         // calling model
         model.signup(req.body, result, isAdmin, ({ success, data }) => {
-          
+
+          if (success && data.message) {
+            // user already exists
+            return res.status(409).json({ status: 409, error: data.message });
+          }
+
           if(!success){
             // server error
             return res.status(500).json({ status: 500, error: data.message });
-          }
-
-          if(success && data.message){
-            // user already exists
-            return res.status(409).json({ status: 409, error: data.message });
           }
 
           // create token
@@ -96,24 +103,31 @@ class user {
   // create staff or admin signup controller handle
   static createStaffAdmin(req, res) {
     // Remove white spaces
-    if (req.body.firstname) {
-      req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
-    }
+    try {
+      if (req.body.firstname) {
+        req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
+      }
 
-    // Remove white spaces
-    if (req.body.lastname) {
-      req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
-    }
-      
-    // Remove white spaces
-    if (req.body.email) {
-      req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
-    }
-      
-    // Remove white spaces
-    if (req.body.password) {
-      req.body.password = req.body.password.replace(/\s+/g, '').trim();
-    }
+      // Remove white spaces
+      if (req.body.lastname) {
+        req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
+      }
+
+      // Remove white spaces
+      if (req.body.email) {
+        req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
+      }
+
+      // Remove white spaces
+      if (req.body.password) {
+        req.body.password = req.body.password.replace(/\s+/g, '').trim();
+      }
+
+      // Remove white spaces
+      if (req.body.type) {
+        req.body.type = req.body.type.replace(/\s+/g, '').trim().toLowerCase();
+      }
+    } catch (error) {}
 
     middleware.staffValidator(req, (error) => {
       // check for error
@@ -185,15 +199,18 @@ class user {
 
   // create signin controller handle
   static signin(req, res) {
-    // Remove white spaces
-    if (req.body.email) {
-      req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
-    }
-      
-    // Remove white spaces
-    if (req.body.password) {
-      req.body.password = req.body.password.replace(/\s+/g, '').trim();
-    }
+
+    try {
+      // Remove white spaces
+      if (req.body.email) {
+        req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
+      }
+
+      // Remove white spaces
+      if (req.body.password) {
+        req.body.password = req.body.password.replace(/\s+/g, '').trim();
+      }
+    } catch (error) { }
 
     // middleware to verify fields
     middleware.verifyFields(req, (error) => {
