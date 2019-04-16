@@ -9,9 +9,14 @@ class account {
   // account creation controller handle
   static createUserAccount(req, res) {
     // Remove white spaces
-    if (req.body.owner) {
-      req.body.owner = req.body.owner.replace(/\s+/g, '').trim();
-    }
+    try{
+      if (req.body.type) {
+        req.body.type = req.body.type.trim().replace(/\s+/g, '');
+      }
+      if (req.body.owner) {
+        req.body.owner = req.body.owner.trim().replace(/\s+/g, '');
+      }
+    } catch(err) {}
     // middleware to verify input fields
     middleware.verifyAccountCreation(req, (error) => {
       // check for error
@@ -66,9 +71,11 @@ class account {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
     // Remove white spaces
-    if (req.body.status) {
-      req.body.status = req.body.status.replace(/\s+/g, '').trim();
-    }
+    try {
+      if (req.body.status) {
+        req.body.status = req.body.status.trim().replace(/\s+/g, '');
+      }
+    } catch(err){}
 
     // check accountNumber
     if (!accountNumber) {
@@ -113,14 +120,16 @@ class account {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
     // Remove white spaces
-    if (req.body.amount) {
-      req.body.amount = req.body.amount.replace(/\s+/g, '').trim();
-    }
+    try {
+      if (req.body.amount) {
+        req.body.amount = req.body.amount.trim().replace(/\s+/g, '');
+      }
 
-    // Remove white spaces
-    if (req.body.cashier) {
-      req.body.cashier = req.body.cashier.replace(/\s+/g, '').trim();
-    }
+      // Remove white spaces
+      if (req.body.cashier) {
+        req.body.cashier = req.body.cashier.trim().replace(/\s+/g, '');
+      }
+    } catch(err){}
 
     // check accountNumber
     if (!accountNumber) {
@@ -194,14 +203,16 @@ class account {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
     // Remove white spaces
-    if (req.body.amount) {
-      req.body.amount = req.body.amount.replace(/\s+/g, '').trim();
-    }
+    try {
+      if (req.body.amount) {
+        req.body.amount = req.body.amount.trim().replace(/\s+/g, '');
+      }
 
-    // Remove white spaces
-    if (req.body.cashier) {
-      req.body.cashier = req.body.cashier.replace(/\s+/g, '').trim();
-    }
+      // Remove white spaces
+      if (req.body.cashier) {
+        req.body.cashier = req.body.cashier.trim().replace(/\s+/g, '');
+      }
+    } catch (err) { }
 
     // check accountNumber
     if (!accountNumber) {
