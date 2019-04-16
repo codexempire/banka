@@ -72,6 +72,9 @@ h1 {
 .head .container p a {
   font-weight: 900;
 }
+button:hover {
+  cursor: pointer;
+}
 .btn {
   text-decoration: none;
   color: #333;
@@ -193,7 +196,6 @@ form button {
 .aside {
   color: #fff;
   background-color: #800080;
-  background-image: linear-gradient(180deg, #fa2afa, #800080);
   position: fixed;
   top: 0;
 }
@@ -369,8 +371,36 @@ th {
   padding: 2rem 0;
   border: 1px solid purple;
 }
+.card:hover {
+  cursor: pointer;
+  color: purple;
+  background-color: rgba(163, 162, 162, 0.2);
+  animation: 1s linear shake;
+}
+.cam:hover {
+  cursor: pointer;
+  color: purple;
+  background-color: rgba(163, 162, 162, 0.2);
+  animation: 1s linear shaker;
+}
 .card p {
   margin: 0;
+}
+@keyframes shake {
+  from {
+    margin-left: -2%;
+  }
+  to {
+    margin-left: 0;
+  }
+}
+@keyframes shaker{
+  from{
+    margin-right: -2%;
+  }
+  to{
+    margin-right: 0;
+  }
 }
 
 /* Add rounded corners to the top left and the top right corner of the image */
@@ -429,11 +459,8 @@ hr {
     color: #333;
   }
   .aside {
-    background-image: linear-gradient(90deg, #800080, #fa2afa);
-  }
-  .aside {
     height: 100%;
-    background-color: #10cf10;
+    background-color: purple;
   }
   .aside h1 {
     margin-bottom: 3rem;
@@ -463,7 +490,7 @@ hr {
     font-size: 1.2rem;
     color: #fff;
     padding: 0.7rem 1rem;
-  }  
+  }
   #input-half {
     float: left;
     width: 48%;
