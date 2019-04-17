@@ -10,7 +10,7 @@ import middleware from '../middleware/user';
 // create controller class
 class user {
   // create signup controller handle
-  static signup(req, res) {  
+  static signup(req, res) {
 
     try {
       if (req.body.firstname) {
@@ -39,12 +39,12 @@ class user {
     } catch (error) { }
 
     middleware.validator(req, (error) => {
-      
+
       // check for error
       if (error) {
         return res.status(400).json({ status: 400, error: error.details[0].context.label });
       }
-      
+
       let isAdmin = req.body.isAdmin;
 
       // set isAdmin to false
@@ -65,7 +65,7 @@ class user {
             return res.status(409).json({ status: 409, error: data.message });
           }
 
-          if(!success){
+          if (!success) {
             // server error
             return res.status(500).json({ status: 500, error: data.message });
           }
