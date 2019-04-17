@@ -506,7 +506,10 @@ hr {
 h1.white{
   color: #fff;
 }
-
+.debit{
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
+}
 @media (min-width: 700px) {
   .aside a {
     display: none;
@@ -518,6 +521,11 @@ h1.white{
   .grid {
     display: grid;
     grid-template-columns: 1fr repeat(2, minmax(auto, 20em)) 1fr;
+  }
+  
+  .grid-l {
+    display: grid;
+    grid-template-columns: 1fr repeat(2, minmax(auto, 40em)) 1fr;
   }
   .sm-grid {
     display: grid;
@@ -576,6 +584,12 @@ h1.white{
     justify-content: center;
     text-align: left;
   }
+  .aside ul li{
+    border-bottom: 1px solid #fff;
+  }  
+  .aside ul li:last-child{
+    border-bottom: none;
+  }
   hr {
     display: block;
   }
@@ -583,6 +597,7 @@ h1.white{
     text-align: left;
     color: #fff;
     display: block;
+    border-bottom: 1px soild #fff;
     width: 100%;
   }
   .aside ul li a {
@@ -591,10 +606,15 @@ h1.white{
     color: #fff;
     padding: 0.7rem 0 0.7rem 0.7rem;
   }
+  .aside ul li a:hover {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: rgb(202, 10, 202);
+    padding: 0.7rem 0 0.7rem 0.7rem;
+  }
   #input-half {
     float: left;
     width: 48%;
-    margin: 0 0 1rem 0;
     margin-right: 0;
   }
   #input-half:nth-child(odd) {
