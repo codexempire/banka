@@ -10,7 +10,9 @@
     "heroku-postbuild": "npm run build",
     "dev": "nodemon --exec babel-node ./server/index.js",
     "test": "nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "migrations": "babel-node ./server/migrations/index.js",
+    "drop-migrations": "babel-node ./server/migrations/drop.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,8 @@
     "express": "^4.16.4",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "pg": "^7.9.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
