@@ -59,7 +59,7 @@ class account {
           return res.status(409).json({ status: 409, error: data.message });
         }
         // return the user data
-        return res.status(200).json({ status: 200, data: data });
+        return res.status(201).json({ status: 201, data: data });
       });
       return null;
     });

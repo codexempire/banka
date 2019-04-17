@@ -32,7 +32,7 @@ class user {
       completion({ success: true, data: newUser });
       return null;
     }
-    
+
     // internal server error
     completion({ success: false, data: new Error('Internal Server Error') });
     return null;
