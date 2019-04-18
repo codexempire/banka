@@ -29,6 +29,7 @@
     footer {
         width: 100%;
         color: #333;
+        font-weight: bold;
         bottom: 0;
         top: auto;
         margin-top: 8%;
@@ -78,7 +79,7 @@
     }
     
     .form-head {
-        padding-top: 5rem;
+        padding-top: 1rem;
         color: #333;
     }
     
@@ -108,15 +109,18 @@
         font-weight: 500;
     }
     
+    .btn-block{
+        width: 100%;
+    }
     .btn:hover {
         background-color: #fff;
         color: #800080;
     }
     
     .btn-green {
-        color: #333;
-        background-color: #80008016;
-        border: 1px solid purple;
+        color: #fff;
+        background-color: purple;
+        margin-top: 2rem;
     }
     
     .btn-red {
@@ -126,14 +130,14 @@
     
     .btn-purple {
         background-color: #800080;
+        border: 1px solid purple;
         color: #fff;
     }
     
-    .btn-green:hover,
-    .btn-green:focus {
-        font-weight: bolder;
-        color: #fff;
+    .btn-green:hover {
         background-color: purple;
+        color: #fff;
+        opacity: .5;
     }
     
     .btn-red:hover {
@@ -171,7 +175,11 @@
         opacity: 0.4;
         z-index: 1;
     }
-    
+    h1.white span button{
+        background-color: black;
+        color: rgb(180, 64, 180);
+        border: none;
+    }
     section.grid {
         padding-top: 10vh;
         color: #333;
@@ -253,6 +261,15 @@
         .aside {
             width: 100%;
             z-index: 99;
+            height: 200px;
+            max-height: 180px;
+        }
+        .user{
+          max-height: 75px;
+        }
+        
+        .x {
+            padding-top: 4rem;
         }
     }
     
@@ -267,11 +284,11 @@
         display: flex;
         background-color: #fff;
         justify-content: flex-start;
-        width: 90%;
-        margin: 0 5%;
+        width: 95%;
+        margin: 0 2.5%;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         flex-wrap: wrap;
-        border: 1px solid rgba(163, 162, 162, 0.36);
+        border: 1px solid rgba(241, 49, 241, 0.5);
     }
     
     .account-info li {
@@ -399,13 +416,11 @@
     
     .status-green {
         padding: 0.2rem 1.1rem;
-        color: #fff;
-        background-color: #4caf50;
+        color: #2e114b;
     }
     
     .status-red {
-        color: #fff;
-        background-color: rgb(175, 83, 76);
+        color: #2e114b;
     }
     
     .banner h3 {
@@ -481,7 +496,7 @@
     }
     
     .drop-btn {
-        background-color: rgba(173, 56, 202, 0.2);
+        background-color: rgb(202, 10, 202);
         color: white;
         padding: .4rem 1.5rem;
         font-size: 1rem;
@@ -523,6 +538,31 @@
         display: block;
         z-index: 10;
     }
+    .drop-menu{
+        font-size:.9rem;
+    }
+    .drop-menu{
+        margin-top: 6rem;
+        background-color: rgb(92, 91, 91);
+        position: fixed;
+        width: 100%;
+        display: none;
+    }
+    .drop-menu a{
+        text-decoration: none;
+        color: #fff;
+        text-align: center;
+    }
+    .drop-menu a li{
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+    }
+    .drop-menu a:hover, .drop-menu a:focus li{
+        background-color: rgb(249, 91, 249);
+    }
+    .drop-butn:hover .drop-menu{
+        display:block;
+    }
     
     .dropdown:hover .dropbtn:hover {
         background-color: #800080;
@@ -550,19 +590,18 @@
     
     #heed {
         position: fixed;
-        background-color: #0e0d0e;
+        background-color: rgba(0, 0, 0, 0.96);
         color: #fff;
         width: 100%;
         margin-top: 0;
         top: 0;
         text-align: left;
-        padding-left: 2rem;
         line-height: 3.4rem;
         z-index: 900;
     }
     
     .aside {
-        max-height: 250px;
+        display: none;
         top: 6rem;
         background-color: rgb(63, 58, 63);
     }
@@ -628,29 +667,74 @@
     .two-third {
         flex: 2 0 95%;
         width: 95%;
-        padding-top: 4rem;
+        padding-top: 3rem;
         padding-left: 2.5%;
         padding-right: 2.5%;
         color: #333;
         flex-direction: column;
+    }
+    .white{
+        color: rgb(249, 91, 249);
+    }
+    .drop-butn{
+        color: rgb(249, 31, 91, 249);
+        background-color: #000;
+        border: none;
+    }
+    .drop-btn:hover, .drop-btn:focus{
+        border: none;
     }
     
     .b {
         padding-top: 2rem;
         max-height: 300px;
     }
-    
+    .hiden{
+        display: inline;
+    }
     @media (min-width: 700px) {
+        .hiden{
+            display: none;
+        }
+        .main {
+            width: 100%;
+            background-color: none;
+            margin-top: 6.4rem;
+            color: #800080;
+        }
         .form-card {
+            position: relative;
             background-color: #fff;
             width: 70%;
             padding: 2rem 4rem;
             border: 1px solid #80008036;
             box-shadow: 0 .1rem .1rem .1rem #80008036;
+            z-index: 90;
+        }
+        .grid, .container{
+            background-color: none;
+        }
+        .back{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 720px;
+            background-image: url("../images/pp.png");
+            background-size: 100% 100%;
+            background-repeat: repeat;
+            opacity: .3;
+            z-index: -1;
+        }
+        .zero{
+            z-index: 0;
+        }
+        .h{
+            height: 840px;
         }
         .aside {
+            display: block;
             height: 100%;
-            background-color: rgb(63, 58, 63);
+            background-color: rgba(77, 74, 77, 0.801);
         }
         .aside h1 {
             margin-bottom: 3rem;
@@ -679,9 +763,6 @@
             margin: 0;
             display: block;
         }
-        .x {
-            padding-top: 4rem;
-        }
         .aside li a {
             text-align: left;
             color: #fff;
@@ -694,17 +775,19 @@
             font-size: 1.2rem;
             color: #fff;
             padding: 0.7rem 0;
+            text-align: center;
         }
         .aside ul li a:hover {
             text-decoration: none;
             font-size: 1.2rem;
-            background-color: rgb(202, 10, 202);
+            background-color: rgb(249, 91, 249);
         }
         .hide-l {
             visibility: hidden;
         }
-        h1.white {
-            color: #fff;
+        h1.white{
+            color: rgb(249, 91, 249);
+            font-family: cursive;
         }
         .aside a {
             display: none;
@@ -712,6 +795,7 @@
         .main,
         .main-d {
             margin-top: 0;
+            background-color: none;
         }
         .grid {
             display: grid;
@@ -751,6 +835,8 @@
             width: 20%;
             position: fixed;
             min-height: 100%;
+            top: 0;
+            padding-top: 6rem;
         }
         .two-third {
             flex: 2 0 75%;

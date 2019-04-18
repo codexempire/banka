@@ -5,49 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="./css/my_styles.css">
     <title>Banka dashboard</title>
 </head>
 
 <body>
     <div class="container" id="heed">
-        <h1 class='white'>Banka</h1>
-    </div>
+            <h1 class='white'>
+                <span>
+                    <button type="button" onclick="drop()" class="drop-butn nn hiden">
+                        <i class="icofont-navigation-menu icofont-2x"></i>
+                    </button>MyBanka
+                </span>          
+                
+            </h1>
+        </div>
+        <ul class=" drop-menu hide">
+            <a href="profile.html"><li>Dashboard</li></a>
+            <a href="create_account.html"><li>Create Account</li></a>
+            <a href="login.html"><li>Logout</li></a>
+        </ul>
     <main class="flex">
 
         <div class="one-third aside">
-            <h1 class="hide-l hide">Banka</h1>
-            <hr>
-            <ul>
+            <ul class="user">
                 <li><a href="profile.html">Dashboard</a></li>
                 <li><a href="create_account.html">Create Account</a></li>
                 <li><a href="login.html">Logout</a></li>
             </ul>
         </div>
-        <div class="two-third main">
-            <div class="banner">
-
-            </div>
-            <div class="amount">
-                <h3>Welcome Princewill Michael </h3>
-            </div>
-            <ul class="account-info">
-                <li><strong>Account number</strong><br>
-                    <p>0984237923</p>
-                </li>
-                <li><strong>Email</strong><br>
-                    <p>test@hotmail.com</p>
-                </li>
-                <li><strong>Account Name</strong><br>
-                    <p>Print Michael</p>
-                </li>
-                <li><strong>Account Status</strong><br>
-                    <p class="active">Active</p>
-                </li>
-                <li><strong>Account Type</strong><br>Savings</li>
-                <li><strong>Account Balance</strong><br><span>&#8358;</span>90,000,000</li>
-            </ul>
+        <div class="two-third main">            
             <div class="container">
+                <div class="amount">
+                    <h3>Welcome Princewill Michael </h3>
+                </div>
+                <ul class="account-info">
+                    <li><strong>Account number</strong><br>
+                        <p>0984237923</p>
+                    </li>
+                    <li><strong>Email</strong><br>
+                        <p>test@hotmail.com</p>
+                    </li>
+                    <li><strong>Account Name</strong><br>
+                        <p>Print Michael</p>
+                    </li>
+                    <li><strong>Account Status</strong><br>
+                        <p class="active">Active</p>
+                    </li>
+                    <li><strong>Account Type</strong><br>Savings</li>
+                    <li><strong>Account Balance</strong><br><span>&#8358;</span>90,000,000</li>
+                </ul>
                 <h2 class="form-head">Transaction History</h2>
                 <table>
                     <tr class='th'>
@@ -74,6 +82,7 @@
             </div>
         </div>
     </main>
+    <script src="js/mine.js"></script>
 </body>
 
 </html>
