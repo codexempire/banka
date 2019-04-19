@@ -53,11 +53,6 @@ class account {
           // account already exists
           return res.status(500).json({ status: 500, error: data.message });
         }
-
-        if (success && data.message) {
-          // account number exists
-          return res.status(409).json({ status: 409, error: data.message });
-        }
         // return the user data
         return res.status(201).json({ status: 201, data: data });
       });

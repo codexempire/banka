@@ -284,24 +284,6 @@ describe('Accounts', () => {
       });
   });
 
-
-  // it should respond with status 400 and relevant error message
-  it('respond with 409', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/accounts')
-      .send({
-        type: 'savings',
-        owner: 1
-      })
-      .set("x-access-token", process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(409);
-        res.body.should.have.property("error");
-        done();
-      });
-  });
-
   // testing activate or deactivate account route
   // it should respond with status 401 and relevant error message
   it('respond with 401 for activate', (done) => {
