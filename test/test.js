@@ -262,7 +262,7 @@ describe('Accounts', () => {
   });
 
   // it should respond with status 200
-  it('respond with 200', done => {
+  it('respond with 201', done => {
     chai
       .request(app)
       .post('/api/v1/accounts')
@@ -273,31 +273,13 @@ describe('Accounts', () => {
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         accountNumber = res.body.data.accountNumber;
-        res.should.have.status(200);
+        res.should.have.status(201);
         res.body.should.have.property('data');
         res.body.data.should.have.property('accountNumber');
         res.body.data.should.have.property('firstname');
         res.body.data.should.have.property('lastname');
         res.body.data.should.have.property('type').eql('current');
         res.body.data.should.have.property('openingBalance').eql(0);
-        done();
-      });
-  });
-
-
-  // it should respond with status 400 and relevant error message
-  it('respond with 409', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/accounts')
-      .send({
-        type: 'savings',
-        owner: 1
-      })
-      .set("x-access-token", process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(409);
-        res.body.should.have.property("error");
         done();
       });
   });
