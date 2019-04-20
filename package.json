@@ -9,7 +9,7 @@
     "clean": "rm -rf dist",
     "heroku-postbuild": "npm run build",
     "dev": "nodemon --exec babel-node ./server/index.js",
-    "test": "nyc --reporter=html --reporter=text mocha --require babel-polyfill babel-register ./test/*.js --timeout 50000 --exit",
+    "test": "nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "migrations": "babel-node ./server/migrations/index.js",
     "drop-migrations": "babel-node ./server/migrations/drop.js"
