@@ -16,7 +16,7 @@ const createTransactionsTable = () => {
 
   pool
     .query(queryText)
-    .then(res => console.log('done'))
+    .then(res => pool.end())
     .catch(err => console.log(err.message));
 }
 
