@@ -1,5 +1,10 @@
 // import pool
-import pool from '../model/db';
+import { Pool } from 'pg';
+import { config } from 'dotenv';
+
+config();
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 let queryText;
 
@@ -9,14 +14,14 @@ const createTransactionsTable = () => {
     createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
     type VARCHAR(7) NOT NULL,
     accountNumber INTEGER NOT NULL REFERENCES accounts(accountNumber) ON DELETE CASCADE,
-    owner INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    amount FLOAT NOT NULL,
     oldBalance FLOAT NOT NULL,
     newBalance FLOAT NOT NULL
   )`;
 
   pool
     .query(queryText)
-    .then(res => console.log('done'))
+    .then(res => pool.end())
     .catch(err => console.log(err.message));
 }
 
@@ -25,7 +30,7 @@ const createAccountsTable = () => {
     id SERIAL PRIMARY KEY,
     accountNumber INTEGER UNIQUE NOT NULL,
     createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
-    owner INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    ownerEmail VARCHAR(150) NOT NULL REFERENCES users(email) ON DELETE CASCADE,
     type VARCHAR(8) NOT NULL,
     status VARCHAR(9) NOT NULL,
     balance FLOAT NOT NULL

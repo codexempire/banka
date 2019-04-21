@@ -1,15 +1,18 @@
 // import dependencies
 import chai from 'chai';
+import { config } from 'dotenv';
 import chaiHttp from 'chai-http';
 
+config();
 // import app
 import app from '../server/index';
-
+console.log(process.env.TEST_TOKEN);
 // instantiate dependencies
 chai.use(chaiHttp);
 chai.should();
 
 // define variables
+
 let accountNumber;
 const accountNumberError = 567749889785;
 
@@ -39,7 +42,7 @@ describe('Users', () => {
       .send({
         firstname: 'Micke',
         lastname: 'Fren',
-        email: 'michaelFrem@mailer.com',
+        email: 'michaelFremj@mailer.com',
         password: 'makinh100',
         type: 'user'
       })
@@ -48,12 +51,8 @@ describe('Users', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('data');
         res.body.data.should.have.property('token');
-        res.body.data.should.have.property('firstname');
-        res.body.data.should.have.property('lastname');
-        res.body.data.should.have.property('email');
-        res.body.data.should.have.property('password');
-        res.body.data.should.have.property('type');
-        done();
+        res.body.data.should.have.property('info');
+        done(err);
       });
   });
   // return 409 if user with the same email exists
@@ -64,7 +63,7 @@ describe('Users', () => {
       .send({
         firstname: 'malleten',
         lastname: 'molten',
-        email: 'michaelfrem@mailer.com',
+        email: 'michaelfremj@mailer.com',
         password: 'password400',
         type: 'user'
       })
@@ -90,7 +89,7 @@ describe('Users', () => {
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.be.a('object');
-        done();
+        done(err);
       });
   });
   // return 400 if fields are empty
@@ -107,7 +106,7 @@ describe('Users', () => {
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
-        done();
+        done(err);
       });
   });
   // return 201 if user was created
@@ -128,12 +127,8 @@ describe('Users', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('data');
         res.body.data.should.have.property('token');
-        res.body.data.should.have.property('firstname');
-        res.body.data.should.have.property('lastname');
-        res.body.data.should.have.property('email');
-        res.body.data.should.have.property('password');
-        res.body.data.should.have.property('type');
-        done();
+        res.body.data.should.have.property('info');
+        done(err);
       });
   });
   // return 409 if user with the same email exists
@@ -153,7 +148,7 @@ describe('Users', () => {
         res.should.have.status(409);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
-        done();
+        done(err);
       });
   });
 
@@ -178,19 +173,15 @@ describe('Users', () => {
       .request(app)
       .post("/api/v1/auth/signin")
       .send({
-        email: "michael@hotmail.com",
-        password: "malbourne001"
+        email: "michaelFremj@mailer.com",
+        password: "makinh100"
       })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a("object");
         res.body.should.have.property("data");
         res.body.data.should.have.property("token");
-        res.body.data.should.have.property("firstname");
-        res.body.data.should.have.property("lastname");
-        res.body.data.should.have.property("email");
-        res.body.data.should.have.property("password");
-        res.body.data.should.have.property("type");
+        res.body.data.should.have.property("data");
         done();
       });
   });
@@ -200,7 +191,7 @@ describe('Users', () => {
       .request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'test@hotail.com',
+        email: 'tst@hotail.com',
         password: 'password00'
       })
       .end((err, res) => {
@@ -216,7 +207,7 @@ describe('Users', () => {
       .request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'michael@hotmail.com',
+        email: 'michaelFremj@mailer.com',
         password: 'password00'
       })
       .end((err, res) => {
@@ -261,25 +252,20 @@ describe('Accounts', () => {
       });
   });
 
-  // it should respond with status 200
+  // it should respond with status 201
   it('respond with 201', done => {
     chai
       .request(app)
       .post('/api/v1/accounts')
       .send({
         type: 'current',
-        owner: 2
+        ownerEmail: 'princewillifeanyi1999@gmail.com',
       })
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
-        accountNumber = res.body.data.accountNumber;
+        accountNumber = JSON.parse(res.body.data.accountnumber);
         res.should.have.status(201);
         res.body.should.have.property('data');
-        res.body.data.should.have.property('accountNumber');
-        res.body.data.should.have.property('firstname');
-        res.body.data.should.have.property('lastname');
-        res.body.data.should.have.property('type').eql('current');
-        res.body.data.should.have.property('openingBalance').eql(0);
         done();
       });
   });
@@ -328,20 +314,44 @@ describe('Accounts', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property("data");
-        res.body.data.should.have.property("accountNumber");
-        res.body.data.should.have.property("status").eql("dormant");
         done();
       });
   });
 
-
-  // it should respond with status 404 and relevant error message
-  it('respond with 404 for activate', (done) => {
+  // test the credit route
+  // return 401 if no token
+  it('should return 401 if unauthorised', (done) => {
     chai
       .request(app)
-      .patch(`/api/v1/accounts/${accountNumberError}`)
+      .post(`/api/v1/transactions/${3451585830}/credit`)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // return 400 if no input
+  it('should return 400 if no field', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/transactions/${3451585830}/credit`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // if account not found
+  it('should return 404 if the account is not found', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/transactions/${9}/credit`)
       .send({
-        status: 'dormant'
+        amount: 4000,
+        cashier: 2
       })
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
@@ -350,6 +360,89 @@ describe('Accounts', () => {
         done();
       });
   });
+
+  // return 200 status and data
+  it('should return 200 and data', (done) => {
+    chai
+      .request(app)
+      .post(`/api/v1/transactions/${accountNumber}/credit`)
+      .send({
+        amount: 1000,
+        cashier: 2
+      })
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  // get a single account detail
+  // should return 401 if no token
+  it('should return 401 if account not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/${0}`)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      })
+  });
+
+  // should return 200 if found
+  it('should return 200 if account found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/${accountNumber}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        done();
+      })
+  });
+
+  // should return 404 if account is not found
+  it('should return 404 if account not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/accounts/${3}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      })
+  });
+
+  // get all transactions of a specific account
+  // if no token
+  it('should return 401 if token is not found in the header1', (done)=>{
+    chai
+      .request(app)
+      .get(`/api/v1/transactions/${476780976987}`)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+
+  // it should return a status 200
+  it('should return with a status of 200 if transaction found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/transactions/${accountNumber}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        done();
+      });
+  });
+
 
   // debit account route tests
   // if token is not in the head return 401
@@ -387,7 +480,7 @@ describe('Accounts', () => {
   it('should return 404 if the account is not found', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/transactions/${3451585831}/debit`)
+      .post(`/api/v1/transactions/${9009}/debit`)
       .send({
         amount: 4000,
         cashier: 2
@@ -404,7 +497,7 @@ describe('Accounts', () => {
   it('should return 409 if balance is insufficient', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/transactions/${3451585830}/debit`)
+      .post(`/api/v1/transactions/${accountNumber}/debit`)
       .send({
         amount: 10000000000,
         cashier: 2
@@ -421,7 +514,7 @@ describe('Accounts', () => {
   it('should return 200 and data', (done) => {
     chai
       .request(app)
-      .post(`/api/v1/transactions/${3451585830}/debit`)
+      .post(`/api/v1/transactions/${accountNumber}/debit`)
       .send({
         amount: 1000,
         cashier: 2
@@ -430,165 +523,8 @@ describe('Accounts', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
-        res.body.data.should.have.property('transactionId');
-        res.body.data.should.have.property('accountNumber').eql(3451585830);
-        res.body.data.should.have.property('amount').eql(1000);
-        res.body.data.should.have.property('cashier').eql(2);
-        res.body.data.should.have.property('transactionType').eql('debit');
-        res.body.data.should.have.property('accountBalance');
         done();
       })
-  });
-
-  // test the credit route
-  // return 401 if no token
-  it('should return 401 if unauthorised', (done) => {
-    chai
-      .request(app)
-      .post(`/api/v1/transactions/${3451585830}/credit`)
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.have.property("error");
-        done();
-      });
-  });
-
-  // return 400 if no input
-  it('should return 400 if no field', (done) => {
-    chai
-      .request(app)
-      .post(`/api/v1/transactions/${3451585830}/credit`)
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.property("error");
-        done();
-      });
-  });
-
-  // if account not found
-  it('should return 404 if the account is not found', (done) => {
-    chai
-      .request(app)
-      .post(`/api/v1/transactions/${3451585831}/credit`)
-      .send({
-        amount: 4000,
-        cashier: 2
-      })
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  // return 200 status and data
-  it('should return 200 and data', (done) => {
-    chai
-      .request(app)
-      .post(`/api/v1/transactions/${3451585830}/credit`)
-      .send({
-        amount: 1000,
-        cashier: 2
-      })
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have.property('data');
-        res.body.data.should.have.property('transactionId');
-        res.body.data.should.have.property('accountNumber').eql(3451585830);
-        res.body.data.should.have.property('amount').eql(1000);
-        res.body.data.should.have.property('cashier').eql(2);
-        res.body.data.should.have.property('transactionType').eql('credit');
-        res.body.data.should.have.property('accountBalance');
-        done();
-      });
-  });
-
-  // get a single account detail
-  // should return 401 if no token
-  it('should return 401 if account not found', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/accounts/${0}`)
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.have.property('error');
-        done();
-      })
-  });
-
-  // should return 200 if found
-  it('should return 200 if account not found', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/accounts/${1}`)
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have.property('data');
-        res.body.data.should.have.property('accountName');
-        res.body.data.should.have.property("accountNumber").eql(3451585830);
-        res.body.data.should.have.property('accountStatus');
-        res.body.data.should.have.property('accountBalance').eql(900000);
-        res.body.data.should.have.property('accountType');
-        res.body.data.should.have.property('openingDate');
-        done();
-      })
-  });
-
-  // should return 404 if account is not found
-  it('should return 404 if account not found', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/accounts/${3}`)
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.property('error');
-        done();
-      })
-  });
-
-  // get all transactions of a specific account
-  // if no token
-  it('should return 401 if token is not found in the header1', (done)=>{
-    chai
-      .request(app)
-      .get(`/api/v1/transactions/${476780976987}`)
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  // if no transaction is found for the account
-  it('should return 404 if no transaction is found for that account', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/transactions/${9943588812}`)
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  // it should return a status 200
-  it('should return with a status of 200 if transaction found', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/transactions/${3451585830}`)
-      .set('x-access-token', process.env.TEST_TOKEN)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have.property('data');
-        res.body.data[0].should.have.property('accountNumber').eql(3451585830);
-        done();
-      });
   });
 
   // the delete route tests
@@ -604,28 +540,14 @@ describe('Accounts', () => {
       });
   });
 
-  // should respond with 404
-  it('should respond with 404 if account is not found', (done) => {
+  // respond with status 200
+  it('should respond with 200 if it is successful', (done) => {
     chai
       .request(app)
       .delete(`/api/v1/accounts/${657465784689}`)
       .set("x-access-token", process.env.TEST_TOKEN)
       .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.property("error");
-        done();
-      });
-  });
-
-  // respond with status 200
-  it('should respond with 200 if it is successful', (done) => {
-    chai
-      .request(app)
-      .delete(`/api/v1/accounts/${3451585830}`)
-      .set("x-access-token", process.env.TEST_TOKEN)
-      .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property("message");
         done();
       });
   });

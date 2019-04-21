@@ -57,47 +57,36 @@ class user {
           return res.status(500).json({ status: 500, error: 'Server Error' });
         }
 
-        // calling model
-        model.signup(req.body, result, isAdmin, ({ success, data }) => {
-
-          if (success && data.message) {
-            // user already exists
-            return res.status(409).json({ status: 409, error: data.message });
-          }
-
-          if (!success) {
+        // check if user with the same email exists
+        model.fetchUserByEmail(req.body.email, ({success,data})=>{
+          if(!success){
             // server error
             return res.status(500).json({ status: 500, error: data.message });
           }
-
-          // create token
-          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
-
-          if (!token) {
-            // failed to generate token
-            return res.status(500).json({ status: 500, error: 'Failed to generate token' });
+          if (success && data) {
+            // email has been used
+            return res.status(409).json({ status: 409, error: 'Email has been used' });
           }
-
-          // success response
-          return res.status(201).json({
-            status: 201,
-            data: {
-              token,
-              id: data.id,
-              firstname: data.firstname,
-              lastname: data.lastname,
-              email: data.email,
-              password: data.password,
-              type: data.type,
-              isAdmin: data.isAdmin
+          
+          model.signup(req.body, result, isAdmin, ({ pass, info }) => {
+            if (!pass) {
+              // server error
+              return res.status(500).json({ status: 500, error: info.message });
             }
+            const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+            if(!token){
+              // failed to sign token
+              return res.status(500).json({ status: 500, error: 'Failed to generate token' });
+            }
+            return res.status(201).json({ status: 201, data: { token, info } });
           });
+          return null;
+        });
+        return null;
         });
         return null;
       });
       return null;
-    });
-    return null;
   }
 
   // create staff or admin signup controller handle
@@ -143,9 +132,7 @@ class user {
       } else {
         // if it is an admins account
         isAdmin = true;
-      }
-
-      
+      }     
 
       // hash password
       bcrypt.hash(req.body.password, 10, (_, result) => {
@@ -154,41 +141,30 @@ class user {
           return res.status(500).json({ status: 500, error: 'Server Error' });
         }
 
-        // calling model
-        model.signup(req.body, result, isAdmin, ({ success, data }) => {
-          
-          if(!success){
+        // check if user with the same email exists
+        model.fetchUserByEmail(req.body.email, ({ success, data }) => {
+          if (!success) {
             // server error
             return res.status(500).json({ status: 500, error: data.message });
           }
-
-          if(success && data.message){
-            // user already exists
-            return res.status(409).json({status:409,error:data.message});
+          if (success && data) {
+            // email has been used
+            return res.status(409).json({ status: 409, error: 'Email has been used' });
           }
-
-          // create token
-          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
-
-          if (!token) {
-            // failed to generate token
-            return res.status(500).json({ status: 500, error: 'Failed to generate token' });
-          }
-
-          // success response
-          return res.status(201).json({
-            status: 201,
-            data: {
-              token,
-              id: data.id,
-              firstname: data.firstname,
-              lastname: data.lastname,
-              email: data.email,
-              password: data.password,
-              type: data.type,
-              isAdmin: data.isAdmin
+          model.signup(req.body, result, isAdmin, ({ pass, info }) => {
+            if (!pass) {
+              // server error
+              return res.status(500).json({ status: 500, error: 'Failed to create user' });
             }
+            const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+            
+            if (!token) {
+              // failed to sign token
+              return res.status(500).json({ status: 500, error: 'Failed to generate token' });
+            }
+            return res.status(201).json({ status: 201, data: { token, info } });
           });
+          return null;
         });
         return null;
       });
@@ -225,18 +201,22 @@ class user {
       model.fetchUserByEmail(req.body.email, ({ success, data }) => {
         // check for errors
         if (!success) {
+          // server error
+          return res.status(500).json({ status: 500, error: data.message });
+        }
+        if (success && !data) {
           // user not found
-          return res.status(404).json({ status: 404, error: data.message });
+          return res.status(404).json({ status: 404, error: 'Invalid Email or Password' });
         }
         
         bcrypt.compare(req.body.password, data.password, (_, result) => {
-          if(!result){
+          if (!result) {
             // password do not match
             return res.status(401).json({ status: 401, error: `Invalid Email or Password` });
           }
 
           // create token
-          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY);
 
           if (!token) {
             // failed to generate token
@@ -244,19 +224,7 @@ class user {
           }
 
           // success response
-          return res.status(200).json({
-            status: 200,
-            data: {
-              token,
-              id: data.id,
-              firstname: data.firstname,
-              lastname: data.lastname,
-              email: data.email,
-              password: data.password,
-              type: data.type,
-              isAdmin: data.isAdmin
-            }
-          });
+          return res.status(200).json({ status: 200, data:{ token, data }});
         });
         return null;
       });

@@ -1,5 +1,11 @@
 // import pool
-import pool from '../model/db';
+import { Pool } from 'pg';
+import { config } from 'dotenv';
+
+config();
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
 let queryText;
 
 const dropUsersTable = () => {
@@ -7,7 +13,7 @@ const dropUsersTable = () => {
 
   pool
     .query(queryText)
-    .then(res => console.log('done'))
+    .then(res => pool.end())
     .catch(err => console.log(err.message));
 };
 

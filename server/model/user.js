@@ -1,54 +1,29 @@
 // import dependencies
-import db from './database/user';
+import pool from './db';
 
 // create middleware class
 class user {
   // creating validator
-  static signup(datta, password, isAdmin, completion) {
-    // creating schema
-    const exist = db.find(user => user.email === datta.email);
+  static signup(data, result, isAdmin, completion) {
+    console.log('loggs');
+    const text = `INSERT INTO users(firstname,lastname,email,password,type,isAdmin) VALUES ('${data.firstname}', '${data.lastname}', '${data.email}', '${result}', '${data.type}', ${isAdmin}) RETURNING *`;
 
-    // check if user exists
-    if (exist) {
-      completion({
-        success: true,
-        data: new Error('User with the same email already exists')
-      });
-      return null;
-    }
-    // create a new user object
-    const newUser = {
-      id: db.length + 1,
-      firstname: datta.firstname,
-      lastname: datta.lastname,
-      email: datta.email,
-      password,
-      type: datta.type,
-      isAdmin
-    };
-
-    // if successfull
-    if (db.push(newUser)) {
-      completion({ success: true, data: newUser });
-      return null;
-    }
-
-    // internal server error
-    completion({ success: false, data: new Error('Internal Server Error') });
+    console.log('pool');
+    pool
+      .query(text)
+      .then(res => completion({ pass: true, info: res.rows[0] }))
+      .catch(err => completion({ pass: false, info: err }));
     return null;
   }
 
   // fetch user by emailmodel
   static fetchUserByEmail(email, completion) {
-    // check if user exists
-    const user = db.find(oneUser => oneUser.email === email);
-
-    if(user){
-      completion({ success: true, data: user });
-      return null;
-    }
+    const text = `SELECT * FROM users WHERE email = '${email}'`;
     
-    completion({ success: false, data: new Error('Invalid Email or Password') });
+    pool
+      .query(text)
+      .then(res => completion({ success: true, data: res.rows[0] }))
+      .catch(err => completion({ success: false, data: err }));
     return null;
   }
 }
