@@ -61,10 +61,9 @@ class user {
         model.fetchUserByEmail(req.body.email, ({success,data})=>{
           if(!success){
             // server error
-            console.log(1);
             return res.status(500).json({ status: 500, error: data.message });
           }
-          if (data) {
+          if (success && data) {
             // email has been used
             return res.status(409).json({ status: 409, error: 'Email has been used' });
           }
@@ -72,13 +71,11 @@ class user {
           model.signup(req.body, result, isAdmin, ({ pass, info }) => {
             if (!pass) {
               // server error
-              console.log(2);
               return res.status(500).json({ status: 500, error: info.message });
             }
             const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
             if(!token){
               // failed to sign token
-              console.log(3);
               return res.status(500).json({ status: 500, error: 'Failed to generate token' });
             }
             return res.status(201).json({ status: 201, data: { token, info } });
@@ -135,9 +132,7 @@ class user {
       } else {
         // if it is an admins account
         isAdmin = true;
-      }
-
-      
+      }     
 
       // hash password
       bcrypt.hash(req.body.password, 10, (_, result) => {
@@ -152,24 +147,17 @@ class user {
             // server error
             return res.status(500).json({ status: 500, error: data.message });
           }
-          if (data) {
+          if (success && data) {
             // email has been used
             return res.status(409).json({ status: 409, error: 'Email has been used' });
           }
-          const userInformation = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            type: req.body.type,
-            password: req.body.password,
-            isAdmin
-          };
-          model.signup(userInformation, ({ pass, info }) => {
+          model.signup(req.body, result, isAdmin, ({ pass, info }) => {
             if (!pass) {
               // server error
               return res.status(500).json({ status: 500, error: 'Failed to create user' });
             }
             const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+            
             if (!token) {
               // failed to sign token
               return res.status(500).json({ status: 500, error: 'Failed to generate token' });
@@ -228,7 +216,7 @@ class user {
           }
 
           // create token
-          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
+          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY);
 
           if (!token) {
             // failed to generate token

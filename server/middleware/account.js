@@ -13,15 +13,16 @@ class account {
         .min(7)
         .required()
         .label('Account type should be savings or current'),
-      owner: Joi.number()
-        .min(1)
+      ownerEmail: Joi.string()
+        .email({ minDomainAtoms: 2 })
         .required()
-        .label('Enter your user id')
+        .label('Enter a valid Email')
     });
     const request = {
       type: req.body.type,
-      owner: req.body.owner
+      ownerEmail: req.body.ownerEmail
     };
+    
     // validate request body
     const { error } = Joi.validate(request, schema);
 

@@ -43,7 +43,7 @@ class authentication{
       }
 
       // token is valid
-      if(decoded.data.type === 'staff' || decoded.data.isAdmin){
+      if(decoded.data.type === 'staff' || decoded.data.isadmin){
         next();
         return null;
       }
@@ -70,7 +70,7 @@ class authentication{
       }
 
       // token is valid
-      if (decoded.data.isAdmin) {
+      if (decoded.data.isadmin) {
         next();
         return null;
       }

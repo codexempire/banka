@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 // import files
-import account from '../controller/account';
+import account from '../controller/transactions';
 import authentication from '../middleware/auth';
 
 // instantiate route
