@@ -142,6 +142,21 @@ class account {
     return null;
   }
 
+  // view all account which status is active
+  static activeAccounts(req, res) {
+    const status = 'active';
+    // call model
+    model.getActiveAccount(status, ({success, data}) => {
+      console.log(data);
+      if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
+      // if no active account found
+      if (success && !data) return res.status(404).json({ status: 404, error: 'No active account found' });
+      // if active account found
+      return res.status(200).json({ status: 200, data });
+    });
+    return null;
+  }
+
   // get all list of all account
   static getAllAccount(req, res) {
     model.getAllAccount(({ success, data }) => {

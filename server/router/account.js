@@ -28,5 +28,9 @@ route
 route
   .get('/', authentication.isStaff, account.getAllAccount);
 
+// get all active bank account
+route
+  .get('/status/active', authentication.isStaff, account.activeAccounts);
+
 // export route
 export default route;
