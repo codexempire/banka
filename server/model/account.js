@@ -101,6 +101,23 @@ class account {
     return;
   }
 
+  // get all active account
+  static getActiveAccount(status, completion) {
+    // sql
+    const sql = `SELECT * FROM accounts WHERE status = '${status}'`;
+
+    // query
+    pool
+      .query(sql)
+      .then(res => {
+        console.log(res.rows);
+        completion({ success: true, data: res.rows });
+      })
+      .catch(err => completion({ success: false, data: err }));
+    
+    return null
+  }
+
   // get all transactions for a specific user model
   static fetchAllTransactions(accountNumber, completion) {
     // filter through the database and find the users transaction

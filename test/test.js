@@ -6,7 +6,6 @@ import chaiHttp from 'chai-http';
 config();
 // import app
 import app from '../server/index';
-console.log(process.env.TEST_TOKEN);
 // instantiate dependencies
 chai.use(chaiHttp);
 chai.should();
@@ -265,6 +264,19 @@ describe('Accounts', () => {
       .end((err, res) => {
         accountNumber = JSON.parse(res.body.data.accountnumber);
         res.should.have.status(201);
+        res.body.should.have.property('data');
+        done();
+      });
+  });
+
+  // test for get all active accounts
+  it('should respond with status 200and the listof active accounts', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/accounts/status/active')
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
         res.body.should.have.property('data');
         done();
       });
