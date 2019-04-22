@@ -1,0 +1,12 @@
+{
+ "swagger": "2.0",
+ "info": {
+  "version": "1.0.0",
+  "title": "MyBanka banking API",
+  "description": "An optimal and easy to use app that enables and allows easy access to the banking informations of the customer ussing thier electronic devices",
+  "liscence":{
+    "name": "ISC"
+  }
+ }
+ 
+}

@@ -3,6 +3,8 @@ import  express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import { config } from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDoc from './swagger.json';
 
 // import routes
 import user from './router/user';
@@ -23,6 +25,10 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
+
+// using swagger documentation
+app.use('/', swaggerUi.serve);
+app.get('/', swaggerUi.setup(swaggerDoc));
 
 //use routes
 app.use('/api/v1/auth', user);
