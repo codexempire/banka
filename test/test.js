@@ -550,7 +550,46 @@ describe('Accounts', () => {
         res.should.have.status(200);
         res.body.should.have.property('data');
         done();
-      })
+      });
+  });
+
+  // get single transaction
+  it('should return 400 if no id', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/transactions/${0}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // get single transaction
+  it('should return 404 if no transaction was not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/transactions/${9000}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // get single transaction
+  it('should return 200 if transaction found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/transactions/${1}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        done();
+      });
   });
 
   // the delete route tests

@@ -58,7 +58,7 @@ class transactions{
  }
 
  // credit account controller
- static creditAccount(req, res) {
+  static creditAccount(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
     // Remove white spaces
@@ -85,7 +85,7 @@ class transactions{
       // get account details
       model.getSingleAccount(accountNumber, ({ success, data }) => {
         // account was not found
-        if(success && !data) return res.status(404).json({ status: 404, error: 'Account not Found' });
+        if (success && !data) return res.status(404).json({ status: 404, error: 'Account not Found' });
 
         const accountBalance = parseFloat(data.balance + amount, 10);
 
@@ -105,7 +105,27 @@ class transactions{
       return null;
     });
     return null;
- } 
+  }
+  
+  // view a specific account transaction
+  static oneTransaction(req, res) {
+    const id = parseInt(req.params.id, 10);
+    // check if there is an id
+    if (!id) return res.status(400).json({ status: 400, error: 'No id found in the requset parameter' });
+    
+    // call the model
+    model.getOneTransaction(id, ({ success, data }) => {
+      // Server Error
+      if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
+
+      // if the transaction was not found
+      if (success && !data) return res.status(404).json({ status: 404, error: 'Transaction not found' });
+
+      // success
+      return res.status(200).json({ status: 200, data });
+    });
+    return null;
+  }
 }
 
 // export class
