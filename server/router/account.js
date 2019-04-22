@@ -28,6 +28,10 @@ route
 route
   .get('/', authentication.isStaff, account.getAllAccount);
 
+// get all dormant accounts
+route
+  .get('/status/dormant', authentication.isStaff, account.dormantAccount);
+
 // get all active bank account
 route
   .get('/status/active', authentication.isStaff, account.activeAccounts);
