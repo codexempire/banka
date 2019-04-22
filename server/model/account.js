@@ -64,7 +64,6 @@ class account {
 
   // debit account model
   static debitCreditAccount(userAccount, oldBalance, accountNumber, amount, transactionType, accountBalance, completion) {
-    console.log(isNaN(accountNumber));
     // sql for creating new transactions
     const sql = `INSERT INTO transactions(type,accountNumber,amount,oldBalance, newBalance) VALUES('${transactionType}', ${accountNumber}, '${amount}', '${oldBalance}', '${accountBalance}') RETURNING *`;
     

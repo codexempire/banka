@@ -36,5 +36,9 @@ route
 route
   .get('/status/active', authentication.isStaff, account.activeAccounts);
 
+// get all transactions for a single user
+route
+  .get('/:accountNumber/transactions', authentication.isUser, account.getAllTransactionsSpecific);
+
 // export route
 export default route;
