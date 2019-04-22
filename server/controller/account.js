@@ -106,13 +106,13 @@ class account {
   // get single account details
   static getSingleAccount(req, res) {
     // collect account number from header
-    const id = parseInt(req.params.id, 10);
+    const accountNumber = parseInt(req.params.accountNumber, 10);
 
     // check accountNumber
-    if (!id) return res.status(400).json({ status: 400, error: 'No ID Found' });
+    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No ID Found' });
 
     // call model
-    model.getSingleAccount(id, ({ success, data }) => {
+    model.getSingleAccount(accountNumber, ({ success, data }) => {
       // account not found
       if (success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
       

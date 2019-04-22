@@ -22,7 +22,7 @@ route
 
 // get single account details
 route
-  .get('/:id', authentication.isUser, account.getSingleAccount);
+  .get('/:accountNumber', authentication.isUser, account.getSingleAccount);
 
 // get single account details
 route
