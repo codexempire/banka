@@ -592,6 +592,46 @@ describe('Accounts', () => {
       });
   });
 
+
+  // get single transaction
+  it('should return 400 if no id', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/user/princewillifeanyi1999gmail.com/accounts`)
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("error");
+        done();
+      });
+  });
+
+  // get single transaction
+  it('should return 404 if no transaction was not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/user/princewillifeanyi1009@gmail.com/accounts`)
+      .set("x-access-token", process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
+  // get single user accounts
+  it('should return 200 if accounts found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/user/princewillifeanyi1999@gmail.com/accounts`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        done();
+      });
+  });
+
   // the delete route tests
   // should return 401 if no token
   it('should return 401 if  no token', (done) => {

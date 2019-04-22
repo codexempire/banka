@@ -188,6 +188,31 @@ class user {
     });
     return null;
   }
+
+  // get all users accounts
+  static getAll(req, res) {
+    const email = req.params.userEmailAddress.toLowerCase().replace(/\s+/g, '').trim();
+
+    if (!email) res.status(400).json({ status: 400, error: 'Enter a valid Email' });
+
+    middleware.verifyEmail(email, error=>{
+      // check for error
+      if (error) return res.status(400).json({ status: 400, error: 'Enter a valid Email' });
+
+      model.getAccounts(email, ({ success, data }) => {
+        // server error
+        if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
+
+        // if no accounts found
+        if (data.length === 0) return res.status(404).json({ status: 404, error: 'No accounts found for this user' });
+
+        // found accounts
+        return res.status(200).json({ status: 200, data });
+      });
+      return null;
+    });
+    return null;
+  }
 }
 
 // export controller

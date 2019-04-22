@@ -11,12 +11,12 @@ class user {
         .min(3)
         .max(20)
         .required()
-        .label('Enter your firstname'),
+        .label('Enter your firstname of at least 3 to 20 characters'),
       lastname: Joi.string()
         .min(3)
         .max(20)
         .required()
-        .label('Enter your Lastname'),
+        .label('Enter your Lastname of at least 3 to 20 characters'),
       email: Joi.string()
         .email({ minDomainAtoms: 2 })
         .required()
@@ -30,7 +30,7 @@ class user {
         .valid('user')
         .min(4)
         .required()
-        .label('Choose a valid type'),
+        .label('Type should be user'),
       isAdmin: Joi.string()
     });
     const request = {
@@ -56,29 +56,29 @@ class user {
         .min(3)
         .max(20)
         .required()
-        .label('Enter your firstname'),
+        .label("Enter your firstname of at least 3 to 20 characters"),
       lastname: Joi.string()
         .min(3)
         .max(20)
         .required()
-        .label('Enter your Lastname'),
+        .label("Enter your Lastname of at least 3 to 20 characters"),
       email: Joi.string()
         .email({ minDomainAtoms: 2 })
         .required()
-        .label('Enter a valid Email'),
+        .label("Enter a valid Email"),
       password: Joi.string()
         .regex(/^[a-zA-Z0-9]{3,30}$/)
         .min(8)
         .required()
-        .label('Enter a password of not less than 8 characters'),
+        .label("Enter a password of not less than 8 characters"),
       type: Joi.string()
-        .valid('staff')
+        .valid("staff")
         .min(4)
         .required()
-        .label('Choose a valid type'),
+        .label("Type should be staff"),
       isAdmin: Joi.string()
-        .valid('false', 'true')
-        .label('Identify if staff is an Admin or not')
+        .valid("false", "true")
+        .label("Identify if staff is an Admin or not")
     });
     const request = {
       firstname: req.body.firstname,
@@ -113,6 +113,23 @@ class user {
       email: req.body.email,
       password: req.body.password
     };
+
+    // validate fields
+    const { error } = Joi.validate(request, schema);
+
+    // return validation
+    completion(error);
+  }
+
+  // create get accounts for user middleware
+  static verifyEmail(email, completion) {
+    // define schema
+    const schema = Joi.object().keys({
+      email: Joi.string()
+        .email({ minDomainAtoms: 2 })
+        .required()
+    });
+    const request = { email };
 
     // validate fields
     const { error } = Joi.validate(request, schema);

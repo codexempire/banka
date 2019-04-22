@@ -24,6 +24,19 @@ class user {
       .catch(err => completion({ success: false, data: err }));
     return null;
   }
+
+  // get accounts model
+  static getAccounts(email, completion) {
+    const sql = `SELECT * FROM accounts WHERE ownerEmail = '${email}'`;
+    
+    // Pool
+    pool
+      .query(sql)
+      .then(res => completion({ success: true, data: res.rows }))
+      .catch(err => completion({ success: false, data: err }));
+    
+    return null;
+  }
 }
 // export middleware
 export default user;
