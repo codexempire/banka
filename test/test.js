@@ -447,7 +447,7 @@ describe('Accounts', () => {
   it('should return 401 if token is not found in the header1', (done)=>{
     chai
       .request(app)
-      .get(`/api/v1/transactions/${476780976987}`)
+      .get(`/api/v1/accounts/${476780976987}/transactions`)
       .end((err, res) => {
         res.should.have.status(401);
         res.body.should.have.property('error');
@@ -460,7 +460,7 @@ describe('Accounts', () => {
   it('should return with a status of 200 if transaction found', (done) => {
     chai
       .request(app)
-      .get(`/api/v1/transactions/${accountNumber}`)
+      .get(`/api/v1/accounts/${accountNumber}/transactions`)
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(200);
@@ -570,7 +570,7 @@ describe('Accounts', () => {
   it('should respond with 200 if it is successful', (done) => {
     chai
       .request(app)
-      .delete(`/api/v1/accounts/${657465784689}`)
+      .delete(`/api/v1/accounts/${accountNumber}`)
       .set("x-access-token", process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(200);

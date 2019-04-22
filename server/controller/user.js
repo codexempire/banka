@@ -11,73 +11,53 @@ import middleware from '../middleware/user';
 class user {
   // create signup controller handle
   static signup(req, res) {
-
     try {
-      if (req.body.firstname) {
-        req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
-      }
+      if (req.body.firstname) req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
 
       // Remove white spaces
-      if (req.body.lastname) {
-        req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
-      }
+      if (req.body.lastname) req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
 
       // Remove white spaces
-      if (req.body.email) {
-        req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
-      }
+      if (req.body.email) req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
 
       // Remove white spaces
-      if (req.body.password) {
-        req.body.password = req.body.password.replace(/\s+/g, '').trim();
-      }
+      if (req.body.password) req.body.password = req.body.password.replace(/\s+/g, '').trim();
 
       // Remove white spaces
-      if (req.body.type) {
-        req.body.type = req.body.type.replace(/\s+/g, '').trim().toLowerCase();
-      }
+      if (req.body.type) req.body.type = req.body.type.replace(/\s+/g, '').trim().toLowerCase();
+
     } catch (error) { }
 
     middleware.validator(req, (error) => {
-
       // check for error
-      if (error) {
-        return res.status(400).json({ status: 400, error: error.details[0].context.label });
-      }
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
 
-      let isAdmin = req.body.isAdmin;
-
-      // set isAdmin to false
-      isAdmin = false;
+      // set is Admin to false
+      const isAdmin = false;
 
       // hash password
       bcrypt.hash(req.body.password, 10, (_, result) => {
-        if (!result) {
-          // did not hash the password
-          return res.status(500).json({ status: 500, error: 'Server Error' });
-        }
+        // Failed to hash password
+        if (!result) return res.status(500).json({ status: 500, error: 'Server Error' });
 
         // check if user with the same email exists
-        model.fetchUserByEmail(req.body.email, ({success,data})=>{
-          if(!success){
-            // server error
-            return res.status(500).json({ status: 500, error: data.message });
-          }
-          if (success && data) {
-            // email has been used
-            return res.status(409).json({ status: 409, error: 'Email has been used' });
-          }
+        model.fetchUserByEmail(req.body.email, ({ success, data }) => {
+          // server error
+          if (!success) return res.status(500).json({ status: 500, error: data.message });
+          
+          // email has been used
+          if (success && data) return res.status(409).json({ status: 409, error: 'Email has been used' });
           
           model.signup(req.body, result, isAdmin, ({ pass, info }) => {
-            if (!pass) {
-              // server error
-              return res.status(500).json({ status: 500, error: info.message });
-            }
+            // Server Error
+            if (!pass) return res.status(500).json({ status: 500, error: info.message });
+
+            // Sign user token
             const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
-            if(!token){
-              // failed to sign token
-              return res.status(500).json({ status: 500, error: 'Failed to generate token' });
-            }
+
+            // Failed to sign user token
+            if (!token) return res.status(500).json({ status: 500, error: 'Failed to generate token' });
+            
             return res.status(201).json({ status: 201, data: { token, info } });
           });
           return null;
@@ -93,75 +73,51 @@ class user {
   static createStaffAdmin(req, res) {
     // Remove white spaces
     try {
-      if (req.body.firstname) {
-        req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
-      }
+      if (req.body.firstname) req.body.firstname = req.body.firstname.replace(/\s+/g, '').trim();
 
       // Remove white spaces
-      if (req.body.lastname) {
-        req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
-      }
+      if (req.body.lastname) req.body.lastname = req.body.lastname.replace(/\s+/g, '').trim();
 
       // Remove white spaces
-      if (req.body.email) {
-        req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
-      }
+      if (req.body.email) req.body.email = req.body.email.replace(/\s+/g, '').trim().toLowerCase();
 
       // Remove white spaces
-      if (req.body.password) {
-        req.body.password = req.body.password.replace(/\s+/g, '').trim();
-      }
+      if (req.body.password) req.body.password = req.body.password.replace(/\s+/g, '').trim();
 
       // Remove white spaces
-      if (req.body.type) {
-        req.body.type = req.body.type.replace(/\s+/g, '').trim().toLowerCase();
-      }
+      if (req.body.type) req.body.type = req.body.type.replace(/\s+/g, '').trim().toLowerCase();
+
     } catch (error) {}
 
     middleware.staffValidator(req, (error) => {
       // check for error
-      if (error) {
-        return res.status(400).json({ status: 400, error: error.details[0].context.label });
-      }
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
     
       let isAdmin = req.body.isAdmin;
 
-      // check for is Admin
-      if (isAdmin === undefined || isAdmin !== 'true') {
-        isAdmin = false;
-      } else {
-        // if it is an admins account
-        isAdmin = true;
-      }     
+      // check if account is an admins account or not
+      isAdmin === undefined || isAdmin !== 'true' ? isAdmin = false : isAdmin = true    
 
       // hash password
       bcrypt.hash(req.body.password, 10, (_, result) => {
-        if (!result) {
-          // did not hash the password
-          return res.status(500).json({ status: 500, error: 'Server Error' });
-        }
+        // failed to hash password
+        if (!result) return res.status(500).json({ status: 500, error: 'Server Error' });
 
         // check if user with the same email exists
         model.fetchUserByEmail(req.body.email, ({ success, data }) => {
-          if (!success) {
-            // server error
-            return res.status(500).json({ status: 500, error: data.message });
-          }
-          if (success && data) {
-            // email has been used
-            return res.status(409).json({ status: 409, error: 'Email has been used' });
-          }
+          // server error
+          if (!success) return res.status(500).json({ status: 500, error: data.message });
+
+          // Email has been used
+          if (success && data) return res.status(409).json({ status: 409, error: 'Email has been used' });
           model.signup(req.body, result, isAdmin, ({ pass, info }) => {
-            if (!pass) {
-              // server error
-              return res.status(500).json({ status: 500, error: 'Failed to create user' });
-            }
+            // server error
+            if (!pass) return res.status(500).json({ status: 500, error: 'Failed to create user' });
+
+            // sign the token for user
             const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
             
-            if (!token) {
-              // failed to sign token
-              return res.status(500).json({ status: 500, error: 'Failed to generate token' });
-            }
+            if (!token) return res.status(500).json({ status: 500, error: 'Failed to generate token' });
             return res.status(201).json({ status: 201, data: { token, info } });
           });
           return null;
