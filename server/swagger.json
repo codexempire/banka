@@ -331,6 +331,84 @@
         }
       }
     },
+    "/api/v1/accounts?status=active": {
+      "get": {
+        "description": "Get all active accounts of users on MyBanka",
+        "summary": "getAllActiveAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts?status=dormant": {
+      "get": {
+        "description": "Get all dormant accounts of users on MyBanka",
+        "summary": "getAllDormantAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/:accountNumber": {
       "patch": {
         "description": "Changes the account status of an existing user on MyBanka",
