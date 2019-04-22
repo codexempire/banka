@@ -1,0 +1,1002 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "MyBanka banking API",
+    "description": "An optimal and easy to use app that enables and allows easy access to the banking informations of the customer using their electronic devices",
+    "liscence": {
+      "name": "ISC"
+    }
+  },
+  "host": "https://banka-pro-app.herokuapp.com/",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/auth/signup": {
+      "post": {
+        "description": "Create an account for a new user on MyBanka",
+        "summary": "userSignup",
+        "operationId": "ApiV1AuthSignupPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "firstname",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Firstname of the user"
+          },
+          {
+            "name": "lastname",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Last name of the user"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Email address of the user"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Password of the user"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created account",
+            "schema": {
+              "$ref": "#/definitions/userSignupResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "409": {
+            "description": "User already exists (Conflict)",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/signup/staff": {
+      "post": {
+        "description": "Create an account for a new staff or admin on MyBanka",
+        "summary": "staffSignup",
+        "operationId": "ApiV1AuthSignupStaffPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "firstname",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Firstname of the user"
+          },
+          {
+            "name": "lastname",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Last name of the user"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Email address of the user"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Password of the user"
+          },
+          {
+            "name": "isAdmin",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "Type of staff account"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created account",
+            "schema": {
+              "$ref": "#/definitions/staffSignupResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "409": {
+            "description": "User already exists (Conflict)",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/signin": {
+      "post": {
+        "description": "Logs in an already existing user on MyBanka",
+        "summary": "userSignin",
+        "operationId": "ApiV1AuthSigninPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Email address of the user"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Password of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login succesfull",
+            "schema": {
+              "$ref": "#/definitions/userSigninResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Invalid signin details",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/:userEmailAddress/accounts": {
+      "get": {
+        "description": "Get all accounts of user on MyBanka",
+        "summary": "getAllAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userEmailAddress",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Email address of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts found",
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts": {
+      "post": {
+        "description": "Creates an account for an existing user on MyBanka",
+        "summary": "createAccount",
+        "operationId": "ApiV1AccountsPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Type of account the user wants to open (savings or current)"
+          },
+          {
+            "name": "ownerEmail",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Email address of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account succesfully created",
+            "schema": {
+              "$ref": "#/definitions/createAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get all accounts of users on MyBanka",
+        "summary": "getAllAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts?status=active": {
+      "get": {
+        "description": "Get all active accounts of users on MyBanka",
+        "summary": "getAllActiveAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts?status=dormant": {
+      "get": {
+        "description": "Get all dormant accounts of users on MyBanka",
+        "summary": "getAllDormantAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/:accountNumber": {
+      "patch": {
+        "description": "Changes the account status of an existing user on MyBanka",
+        "summary": "changeAccountStatus",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status succesfully changed",
+            "schema": {
+              "$ref": "#/definitions/createAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Gets a single account data of an existing user on MyBanka",
+        "summary": "getSpecificAccount",
+        "operationId": "ApiV1AccountsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/createAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete account of an existing user on MyBanka",
+        "summary": "deleteSpecificAccount",
+        "operationId": "ApiV1AccountsDelete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status succesfully changed",
+            "schema": {
+              "$ref": "#/definitions/deleteAccountResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Account referencing the account number provided was not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/:accountNumber/transactions": {
+      "get": {
+        "description": "Get a specific accounts transactions of a user on MyBanka",
+        "summary": "getSpecificAccountTransactions",
+        "operationId": "ApiV1AccountsTransactionsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account transactions found",
+            "schema": {
+              "$ref": "#/definitions/transactionResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "No account transaction found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transactions/:accountNumber/credit": {
+      "post": {
+        "description": "Credit a specific accounts of a user on MyBanka",
+        "summary": "creditSpecificAccount",
+        "operationId": "ApiV1TransactionsCreditPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Amount to credit user"
+          },
+          {
+            "name": "cashier",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Staff id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account credited",
+            "schema": {
+              "$ref": "#/definitions/specificTransactionResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "No account found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transactions/:accountNumber/debit": {
+      "post": {
+        "description": "Debit a specific accounts of a user on MyBanka",
+        "summary": "debitSpecificAccount",
+        "operationId": "ApiV1TransactionsDebitPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Amount to debit user"
+          },
+          {
+            "name": "cashier",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Staff id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account debited",
+            "schema": {
+              "$ref": "#/definitions/specificTransactionResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "No account found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transactions/:id": {
+      "post": {
+        "description": "A specific transactions for a specific accounts of a user on MyBanka",
+        "summary": "SpecificTransactions",
+        "operationId": "ApiV1TransactionsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "description": "Account number of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction found",
+            "schema": {
+              "$ref": "#/definitions/specificTransactionResponse"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "401": {
+            "description": "Lack of token in the header",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "schema": {
+              "$ref": "#/definitions/errorType"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "userSignupResponse": {
+      "title": "User signup response",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number"
+        },
+        "data": {
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "info": {
+              "type": "object",
+              "item": {
+                "$ref": "#/definitions/Data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "staffSignupResponse": {
+      "title": "Staff or Admin signup response",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number"
+        },
+        "data": {
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "info": {
+              "type": "object",
+              "item": {
+                "$ref": "#/definitions/Data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Data": {
+      "id": {
+        "type": "number",
+        "format": "double"
+      },
+      "firstname": {
+        "type": "string"
+      },
+      "lastname": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "isadmin": {
+        "type": "boolean"
+      }
+    },
+    "userSigninResponse": {
+      "title": "User signin response",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number"
+        },
+        "data": {
+          "properties": {
+            "token": {
+              "type": "string"
+            },
+            "info": {
+              "type": "object",
+              "item": {
+                "$ref": "#/definitions/Data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "createAccountResponse": {
+      "title": "Create Account",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "double"
+        },
+        "data": {
+          "type": "object",
+          "item": {
+            "$ref": "#/definitions/Data2"
+          }
+        }
+      }
+    },
+    "Data2": {
+      "id": {
+        "type": "number",
+        "format": "double"
+      },
+      "accountnumber": {
+        "type": "number",
+        "format": "double"
+      },
+      "createdon": {
+        "type": "string"
+      },
+      "ownerEmail": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      },
+      "balance": {
+        "type": "float",
+        "format": "double"
+      }
+    },
+    "getAccountResponse": {
+      "title": "get Account",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "double"
+        },
+        "data": {
+          "type": "array",
+          "item": {
+            "$ref": "#/definitions/Data2"
+          }
+        }
+      }
+    },
+    "transactionResponse": {
+      "title": "Create Account",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "double"
+        },
+        "data": {
+          "type": "array",
+          "item": {
+            "$ref": "#/definitions/Data1"
+          }
+        }
+      }
+    },
+    "specificTransactionResponse": {
+      "title": "Credit or Debit Account",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "double"
+        },
+        "data": {
+          "type": "object",
+          "item": {
+            "$ref": "#/definitions/Data1"
+          }
+        }
+      }
+    },
+    "Data1": {
+      "id": {
+        "type": "number",
+        "format": "double"
+      },
+      "accountnumber": {
+        "type": "number",
+        "format": "double"
+      },
+      "createdon": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "float",
+        "format": "double"
+      },
+      "type": {
+        "type": "string"
+      },
+      "oldbalance": {
+        "type": "float",
+        "format": "double"
+      },
+      "newbalance": {
+        "type": "float",
+        "format": "double"
+      }
+    },
+    "deleteAccountResponse": {
+      "title": "Delete Account",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "double"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "errorType": {
+      "title": "Error thrown if not successful",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "double"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
