@@ -270,10 +270,10 @@ describe('Accounts', () => {
   });
 
   // test for get all active accounts
-  it('should respond with status 200and the listof active accounts', (done) => {
+  it('should respond with status 200 and the list of active accounts', (done) => {
     chai
       .request(app)
-      .get('/api/v1/accounts/status/active')
+      .get('/api/v1/accounts?status=active')
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(200);
@@ -335,7 +335,7 @@ describe('Accounts', () => {
   it('should respond with status 404 and the list of dormant accounts', (done) => {
     chai
       .request(app)
-      .get('/api/v1/accounts/status/dormant')
+      .get('/api/v1/accounts?status=dormant')
       .set('x-access-token', process.env.TEST_TOKEN)
       .end((err, res) => {
         res.should.have.status(404);
