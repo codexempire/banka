@@ -16,5 +16,9 @@ route
 route
   .post('/:accountNumber/debit', authentication.isStaff, account.debitAccount);
 
+// get specific transaction
+route
+  .get('/:id', authentication.isUser, account.oneTransaction);
+
 // export route
 export default route;

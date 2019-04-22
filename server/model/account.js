@@ -119,13 +119,27 @@ class account {
   // get all transactions for a specific user model
   static fetchAllTransactions(accountNumber, completion) {
     // filter through the database and find the users transaction
-    const sql = `SELECT * FROM transactions WHERE accountNumber = '${accountNumber}'`;
+    const sql = `SELECT * FROM transactions WHERE accountnumber = '${accountNumber}'`;
 
     // POOL
     pool
       .query(sql)
-      .then(res => completion({ succes: true, data: res.rows }))
+      .then(res => completion({ success: true, data: res.rows }))
       .catch(err => completion({ success: false, data: err }));
+    return null;
+  }
+
+  // get a specific transaction for a user account
+  static getOneTransaction(id, completion) {
+    // sql
+    const sql = `SELECT * FROM transactions WHERE id = '${id}'`;
+
+    // Pool
+    pool
+      .query(sql)
+      .then(res => completion({ success: true, data: res.rows[0] }))
+      .catch(err => completion({ success: false, data: err }));
+    
     return null;
   }
 }
