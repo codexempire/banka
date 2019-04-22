@@ -110,7 +110,6 @@ class account {
     pool
       .query(sql)
       .then(res => {
-        console.log(res.rows);
         completion({ success: true, data: res.rows });
       })
       .catch(err => completion({ success: false, data: err }));

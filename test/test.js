@@ -330,6 +330,20 @@ describe('Accounts', () => {
       });
   });
 
+
+  // test for get all dormant accounts
+  it('should respond with status 404 and the list of dormant accounts', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/accounts/status/dormant')
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('error');
+        done();
+      });
+  });
+
   // test the credit route
   // return 401 if no token
   it('should return 401 if unauthorised', (done) => {
