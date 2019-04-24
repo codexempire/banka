@@ -1,0 +1,9 @@
+.alert{
+ padding-left: .4rem;
+}
+.alert-danger{
+ color: red;
+ line-height: 2rem;
+ border-left: 4px solid red;
+ border-bottom: 1px solid red;
+}
