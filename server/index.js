@@ -3,6 +3,7 @@ import  express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import { config } from 'dotenv';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDoc from './swagger.json';
 
@@ -17,6 +18,9 @@ config();
 
 // instantiate app
 const app = express();
+
+// use CORS
+app.use(cors());
 
 // port
 const port = process.env.PORT || 3000;
