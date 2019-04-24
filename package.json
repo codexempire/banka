@@ -9,7 +9,7 @@
     "clean": "rm -rf dist",
     "heroku-postbuild": "npm run build",
     "dev": "npm run migrations && nodemon --exec babel-node ./server/index.js",
-    "test": "npm run migrations && nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit && npm run drop-migrations",
+    "test": "npm run drop-migrations && npm run migrations && nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "migrations": "babel-node ./server/migrations/index.js",
     "drop-migrations": "babel-node ./server/migrations/drop.js"
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/codexempire/banka#readme",
   "dependencies": {
-    "bcrypt": "^3.0.5",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
