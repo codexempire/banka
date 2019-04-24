@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { config } from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDoc from './swagger.json';
+import cors from 'cors';
 
 // import routes
 import user from './router/user';
@@ -17,6 +18,9 @@ config();
 
 // instantiate app
 const app = express();
+
+// use CORS
+app.use(cors());
 
 // port
 const port = process.env.PORT || 3000;

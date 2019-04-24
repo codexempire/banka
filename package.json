@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist",
-    "build": "npm run clean && npm run migrations && babel server -d dist && cp ./server/swagger.json ./dist/swagger.json",
+    "build": "npm run clean && npm run drop-migrations && npm run migrations && babel server -d dist && cp ./server/swagger.json ./dist/swagger.json",
     "clean": "rm -rf dist",
     "heroku-postbuild": "npm run build",
     "dev": "npm run migrations && nodemon --exec babel-node ./server/index.js",
-    "test": "npm run migrations && nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit && npm run drop-migrations",
+    "test": "npm run drop-migrations && npm run migrations && nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "migrations": "babel-node ./server/migrations/index.js",
     "drop-migrations": "babel-node ./server/migrations/drop.js"
@@ -47,7 +47,7 @@
     "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.4",
     "mocha-lcov-reporter": "^1.3.0",
     "nodemon": "^1.18.10",
     "nyc": "^13.3.0"
