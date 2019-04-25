@@ -15,6 +15,7 @@ const createTransactionsTable = () => {
     type VARCHAR(7) NOT NULL,
     accountNumber INTEGER NOT NULL REFERENCES accounts(accountNumber) ON DELETE CASCADE,
     amount FLOAT NOT NULL,
+    cashierId INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     oldBalance FLOAT NOT NULL,
     newBalance FLOAT NOT NULL
   )`;

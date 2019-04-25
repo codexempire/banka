@@ -18,7 +18,11 @@ route
 
 // get specific transaction
 route
-  .get('/:id', authentication.isUser, account.oneTransaction);
+  .get('/:id', authentication.isUser, account.getSingleTransaction);
+
+// get all transactions
+route
+  .get('/', authentication.isStaff, account.getAllTransactions)
 
 // export route
 export default route;

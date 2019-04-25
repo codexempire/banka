@@ -14,7 +14,7 @@ route
 
 // signup route
 route
-  .post('/signup/staff', authentication.isAdmin, user.createStaffAdmin);
+  .post('/signup/staff', authentication.isAdmin, user.createStaffAdminUser);
 
 // log in route
 route

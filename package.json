@@ -8,8 +8,8 @@
     "build": "npm run clean && npm run migrations && babel server -d dist && cp ./server/swagger.json ./dist/swagger.json",
     "clean": "rm -rf dist",
     "heroku-postbuild": "npm run build",
-    "dev": "npm run migrations && nodemon --exec babel-node ./server/index.js",
-    "test": "npm run migrations && nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit && npm run drop-migrations",
+    "dev": "npx cross-env NODE_ENV=development&& nodemon --exec babel-node ./server/index.js",
+    "test": "npx cross-env NODE_ENV=test&& npm run drop-migrations && npm run migrations && nyc --reporter=html --reporter=text mocha --require babel-register ./test/*.js --timeout 50000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "migrations": "babel-node ./server/migrations/index.js",
     "drop-migrations": "babel-node ./server/migrations/drop.js"
@@ -28,6 +28,7 @@
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "joi": "^14.3.1",

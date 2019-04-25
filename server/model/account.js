@@ -1,17 +1,12 @@
 // import dependencies
 import pool from './db';
 
-// import files
-import db from './database/account';
-import userDb from './database/user';
-import transact from './database/transaction';
-
 // account model
-class account {
+class Account {
   // create account model
-  static createUserAccount(type, owner, status, balance, accountNumber, completion) {
+  static createUserAccount(request, status, balance, accountNumber, completion) {
    // write sql insertion sting
-    const text = `INSERT INTO accounts(accountNumber, ownerEmail, type, status, balance) VALUES('${accountNumber}', '${owner}', '${type}', '${status}', '${balance}') RETURNING *`;
+    const text = `INSERT INTO accounts(accountNumber, ownerEmail, type, status, balance) VALUES('${accountNumber}', '${request.ownerEmail}', '${request.type}', '${status}', '${balance}') RETURNING *`;
 
     // create pool
     pool
@@ -23,7 +18,7 @@ class account {
   }
 
   // get a single account model
-  static getSingleAccount(accountNumber, completion) {
+  static getSingleUserAccount(accountNumber, completion) {
     // write sql to get a single account 
     const sql = `SELECT * FROM accounts WHERE accountNumber = '${accountNumber}'`;
 
@@ -36,7 +31,7 @@ class account {
   }
 
   // get all account model
-  static getAllAccount(completion) {
+  static getAllAccounts(completion) {
     // sql query to get all accounts
     const sql = `SELECT * FROM accounts`;
 
@@ -45,7 +40,7 @@ class account {
       .query(sql)
       .then(res => completion({ success: true, data: res.rows }))
       .catch(err => completion({ success: false, data: err }));
-    return null;
+    return;
   }
 
   // activate or deactivate account model
@@ -59,35 +54,35 @@ class account {
       .then(res => completion({ pass: true, info: res.rows[0] }))
       .catch(err => completion({ pass: false, info: err }));
     
-    return null;
+    return;
   }
 
   // debit account model
-  static debitCreditAccount(userAccount, oldBalance, accountNumber, amount, transactionType, accountBalance, completion) {
+  static debitCreditAccount(userAccount, oldBalance, transactionData, amount, transactionType, accountBalance, completion) {
     // sql for creating new transactions
-    const sql = `INSERT INTO transactions(type,accountNumber,amount,oldBalance, newBalance) VALUES('${transactionType}', ${accountNumber}, '${amount}', '${oldBalance}', '${accountBalance}') RETURNING *`;
+    const sql = `INSERT INTO transactions(type,accountNumber,cashierId,amount,oldBalance, newBalance) VALUES('${transactionType}', '${transactionData.accountNumber}', '${transactionData.cashier}', '${amount}', '${oldBalance}', '${accountBalance}') RETURNING *`;
     
     // sql to update account balance of the account table
     const text = `UPDATE accounts SET balance = '${accountBalance}' WHERE accountNumber = '${userAccount.accountnumber}'`;
 
 
-    // POOL to update the account balance
+    // POOL to insert the transactions
     pool
-      .query(text)
+      .query(sql)
       .then(res => {
-        // insert the transactions
+        // update the account balance
         pool
-          .query(sql)
-          .then(res => completion({ pass: true, info: res.rows[0] }))
+          .query(text)
+          .then(response => completion({ pass: true, info: res.rows[0] }))
           .catch(err => completion({ pass: false, info: err }));
       })
       .catch(err => completion({ pass: false, info: err }));
     
-    return null;
+    return;
   }
 
   // delete route
-  static delete(account, completion) {
+  static deleteAccount(account, completion) {
     // sql to delete account
     const sql = `DELETE FROM accounts WHERE accountNumber = '${account.accountnumber}'`;
 
@@ -101,7 +96,7 @@ class account {
   }
 
   // get all active account
-  static getActiveAccount(status, completion) {
+  static getActiveDormantAccounts(status, completion) {
     // sql
     const sql = `SELECT * FROM accounts WHERE status = '${status}'`;
 
@@ -113,11 +108,11 @@ class account {
       })
       .catch(err => completion({ success: false, data: err }));
     
-    return null
+    return;
   }
 
   // get all transactions for a specific user model
-  static fetchAllTransactions(accountNumber, completion) {
+  static fetchAllTransactionsForSpecificAccount(accountNumber, completion) {
     // filter through the database and find the users transaction
     const sql = `SELECT * FROM transactions WHERE accountnumber = '${accountNumber}'`;
 
@@ -126,11 +121,11 @@ class account {
       .query(sql)
       .then(res => completion({ success: true, data: res.rows }))
       .catch(err => completion({ success: false, data: err }));
-    return null;
+    return;
   }
 
   // get a specific transaction for a user account
-  static getOneTransaction(id, completion) {
+  static getSingleTransaction(id, completion) {
     // sql
     const sql = `SELECT * FROM transactions WHERE id = '${id}'`;
 
@@ -140,9 +135,19 @@ class account {
       .then(res => completion({ success: true, data: res.rows[0] }))
       .catch(err => completion({ success: false, data: err }));
     
-    return null;
+    return;
+  }
+
+  // get all transactions
+  static getAllTransactions(completion) {
+    const sql = `SELECT * FROM transactions`;
+    pool
+      .query(sql)
+      .then(res => completion({ success: true, data: res.rows }))
+      .catch(err => completion({ success: false, data: err }));
+    return;
   }
 }
 
 // export model
-export default account;
+export default Account;

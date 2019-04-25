@@ -9,8 +9,8 @@ class authentication{
     const token = req.headers['x-access-token'];
 
     // check if there is a token
-    if (!token) {
-      return res.status(401).json({ status: 401, error: 'Unauthorized Access' });
+    if (!token || token === '') {
+      return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
     }
 
     // check if token is valid token
@@ -32,8 +32,8 @@ class authentication{
     const token = req.headers['x-access-token'];
 
     // check if there is a token
-    if (!token) {
-      return res.status(401).json({ status: 401, error: 'Unauthorized Access' });
+    if (!token || token === '') {
+      return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
     }
 
     // check if token is valid token
@@ -59,8 +59,8 @@ class authentication{
     const token = req.headers['x-access-token'];
 
     // check if there is a token
-    if (!token) {
-      return res.status(401).json({ status: 401, error: 'Unauthorized Access' });
+    if (!token || token === '') {
+      return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
     }
 
     // check if token is valid token

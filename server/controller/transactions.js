@@ -3,46 +3,33 @@ import middleware from '../middleware/account';
 import model from '../model/account';
 
 // transactions class
-class transactions{
+class Transactions{
  // debit account controller
  static debitAccount(req, res) {
-    // collect account number from header
-    const accountNumber = parseInt(req.params.accountNumber, 10);
-    // Remove white spaces
-    try {
-      if (req.body.amount) req.body.amount = req.body.amount.trim().replace(/\s+/g, '');
-
-      // Remove white spaces
-      if (req.body.cashier) req.body.cashier = req.body.cashier.trim().replace(/\s+/g, '');
-    } catch(err){}
-
-    // check accountNumber
-    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No Account Number Found' });
-
-    // call middleware
-    middleware.debitCreditVerve(req, (error) => {
+   const accountNumber = parseInt(req.params.accountNumber, 10);
+   
+    middleware.debitCreditVerve(req, accountNumber, (error, request) => {
       // check for error
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
 
       const amount = parseFloat(req.body.amount, 10);
-      
-      // set transaction type to debit
       const transactionType = 'debit';
 
       // get account details
-      model.getSingleAccount(accountNumber, ({ success, data }) => {
-        // account was not found
-        if(success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
+      model.getSingleUserAccount(request.accountNumber, ({ success, data }) => {
+        if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
 
-        // check if account balance
-        if(data.balance < amount) return res.status(409).json({ status: 409, error: 'Insufficient Funds' });
+        if(success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
+        
+        if (data.status === 'dormant') return res.status(400).json({ status: 400, error: 'Cannot debit a dormant account' });
+        if(data.balance < amount) return res.status(400).json({ status: 400, error: 'Insufficient Funds' });
 
         const accountBalance = parseFloat(data.balance - amount, 10);
 
         // debit account model
-        model.debitCreditAccount(data, data.balance, accountNumber, amount, transactionType, accountBalance, ({ pass, info }) => {
+        model.debitCreditAccount(data, data.balance, request, amount, transactionType, accountBalance, ({ pass, info }) => {
           // server error
-          if(!pass) return res.status(500).json({ status: 500, error: dataa.message });
+          if(!pass) return res.status(500).json({ status: 500, error: info.message });
 
           // server error
           if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });
@@ -50,83 +37,70 @@ class transactions{
           // respond with the transaction details
           return res.status(200).json({ status: 200, data: info });
         });
-        return null;
       });
-      return null;
     });
-    return null;
+    return;
  }
 
  // credit account controller
   static creditAccount(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
-    // Remove white spaces
-    try {
-      if (req.body.amount) req.body.amount = req.body.amount.trim().replace(/\s+/g, '');
-
-      // Remove white spaces
-      if (req.body.cashier) req.body.cashier = req.body.cashier.trim().replace(/\s+/g, '');
-    } catch (err) { }
-
-    // check accountNumber
-    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No Account Number Found' });
 
     // call middleware
-    middleware.debitCreditVerve(req, (error) => {
+    middleware.debitCreditVerve(req, accountNumber, (error, request) => {
       // check for error
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
 
-      const amount = parseFloat(req.body.amount, 10);
-      
-      // set transaction type to debit
+      const amount = parseFloat(request.amount, 10);
       const transactionType = 'credit';
-
-      // get account details
-      model.getSingleAccount(accountNumber, ({ success, data }) => {
-        // account was not found
+      
+      model.getSingleUserAccount(request.accountNumber, ({ success, data }) => {
         if (success && !data) return res.status(404).json({ status: 404, error: 'Account not Found' });
 
         const accountBalance = parseFloat(data.balance + amount, 10);
 
-        // debit account model
-        model.debitCreditAccount(data, data.balance, accountNumber, amount, transactionType, accountBalance, ({ pass, info }) => {
-          // server error
-          if (!pass) return res.status(500).json({ status: 500, error: info.message });
+        model.debitCreditAccount(data, data.balance, request, amount, transactionType, accountBalance, ({ pass, info }) => {
+          if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
 
-          // server error
-          if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });
+          if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });// server error
 
           // respond with the transaction details
           return res.status(200).json({ status: 200, data: info });
         });
-        return null;
       });
-      return null;
     });
-    return null;
+    return;
   }
   
   // view a specific account transaction
-  static oneTransaction(req, res) {
+  static getSingleTransaction(req, res) {
     const id = parseInt(req.params.id, 10);
     // check if there is an id
     if (!id) return res.status(400).json({ status: 400, error: 'No id found in the requset parameter' });
     
     // call the model
     model.getOneTransaction(id, ({ success, data }) => {
-      // Server Error
       if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
 
-      // if the transaction was not found
       if (success && !data) return res.status(404).json({ status: 404, error: 'Transaction not found' });
 
       // success
       return res.status(200).json({ status: 200, data });
     });
-    return null;
+    return;
+  }
+
+  // get all transactions
+  static getAllTransactions(req, res) {
+    model.getAllTransactions(({ success, data }) => {
+      if (!success) return res.status(500).json({ status: 500, error: 'Sever Error' });
+      if (data.length === 0) return res.status(404).json({ status: 404, error: 'No transaction Found' });
+      return res.status(200).json({ status: 200, data });
+    });
+    return;
   }
 }
 
 // export class
-export default transactions;
+export default Transactions;

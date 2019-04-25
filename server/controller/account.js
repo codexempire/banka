@@ -1,170 +1,125 @@
-// import dependencies
-
-// import files
 import model from '../model/account';
 import middleware from '../middleware/account';
 
 // account controller
-class account {
+class Account {
   // account creation controller handle
   static createUserAccount(req, res) {
-    // Remove white spaces
-    try{
-      if (req.body.type) req.body.type = req.body.type.trim().replace(/\s+/g, '');
+    middleware.verifyAccountCreationData(req, (error, request) => {
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });// check for error
 
-      if (req.body.owner) req.body.owner = req.body.owner.trim().replace(/\s+/g, '');
-
-    } catch(err) {}
-    // middleware to verify input fields
-    middleware.verifyAccountCreation(req, (error) => {
-      // check for error
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
-
-      // get body
-      // startup account informations
-      const type = req.body.type;
-      const accountNumber = Math.floor(Math.random() * 8999 + 1000);
+      const accountNumber = Math.floor(Math.random() * 899999999 + 100000000);
       const status = 'active';
-      const value = 0;
-      const balance = parseFloat(value);
+      const balance = parseFloat(0);
       
-      model.createUserAccount(type, req.body.ownerEmail, status, balance, accountNumber, ({ success, data }) => {
-        // server error
-        if (!success) return res.status(500).json({ status: 500, error: data.message });
+      model.createUserAccount(request, status, balance, accountNumber, ({ success, data }) => {
+        if (!success) return res.status(500).json({ status: 500, error: data.message });// server error
 
-        // return the user data
-        return res.status(201).json({ status: 201, data: data });
+        return res.status(201).json({ status: 201, data: data });// return the user data
       });
-      return null;
     });
-    return null;
+    return;
   }
 
   // activate or deactivate account
-  static activateDeactivate(req, res) {
-    // collect account number from header
-    const accountNumber = parseInt(req.params.accountNumber, 10);
-    // Remove white spaces
-    try {
-      if (req.body.status) req.body.status = req.body.status.trim().replace(/\s+/g, '');
-    } catch(err){}
+  static activateDeactivateAccount(req, res) {    
+    const accountNumber = parseInt(req.params.accountNumber, 10);// collect account number from header
+    middleware.checkAccountStatus(req, accountNumber, (error, request) => {
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });// check for error
 
-    // check accountNumber
-    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No Account Number Found' });
-
-    // check the header and body for data
-    middleware.checkAccount(req, (error) => {
-      // check for error
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
-
-      // get the status
-      const status = req.body.status;
-
-      // calling model get single account
-      model.getSingleAccount(accountNumber, ({ success, data }) => {
+      model.getSingleUserAccount(request.accountNumber, ({ success, data }) => {
         if (!data) return res.status(404).json({ status: 404, error: data.message });
 
         // call the activate or deactivate users account
-        model.activateDeactivateAccount(data, status, ({ pass, info }) => {
-          // check if it failed
-          if (!data) return res.status(500).json({ status: 500, error: info.message });
+        model.activateDeactivateAccount(data, request.status, ({ pass, info }) => {
+          if (!data) return res.status(500).json({ status: 500, error: info.message });// check if it failed
 
-          // if successful
-          return res.status(200).json({ status: 200, data: info });
+          return res.status(200).json({ status: 200, data: info });// if successful
         });
-        return null;
-      })
-      return null;
+      });
     });
-    return null;
+    return;
   }
 
   // delete account controller
-  static delete(req, res) {
-    // collect account number from header
+  static deleteAccount(req, res) {
     const accountNumber = parseInt(req.params.accountNumber, 10);
+        
+    middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
 
-    // check accountNumber
-    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No Account Number Found' });
+      model.getSingleUserAccount(validAccountNumber, ({ success, data }) => {
+        if (!data) return res.status(404).json({ status: 404, error: data.message });// account not found
+        
+        model.deleteAccount(data, ({ pass, info }) => {
+          if (!pass) return res.status(500).json({ status: 500, error: 'Server Error' });
 
-    // call model
-    model.getSingleAccount(accountNumber, ({ success, data }) => {
-      // account not found
-      if (!data) return res.status(404).json({ status: 404, error: data.message });
-
-      // call delete model
-      model.delete(data, ({ pass, info }) => {
-        if (!pass) return res.status(500).json({ status: 500, error: 'Server Error' });
-
-        return res.status(200).json({ status: 200, message: info.message });
+          return res.status(200).json({ status: 200, message: info.message });
+        });
       });
-      return null;
     });
-    return null;
+    return;
   }
 
   // get single account details
-  static getSingleAccount(req, res) {
+  static getSingleUserAccount(req, res) {
     // collect account number from header
     const accountNumber = parseInt(req.params.accountNumber, 10);
 
-    // check accountNumber
-    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No ID Found' });
+    middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
 
-    // call model
-    model.getSingleAccount(accountNumber, ({ success, data }) => {
-      // account not found
-      if (success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
-      
-      return res.status(200).json({ status: 200, data });
+      model.getSingleAccount(validAccountNumber, ({ success, data }) => {
+        // account not found
+        if (success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
+
+        return res.status(200).json({ status: 200, data });
+      });
     });
-    return null;
+    return;
   }
   
   // get all list of all account
-  static getAllAccount(req, res) {
+  static getAllAccounts(req, res) {
     let status = req.query.status;
     if (status) {
       status = status.toLowerCase();
-      model.getActiveAccount(status, ({ success, data }) => {
+      model.getActiveDormantAccounts(status, ({ success, data }) => {
         if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
         // if no active account found
         if (success && data.length === 0) return res.status(404).json({ status: 404, error: `No ${status} account found` });
         // if active account found
         return res.status(200).json({ status: 200, data });
       });
-      return null;
+      return;
     }
-    model.getAllAccount(({ success, data }) => {
-      // no account Found
-      if (success && data.length === 0) return res.status(404).json({ status: 404, error: 'No accounts found' });
+    model.getAllAccounts(({ success, data }) => {
+      if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
+      if (success && data.length === 0) return res.status(404).json({ status: 404, error: 'No accounts found' });// no account Found
 
       return res.status(200).json({ status: 200, data });
     });
-    return null;
+    return;
   }
 
   // get all transactions for a single user controller
-  static getAllTransactionsSpecific(req, res) {
-    // get user account number for params
-    const accountNumber = parseInt(req.params.accountNumber, 10);
+  static getAllTransactionsSpecificAccount(req, res) {
+    const accountNumber = parseInt(req.params.accountNumber, 10);// get user account number for params
 
-    // no account number
-    if (!accountNumber) return res.status(400).json({ status: 400, error: 'No id found' });
+    middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
+      model.fetchAllTransactionsForSpecificAccount(validAccountNumber, ({ success, data }) => {
+        // server error
+        if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
 
-    // call model
-    model.fetchAllTransactions(accountNumber, ({ success, data }) => {
-      // server error
-      if (!success) return res.status(500).json({ status: 500, error: 'Server Errorr' });
-      // if the data is empty
-      // no transaction found
-      if (data.length === 0) return res.status(404).json({ status: 404, error: `No transaction found` });
+        if (data.length === 0) return res.status(404).json({ status: 404, error: `No transaction found` });
 
-      // data found
-      return res.status(200).json({ status: 200, data });
+        // data found
+        return res.status(200).json({ status: 200, data });
+      });
     });
-    return null;
+    return;
   }
 }
-// export controller
-export default account;
+
+export default Account;// export controller
