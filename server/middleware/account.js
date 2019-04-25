@@ -10,15 +10,10 @@ class Account {
         .valid('current', 'savings')
         .min(7)
         .required()
-        .label('Account type should be savings or current'),
-      ownerEmail: Joi.string()
-        .email({ minDomainAtoms: 2 })
-        .required()
-        .label('Enter a valid Email')
+        .label('Account type should be savings or current')
     });
     const request = {
-      type: req.body.type,
-      ownerEmail: req.body.ownerEmail.trim().replace(/\s+/g, '').toLowerCase()
+      type: req.body.type
     };
     
     // validate request body
@@ -32,6 +27,7 @@ class Account {
   static checkAccountStatus(req, accountNumber, completion) {
     const schema = Joi.object().keys({
       accountNumber: Joi.number()
+        .min(100)
         .required()
         .label('No Account Number Found'),
       status: Joi.string()
@@ -56,21 +52,17 @@ class Account {
   static debitCreditVerve(req, accountNumber, completion) {
     const schema = Joi.object().keys({
       accountNumber: Joi.number()
+        .min(100)
         .required()
         .label('No Account Number Found'),
       amount: Joi.number()
         .min(1)
         .required()
-        .label('Enter an amount'),
-      cashier: Joi.number()
-        .min(1)
-        .required()
-        .label('Enter your user id')
+        .label('Amount cannot be negative or zero enter an amount'),
     });// create schema
     const request = {
       accountNumber: accountNumber,
-      amount: req.body.amount.trim().replace(/\s+/g, ''),
-      cashier: req.body.cashier.trim().replace(/\s+/g, '')
+      amount: req.body.amount
     };
     const { error } = Joi.validate(request, schema);// validate request body
     completion(error, request);
@@ -81,6 +73,7 @@ class Account {
   static checkAccountNumber(accountNumber, completion) {
     const schema = Joi.object().keys({
       accountNumber: Joi.number()
+        .min(100)
         .required()
         .label('No Account Number Found')
     });

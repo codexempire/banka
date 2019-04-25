@@ -17,11 +17,11 @@ const startApp = () => {
   const btn = document.getElementById("login");
   const butn = document.getElementById("signup");
 
-  if (btn) {
+  /*if (btn) {
     btn.onclick = () => {
       location.replace("profile.html");
     };
-  }
+  }*/
   if (butn) {
     butn.onclick = () => {
       location.replace("./admin/dashboard.html");

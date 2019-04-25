@@ -27,12 +27,10 @@ class Transactions{
         const accountBalance = parseFloat(data.balance - amount, 10);
 
         // debit account model
-        model.debitCreditAccount(data, data.balance, request, amount, transactionType, accountBalance, ({ pass, info }) => {
-          // server error
-          if(!pass) return res.status(500).json({ status: 500, error: info.message });
+        model.debitCreditAccount(accountBalance, data, accountNumber, req.data.id, data.balance, amount, transactionType, ({ pass, info }) => {
+          if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
 
-          // server error
-          if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });
+          if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });// server error
 
           // respond with the transaction details
           return res.status(200).json({ status: 200, data: info });
@@ -60,7 +58,7 @@ class Transactions{
 
         const accountBalance = parseFloat(data.balance + amount, 10);
 
-        model.debitCreditAccount(data, data.balance, request, amount, transactionType, accountBalance, ({ pass, info }) => {
+        model.debitCreditAccount(accountBalance, data, accountNumber, req.data.id, data.balance, amount, transactionType, ({ pass, info }) => {
           if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
 
           if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });// server error
@@ -77,16 +75,17 @@ class Transactions{
   static getSingleTransaction(req, res) {
     const id = parseInt(req.params.id, 10);
     // check if there is an id
-    if (!id) return res.status(400).json({ status: 400, error: 'No id found in the requset parameter' });
+    if (!id || id<0) return res.status(400).json({ status: 400, error: 'No id found in the request parameter' });
     
     // call the model
-    model.getOneTransaction(id, ({ success, data }) => {
+    model.getSingleTransaction(id, ({ success, data }) => {
+      console.log(success + ''+ data);
       if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
 
-      if (success && !data) return res.status(404).json({ status: 404, error: 'Transaction not found' });
-
+      if (success && !data) return res.status(404).json({ status: 404, error: 'Transaction not found' }); console.log(data[0].owner);
+      if (req.data.type !== 'staff' && req.data.id !== data[0].owner) return res.status(403).json({ status: 403, error: 'Forbidden' });
       // success
-      return res.status(200).json({ status: 200, data });
+      return res.status(200).json({ status: 200, data: data[0] });
     });
     return;
   }

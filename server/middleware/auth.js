@@ -18,7 +18,7 @@ class authentication{
       if (err) {
         return res.status(401).json({ status: 401, error: 'Token expired' });
       }
-
+      req.data = _.data;
       // token is valid
       next();
       return null;
@@ -35,7 +35,6 @@ class authentication{
     if (!token || token === '') {
       return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
     }
-
     // check if token is valid token
     jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
       if (err) {
@@ -43,7 +42,8 @@ class authentication{
       }
 
       // token is valid
-      if(decoded.data.type === 'staff' || decoded.data.isadmin){
+      if (decoded.data.type === 'staff' || decoded.data.isadmin) {
+        req.data = decoded.data;
         next();
         return null;
       }
@@ -71,6 +71,7 @@ class authentication{
 
       // token is valid
       if (decoded.data.isadmin) {
+        req.data = decoded.data;
         next();
         return null;
       }

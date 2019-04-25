@@ -11,11 +11,12 @@ class Account {
       const accountNumber = Math.floor(Math.random() * 899999999 + 100000000);
       const status = 'active';
       const balance = parseFloat(0);
+      const owner = req.data.id;
       
-      model.createUserAccount(request, status, balance, accountNumber, ({ success, data }) => {
+      model.createUserAccount(request, owner, status, balance, accountNumber, ({ success, data }) => {
         if (!success) return res.status(500).json({ status: 500, error: data.message });// server error
 
-        return res.status(201).json({ status: 201, data: data });// return the user data
+        return res.status(201).json({ status: 201, data: data[0] });// return the user data
       });
     });
     return;
@@ -26,13 +27,13 @@ class Account {
     const accountNumber = parseInt(req.params.accountNumber, 10);// collect account number from header
     middleware.checkAccountStatus(req, accountNumber, (error, request) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });// check for error
-
+      
       model.getSingleUserAccount(request.accountNumber, ({ success, data }) => {
         if (!data) return res.status(404).json({ status: 404, error: data.message });
-
+        
         // call the activate or deactivate users account
-        model.activateDeactivateAccount(data, request.status, ({ pass, info }) => {
-          if (!data) return res.status(500).json({ status: 500, error: info.message });// check if it failed
+        model.activateDeactivateAccount(request.accountNumber, request.status, ({ pass, info }) => {
+          if (!pass) return res.status(500).json({ status: 500, error: info.message });// check if it failed
 
           return res.status(200).json({ status: 200, data: info });// if successful
         });
@@ -51,9 +52,9 @@ class Account {
       model.getSingleUserAccount(validAccountNumber, ({ success, data }) => {
         if (!data) return res.status(404).json({ status: 404, error: data.message });// account not found
         
-        model.deleteAccount(data, ({ pass, info }) => {
+        model.deleteAccount(validAccountNumber, ({ pass, info }) => {
           if (!pass) return res.status(500).json({ status: 500, error: 'Server Error' });
-
+          
           return res.status(200).json({ status: 200, message: info.message });
         });
       });
@@ -69,7 +70,7 @@ class Account {
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
 
-      model.getSingleAccount(validAccountNumber, ({ success, data }) => {
+      model.getSingleUserAccount(validAccountNumber, ({ success, data }) => {
         // account not found
         if (success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
 
