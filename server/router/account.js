@@ -14,23 +14,23 @@ route
 
 // activation and deactivation of account route
 route
-  .patch('/:accountNumber', authentication.isStaff, account.activateDeactivate);
+  .patch('/:accountNumber', authentication.isStaff, account.activateDeactivateAccount);
 
 // delete account route
 route
-  .delete('/:accountNumber', authentication.isStaff, account.delete);
+  .delete('/:accountNumber', authentication.isStaff, account.deleteAccount);
 
 // get single account details
 route
-  .get('/:accountNumber', authentication.isUser, account.getSingleAccount);
+  .get('/:accountNumber', authentication.isUser, account.getSingleUserAccount);
 
 // get single account details
 route
-  .get('/', authentication.isStaff, account.getAllAccount);
+  .get('/', authentication.isStaff, account.getAllAccounts);
 
 // get all transactions for a single user
 route
-  .get('/:accountNumber/transactions', authentication.isUser, account.getAllTransactionsSpecific);
+  .get('/:accountNumber/transactions', authentication.isUser, account.getAllTransactionsSpecificAccount);
 
 // export route
 export default route;

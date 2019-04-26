@@ -1,38 +1,35 @@
 // import dependencies
 import Joi from 'joi';
 
-// import files
 // account middleware
-class account {
+class Account {
   // validate account creation input fields
-  static verifyAccountCreation(req, completion) {
-    // create schema
+  static verifyAccountCreationData(req, completion) {
     const schema = Joi.object().keys({
       type: Joi.string() 
         .valid('current', 'savings')
         .min(7)
         .required()
-        .label('Account type should be savings or current'),
-      ownerEmail: Joi.string()
-        .email({ minDomainAtoms: 2 })
-        .required()
-        .label('Enter a valid Email')
+        .label('Account type should be savings or current')
     });
     const request = {
-      type: req.body.type,
-      ownerEmail: req.body.ownerEmail
+      type: req.body.type
     };
     
     // validate request body
     const { error } = Joi.validate(request, schema);
 
-    completion(error);
+    completion(error, request);
+    return;
   }
 
   // change account status middleware
-  static checkAccount(req, completion) {
-    // create schema
+  static checkAccountStatus(req, accountNumber, completion) {
     const schema = Joi.object().keys({
+      accountNumber: Joi.number()
+        .min(100)
+        .required()
+        .label('No Account Number Found'),
       status: Joi.string()
         .valid('active', 'dormant')
         .min(5)
@@ -40,38 +37,56 @@ class account {
         .label('Account status should be active or  dormant')
     });
     const request = {
-      status: req.body.status
+      accountNumber: accountNumber,
+      status: req.body.status.toLowerCase().trim().replace(/\s+/g, '')
     };
 
     // validate request body
     const { error } = Joi.validate(request, schema);
 
-    completion(error);
+    completion(error, request);
+    return;
   }
 
   // debit account status middleware
-  static debitCreditVerve(req, completion) {
-    // create schema
+  static debitCreditVerve(req, accountNumber, completion) {
     const schema = Joi.object().keys({
+      accountNumber: Joi.number()
+        .min(100)
+        .required()
+        .label('No Account Number Found'),
       amount: Joi.number()
         .min(1)
         .required()
-        .label('Enter an amount'),
-      cashier: Joi.number()
-        .min(1)
+        .label('Amount cannot be negative or zero enter an amount'),
+    });// create schema
+    const request = {
+      accountNumber: accountNumber,
+      amount: req.body.amount
+    };
+    const { error } = Joi.validate(request, schema);// validate request body
+    completion(error, request);
+    return;
+  }
+
+  // checking for the account number in the parameters for the delete route
+  static checkAccountNumber(accountNumber, completion) {
+    const schema = Joi.object().keys({
+      accountNumber: Joi.number()
+        .min(100)
         .required()
-        .label('Enter your user id')
+        .label('No Account Number Found')
     });
     const request = {
-      amount: req.body.amount,
-      cashier: req.body.cashier
+      accountNumber: accountNumber
     };
 
     // validate request body
     const { error } = Joi.validate(request, schema);
 
-    completion(error);
+    completion(error, request.accountNumber);
+    return;
   }
 }
 // export middleware
-export default account;
+export default Account;

@@ -24,6 +24,7 @@ Banka uses a number of open source dependencies to work properly:
 * [Body-parser] - This body-parser module parses the JSON, buffer, string and URL encoded data submitted using HTTP POST request.
 * [Joi] - uses schemas to define validation rules and constraints for data.
 * [node.js] - evented I/O for the backend
+* [bcrypt] - This encrypt the users Password for security
 
 ### Installation
 Banka requires Node.js v10+ to run.

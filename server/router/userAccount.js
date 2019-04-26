@@ -10,7 +10,7 @@ const route = Router();
 
 // signup route
 route
- .get('/:userEmailAddress/accounts', authentication.isUser, user.getAll);
+ .get('/:userEmailAddress/accounts', authentication.isUser, user.getAllSpecificUserAccounts);
 
 // export route
 export default route;

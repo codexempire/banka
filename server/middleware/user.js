@@ -34,18 +34,18 @@ class user {
       isAdmin: Joi.string()
     });
     const request = {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      password: req.body.password,
-      type: req.body.type,
+      firstname: req.body.firstname.trim().replace(/\s+/g, ''),
+      lastname: req.body.lastname.trim().replace(/\s+/g, ''),
+      email: req.body.email.trim().replace(/\s+/g, '').toLowerCase(),
+      password: req.body.password.trim().replace(/\s+/g, ''),
+      type: req.body.type.trim().replace(/\s+/g, ''),
       isAdmin: req.body.isAdmin
     };
 
     // validate
     const { error } = Joi.validate(request, schema);
 
-    completion(error);
+    completion(error, request);
   }
 
   // creating validator
@@ -81,18 +81,18 @@ class user {
         .label("Identify if staff is an Admin or not")
     });
     const request = {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      password: req.body.password,
-      type: req.body.type,
+      firstname: req.body.firstname.trim().replace(/\s+/g, ''),
+      lastname: req.body.lastname.trim().replace(/\s+/g, ''),
+      email: req.body.email.trim().replace(/\s+/g, '').toLowerCase(),
+      password: req.body.password.trim().replace(/\s+/g, ''),
+      type: req.body.type.trim().replace(/\s+/g, ''),
       isAdmin: req.body.isAdmin
     };
 
     // validate
     const { error } = Joi.validate(request, schema);
 
-    completion(error);
+    completion(error, request);
   }
 
   // create signin middleware
@@ -110,15 +110,15 @@ class user {
         .label('Enter a password of not less than 8 characters')
     });
     const request = {
-      email: req.body.email,
-      password: req.body.password
+      email: req.body.email.trim().replace(/\s+/g, '').toLowerCase(),
+      password: req.body.password.trim().replace(/\s+/g, '')
     };
 
     // validate fields
     const { error } = Joi.validate(request, schema);
 
     // return validation
-    completion(error);
+    completion(error, request);
   }
 
   // create get accounts for user middleware
@@ -129,13 +129,13 @@ class user {
         .email({ minDomainAtoms: 2 })
         .required()
     });
-    const request = { email };
+    const request = { email: email.toLowerCase().trim().replace(/\s+/g, '') };
 
     // validate fields
     const { error } = Joi.validate(request, schema);
 
     // return validation
-    completion(error);
+    completion(error, request);
   }
 }
 // export middleware
