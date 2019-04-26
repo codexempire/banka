@@ -85,6 +85,7 @@ class Account {
     let status = req.query.status;
     if (status) {
       status = status.toLowerCase();
+      if (status !== 'active' && status !== 'dormant') return res.status(400).json({ status: 400, error: 'Accounts can either be active or dormant' });
       model.getActiveDormantAccounts(status, ({ success, data }) => {
         if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
         // if no active account found

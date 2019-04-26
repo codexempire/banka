@@ -281,6 +281,89 @@ describe('staffs should be able to get all accounts', () => {
  });
 });
 
+describe('staffs should be able to get all accounts', () => {
+ it('should return 200 if account found', (done) => {
+  chai.request(app)
+   .get(`/api/v1/accounts`)
+   .set('x-access-token', process.env.TEST_TOKEN)
+   .end((err, res) => {
+    res.should.have.status(200);
+    res.body.should.have.property('data');
+    res.body.data[0].should.have.property('accountnumber');
+    done();
+   });
+ });
+ it('should return 403 if no token', (done) => {
+  chai.request(app)
+   .get(`/api/v1/accounts`)
+   .end((err, res) => {
+    res.should.have.status(403);
+    res.body.should.have.property('error');
+    done();
+   });
+ });
+});
+
+describe('staffs should be able to get all active accounts', () => {
+ it('should return 200 if account found', (done) => {
+  chai.request(app)
+   .get(`/api/v1/accounts?status=active`)
+   .set('x-access-token', process.env.TEST_TOKEN)
+   .end((err, res) => {
+    res.should.have.status(200);
+    res.body.should.have.property('data');
+    res.body.data[0].should.have.property('accountnumber');
+    done();
+   });
+ });
+ it('should return 400 if status is not valid', (done) => {
+  chai.request(app)
+   .get(`/api/v1/accounts?status=great`)
+   .set('x-access-token', process.env.TEST_TOKEN)
+   .end((err, res) => {
+    res.should.have.status(400);
+    res.body.should.have.property('error');
+    done();
+   });
+ });
+});
+
+describe('staffs should be able to get all dormant accounts', () => {
+  it('should return 200 if successful', (done) => {
+    completeData.status = 'dormant';
+    chai.request(app)
+      .patch(`/api/v1/accounts/${accountNumber}`)
+      .set('x-access-token', process.env.TEST_TOKEN)
+      .send(completeData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('data');
+        done();
+      });
+  });
+ it('should return 200 if account found', (done) => {
+  chai.request(app)
+   .get(`/api/v1/accounts?status=dormant`)
+   .set('x-access-token', process.env.TEST_TOKEN)
+   .end((err, res) => {
+    res.should.have.status(200);
+    res.body.should.have.property('data');
+    res.body.data[0].should.have.property('accountnumber');
+    done();
+   });
+ });
+ it('should return 400 if status is not valid', (done) => {
+  chai.request(app)
+   .get(`/api/v1/accounts?status=great`)
+   .set('x-access-token', process.env.TEST_TOKEN)
+   .end((err, res) => {
+    res.should.have.status(400);
+    res.body.should.have.property('error');
+    done();
+   });
+ });
+});
+
 describe('delete account route', () => {
  it('should respond with 200 status if deleted', (done) => {
   chai.request(app)
