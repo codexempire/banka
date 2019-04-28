@@ -8,7 +8,6 @@
       "email": "princewillifeanyi1999@gmail.com"
     }
   },
-  "host": "https://banka-pro-app.herokuapp.com",
   "tags": [
     {
       "name": "User",
@@ -24,7 +23,8 @@
     }
   ],
   "schemes": [
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/api/v1/auth/signup": {
@@ -331,7 +331,6 @@
         "description": "",
         "operationId": "getSingleAccount",
         "consumes": [
-<<<<<<< HEAD
           "application/json"
         ],
         "produces": [
@@ -382,10 +381,6 @@
         "consumes": [
           "application/json"
         ],
-=======
-          "application/json"
-        ],
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "produces": [
           "application/json"
         ],
@@ -402,23 +397,14 @@
           {
             "name": "accountNumber",
             "in": "path",
-<<<<<<< HEAD
             "description": "The account number of the account been whose status is being changed ",
-=======
-            "description": "The account number of the account been searched for ",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-<<<<<<< HEAD
           "200": {
             "description": "Account status success fully changed on MyBanka",
-=======
-          "201": {
-            "description": "User bank account created on MyBanka",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "schema": {
               "$ref": "#/definitions/ApiAccResponses"
             }
@@ -442,7 +428,6 @@
           }
         ]
       },
-<<<<<<< HEAD
       "delete": {
         "tags": [
           "Accounts"
@@ -450,15 +435,6 @@
         "summary": "Delete single user account details in MyBanka",
         "description": "",
         "operationId": "deleteAccount",
-=======
-      "patch": {
-        "tags": [
-          "Accounts"
-        ],
-        "summary": "Get a single users account details in MyBanka",
-        "description": "",
-        "operationId": "activateDeactivateAccount",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "consumes": [
           "application/json"
         ],
@@ -467,37 +443,18 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Change the status of user account",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          },
-          {
             "name": "accountNumber",
             "in": "path",
-<<<<<<< HEAD
             "description": "The account number of the account been deleted ",
-=======
-            "description": "The account number of the account been whose status is being changed ",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
             "description": "Account successfully deleted on MyBanka",
             "schema": {
               "$ref": "#/definitions/deleteResponse"
-=======
-            "description": "Account status success fully changed on MyBanka",
-            "schema": {
-              "$ref": "#/definitions/ApiAccResponses"
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             }
           },
           "400": {
@@ -518,7 +475,6 @@
             "api_key": []
           }
         ]
-<<<<<<< HEAD
       }
     },
     "/api/v1/accounts/{accountNumber}/transactions": {
@@ -529,16 +485,6 @@
         "summary": "Get all transactions done in an account on MyBanka",
         "description": "",
         "operationId": "getAllAccountTransactions",
-=======
-      },
-      "delete": {
-        "tags": [
-          "Accounts"
-        ],
-        "summary": "Delete single user account details in MyBanka",
-        "description": "",
-        "operationId": "deleteAccount",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "consumes": [
           "application/json"
         ],
@@ -549,26 +495,16 @@
           {
             "name": "accountNumber",
             "in": "path",
-<<<<<<< HEAD
             "description": "The account number of the account been whose status is being changed ",
-=======
-            "description": "The account number of the account been deleted ",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
             "description": "Transactions made in on MyBanka",
             "schema": {
               "$ref": "#/definitions/ApiTransactionResponse"
-=======
-            "description": "Account successfully deleted on MyBanka",
-            "schema": {
-              "$ref": "#/definitions/deleteResponse"
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             }
           },
           "400": {
@@ -591,7 +527,6 @@
         ]
       }
     },
-<<<<<<< HEAD
     "/api/v1/transactions/{accountNumber}/credit": {
       "post": {
         "tags": [
@@ -600,16 +535,6 @@
         "summary": "Credit users account on MyBanka",
         "description": "",
         "operationId": "creditAccount",
-=======
-    "/api/v1/accounts/{accountNumber}/transactions": {
-      "get": {
-        "tags": [
-          "Accounts"
-        ],
-        "summary": "Get all transactions done in an account on MyBanka",
-        "description": "",
-        "operationId": "getAllAccountTransactions",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "consumes": [
           "application/json"
         ],
@@ -636,11 +561,7 @@
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
             "description": "User bank account credited on MyBanka",
-=======
-            "description": "Transactions made in on MyBanka",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "schema": {
               "$ref": "#/definitions/ApiTransactionResponse"
             }
@@ -665,24 +586,14 @@
         ]
       }
     },
-<<<<<<< HEAD
     "/api/v1/transactions/{accountNumber}/debit": {
-=======
-    "/api/v1/transactions/{accountNumber}/credit": {
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
       "post": {
         "tags": [
           "Transactions"
         ],
-<<<<<<< HEAD
         "summary": "Debit users account on MyBanka",
         "description": "",
         "operationId": "debitAccount",
-=======
-        "summary": "Credit users account on MyBanka",
-        "description": "",
-        "operationId": "creditAccount",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "consumes": [
           "application/json"
         ],
@@ -709,11 +620,7 @@
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
             "description": "User bank account debited on MyBanka",
-=======
-            "description": "User bank account credited on MyBanka",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "schema": {
               "$ref": "#/definitions/ApiTransactionResponse"
             }
@@ -738,7 +645,6 @@
         ]
       }
     },
-<<<<<<< HEAD
     "/api/v1/transactions/{id}": {
       "get": {
         "tags": [
@@ -747,16 +653,6 @@
         "summary": "Get single transaction of user account on MyBanka",
         "description": "",
         "operationId": "getSingleAccountTransaction",
-=======
-    "/api/v1/transactions/{accountNumber}/debit": {
-      "post": {
-        "tags": [
-          "Transactions"
-        ],
-        "summary": "Debit users account on MyBanka",
-        "description": "",
-        "operationId": "debitAccount",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "consumes": [
           "application/json"
         ],
@@ -765,35 +661,16 @@
         ],
         "parameters": [
           {
-<<<<<<< HEAD
             "name": "id",
             "in": "path",
             "description": "The id of the tansactions be searched for",
-=======
-            "in": "body",
-            "name": "body",
-            "description": "Information account transaction made",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Info"
-            }
-          },
-          {
-            "name": "accountNumber",
-            "in": "path",
-            "description": "The account number of the account been whose status is being changed ",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
             "description": "User bank account transaction on MyBanka",
-=======
-            "description": "User bank account debited on MyBanka",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
             "schema": {
               "$ref": "#/definitions/ApiTransactionResponse"
             }
@@ -818,24 +695,14 @@
         ]
       }
     },
-<<<<<<< HEAD
     "/api/v1/transactions": {
-=======
-    "/api/v1/transactions/{id}": {
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
       "get": {
         "tags": [
           "Transactions"
         ],
-<<<<<<< HEAD
         "summary": "Get all transactions done on MyBanka",
         "description": "",
         "operationId": "getAllTransactions",
-=======
-        "summary": "Get single transaction of user account on MyBanka",
-        "description": "",
-        "operationId": "getSingleAccountTransaction",
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         "consumes": [
           "application/json"
         ],
@@ -844,7 +711,6 @@
         ],
         "parameters": [
           {
-<<<<<<< HEAD
             "in": "body",
             "name": "body",
             "description": "Information transactions made",
@@ -852,18 +718,10 @@
             "schema": {
               "$ref": "#/definitions/Info"
             }
-=======
-            "name": "id",
-            "in": "path",
-            "description": "The id of the tansactions be searched for",
-            "required": true,
-            "type": "string"
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
           }
         ],
         "responses": {
           "200": {
-<<<<<<< HEAD
             "description": "Transactions made on MyBanka",
             "schema": {
               "$ref": "#/definitions/ApiSingleResponse"
@@ -881,68 +739,6 @@
               "$ref": "#/definitions/BadResponse"
             }
           }
-=======
-            "description": "User bank account transaction on MyBanka",
-            "schema": {
-              "$ref": "#/definitions/ApiTransactionResponse"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/BadResponse"
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "schema": {
-              "$ref": "#/definitions/BadResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
-      }
-    },
-    "/api/v1/transactions": {
-      "get": {
-        "tags": [
-          "Transactions"
-        ],
-        "summary": "Get all transactions done on MyBanka",
-        "description": "",
-        "operationId": "getAllTransactions",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Information transactions made",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Info"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transactions made on MyBanka"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Server error"
-          }
->>>>>>> 836bbad68f4fe4b04f5a7d97d3d769a6db655a87
         },
         "security": [
           {
