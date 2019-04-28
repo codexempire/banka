@@ -8,7 +8,6 @@
       "email": "princewillifeanyi1999@gmail.com"
     }
   },
-  "host": "https://banka-pro-app.herokuapp.com",
   "tags": [
     {
       "name": "User",
@@ -24,7 +23,8 @@
     }
   ],
   "schemes": [
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/api/v1/auth/signup": {
