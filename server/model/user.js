@@ -4,8 +4,8 @@ import pool from './db';
 // create middleware class
 class user {
   // creating validator
-  static signup(data, result, isAdmin, completion) {
-    const text = `INSERT INTO users(firstname,lastname,email,password,type,isAdmin) VALUES ('${data.firstname}', '${data.lastname}', '${data.email}', '${result}', '${data.type}', ${isAdmin}) RETURNING firstname, lastname, email, type, isAdmin`;
+  static signup(data, type, result, isAdmin, completion) {
+    const text = `INSERT INTO users(firstname,lastname,email,password,type,isAdmin) VALUES ('${data.firstname}', '${data.lastname}', '${data.email}', '${result}', '${type}', ${isAdmin}) RETURNING firstname, lastname, email, type, isAdmin`;
 
     pool
       .query(text)
