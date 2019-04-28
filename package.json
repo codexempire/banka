@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist",
-    "build": "npm run clean && npm run migrations && babel server -d dist && cp ./server/swagger.json ./dist/swagger.json",
+    "build": "npm run clean && npm run drop-migrations && npm run migrations && babel server -d dist && cp ./server/swagger.json ./dist/swagger.json",
     "clean": "rm -rf dist",
     "heroku-postbuild": "npm run build",
     "dev": "npx cross-env NODE_ENV=development&& nodemon --exec babel-node ./server/index.js",
