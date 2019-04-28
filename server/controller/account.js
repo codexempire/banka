@@ -28,8 +28,8 @@ class Account {
     middleware.checkAccountStatus(req, accountNumber, (error, request) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });// check for error
       
-      model.getSingleUserAccount(request.accountNumber, ({ success, data }) => {
-        if (!data) return res.status(404).json({ status: 404, error: data.message });
+      model.getSingleUserAccount(request.accountNumber, ({ passed, datar }) => {
+        if (passed && !datar) return res.status(404).json({ status: 404, error: data.message });
         
         // call the activate or deactivate users account
         model.activateDeactivateAccount(request.accountNumber, request.status, ({ pass, info }) => {
@@ -49,8 +49,8 @@ class Account {
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
 
-      model.getSingleUserAccount(validAccountNumber, ({ success, data }) => {
-        if (!data) return res.status(404).json({ status: 404, error: data.message });// account not found
+      model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
+        if (!datar) return res.status(404).json({ status: 404, error: 'Account does not Exist' });// account not found
         
         model.deleteAccount(validAccountNumber, ({ pass, info }) => {
           if (!pass) return res.status(500).json({ status: 500, error: 'Server Error' });
@@ -70,11 +70,14 @@ class Account {
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
 
-      model.getSingleUserAccount(validAccountNumber, ({ success, data }) => {
+      model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
+        if (passed && datar) {
+          if (req.data.type !== 'staff' || req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });
+        }
         // account not found
-        if (success && !data) return res.status(404).json({ status: 404, error: 'Account not found' });
+        if (passed && !datar) return res.status(404).json({ status: 404, error: 'Account not found' });
 
-        return res.status(200).json({ status: 200, data });
+        return res.status(200).json({ status: 200, data: datar });
       });
     });
     return;
@@ -110,14 +113,19 @@ class Account {
 
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
-      model.fetchAllTransactionsForSpecificAccount(validAccountNumber, ({ success, data }) => {
-        // server error
-        if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
+      model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
+        if (passed && datar) {
+          if (req.data.type !== 'staff' || req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });
+        }
+        model.fetchAllTransactionsForSpecificAccount(validAccountNumber, ({ success, data }) => {
+          // server error
+          if (!success) return res.status(500).json({ status: 500, error: 'Server Error' });
 
-        if (data.length === 0) return res.status(404).json({ status: 404, error: `No transaction found` });
+          if (data.length === 0) return res.status(200).json({ status: 200, data, message: 'No transaction found for this account' });
 
-        // data found
-        return res.status(200).json({ status: 200, data });
+          // data found
+          return res.status(200).json({ status: 200, data });
+        });
       });
     });
     return;
