@@ -12,7 +12,7 @@ class Transactions{
       // check for error
       if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
 
-      const amount = parseFloat(request.amount, 10);
+      const amount = parseFloat(request.amount);
       const transactionType = 'debit';
 
       // get account details
@@ -30,7 +30,6 @@ class Transactions{
           if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
 
           if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });// server error
-
           // respond with the transaction details
           return res.status(200).json({ status: 200, data: info[0] });
         });
