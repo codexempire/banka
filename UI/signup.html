@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/my_styles.css">
+    <link rel="stylesheet" href="./css/data.css">
+    <link rel="stylesheet" href="./css/icofonts/icofont.min.css">
+    <script src="../serverJs/loginSignup.js"></script>
     <title>Banka signup</title>
 </head>
 
@@ -23,13 +26,14 @@
             <div class="form-card">
                 <h3>SIGNUP</h3>
                 <form>
+                    <div class="alert"></div>
                     <label>Firstname</label>
                     <div class="form-group">
                         <input type="text" class="form-control" id="firstName">
                     </div>
                     <label>Lastname</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="lastNam">
+                        <input type="text" class="form-control" id="lastName">
                     </div>
                     <label>Email</label>
                     <div class="form-group">
@@ -40,7 +44,7 @@
                         <input type="password" class="form-control" id="password">
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-green" id="signup">Create</button>
+                        <button type="button" class="btn btn-green" id="signup" onclick="">Create</button>
                     </div>
                 </form>
                 <p class="tip">Already registered <a href="login.html">Log in</a></p>
@@ -50,6 +54,15 @@
         Copyright &copy 2019<br> Made by Princewill Michael
     </footer>
     <script src="./js/mine.js"></script>
+    <script src="../serverJs/middleware.js"></script>
+    <script src="../serverJs/loginSignup.js"></script>
+    <script>
+        const signup = new LoginSignup();
+        document.querySelector('#signup').onclick = () =>{
+            console.log(document.querySelector('#firstName').value);
+            signup.signup();
+        }
+    </script>
 </body>
 
 </html>

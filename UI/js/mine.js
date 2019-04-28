@@ -22,11 +22,11 @@ const startApp = () => {
       location.replace("profile.html");
     };
   }*/
-  if (butn) {
-    butn.onclick = () => {
-      location.replace("./admin/dashboard.html");
-    };
-  }
+  // if (butn) {
+  //   butn.onclick = () => {
+  //     location.replace("./admin/dashboard.html");
+  //   };
+  // }
   if (timer) {
     time(timer);
     const create = document.getElementById("create");
