@@ -13,8 +13,7 @@ const completeData = {
  firstname: 'Martins',
  lastname: 'Williams',
  email: 'martinswilliams@email.com',
- password: 'newman00',
- type: 'user'
+ password: 'newman00'
 };
 const incompleteData = {
  firstname: 'Martins',
@@ -39,14 +38,16 @@ describe('users signup route', () => {
   chai.request(app)
    .post('/api/v1/auth/signup')
    .send(completeData)
-   .end((err, res) => {
-    res.should.have.status(201);
-    res.body.should.have.property('data');
-    res.body.data.should.have.property('token');
-    res.body.data.should.have.property('data');
-    res.body.data.data.firstname.should.eql('Martins');
-    done();
-   });
+    .end((err, res) => {
+      token = res.body.data.token.value;
+      console.log(token);
+      res.should.have.status(201);
+      res.body.should.have.property('data');
+      res.body.data.should.have.property('token');
+      res.body.data.should.have.property('data');
+      res.body.data.data.firstname.should.eql('Martins');
+      done();
+    });
  });
  it('should return 409 if user exists', (done) => {
   chai.request(app)
@@ -123,14 +124,18 @@ describe('staff signup route', () => {
  });
  it('should return 201 if successful', (done) => {
   completeData.email = 'martinbe00st@email.com';
-  completeData.type = 'staff';
-  completeData.isAdmin = 'true'
+  completeData.isAdmin = 'true';
   chai.request(app)
    .post('/api/v1/auth/signup/staff')
    .set('x-access-token', process.env.TEST_TOKEN)
-   .send(completeData)
+    .send({
+      firstname: 'Martins',
+      lastname: 'Williams',
+      email: 'martinswilliams00@email.com',
+      password: 'newman00',
+      isAdmin: 'true'
+    })
    .end((err, res) => {
-    token = res.body.data.token.value;
     email = res.body.data.data.email.value;
     res.should.have.status(201);
     res.body.should.have.property('data');
@@ -141,10 +146,15 @@ describe('staff signup route', () => {
    });
  });
  it('should return 409 if staff exists', (done) => {
-  completeData.email = 'martinswilliams@email.com';
   chai.request(app)
    .post('/api/v1/auth/signup/staff')
-   .send(completeData)
+    .send({
+      firstname: 'Martins',
+      lastname: 'Williams',
+      email: 'martinswilliams@email.com',
+      password: 'newman00',
+      isAdmin: 'true'
+    })
    .set('x-access-token', process.env.TEST_TOKEN)
    .end((err, res) => {
     res.should.have.status(409);

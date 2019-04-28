@@ -10,13 +10,13 @@ class authentication{
 
     // check if there is a token
     if (!token || token === '') {
-      return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
+      return res.status(403).json({ status: 403, error: 'Unauthorized Access token not found' });
     }
 
     // check if token is valid token
     jwt.verify(token, process.env.TOKEN_KEY, (err, _) => {
       if (err) {
-        return res.status(401).json({ status: 401, error: 'Token expired' });
+        return res.status(401).json({ status: 401, error: 'Token not valid' });
       }
       req.data = _.data;
       // token is valid
@@ -33,12 +33,12 @@ class authentication{
 
     // check if there is a token
     if (!token || token === '') {
-      return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
+      return res.status(403).json({ status: 403, error: 'Unauthorized Access token not found' });
     }
     // check if token is valid token
     jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
       if (err) {
-        return res.status(401).json({ status: 401, error: 'Token expired' });
+        return res.status(401).json({ status: 401, error: 'Token not valid' });
       }
 
       // token is valid
@@ -48,7 +48,7 @@ class authentication{
         return null;
       }
       
-      return res.status(401).json({ status: 401, error: 'Restricted Access' });
+      return res.status(401).json({ status: 401, error: 'Restricted Access page not accessible by user' });
     });
     return null;
   }
@@ -60,13 +60,13 @@ class authentication{
 
     // check if there is a token
     if (!token || token === '') {
-      return res.status(403).json({ status: 403, error: 'Unauthorized Access' });
+      return res.status(403).json({ status: 403, error: 'Unauthorized Access token not found' });
     }
 
     // check if token is valid token
     jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
       if (err) {
-        return res.status(401).json({ status: 401, error: 'Token expired' });
+        return res.status(401).json({ status: 401, error: 'Token not valid' });
       }
 
       // token is valid
@@ -76,7 +76,7 @@ class authentication{
         return null;
       }
 
-      return res.status(401).json({ status: 401, error: 'Restricted Access' });
+      return res.status(401).json({ status: 401, error: 'Restricted Access page not accessible by user' });
     });
     return null;
   }

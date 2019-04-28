@@ -6,11 +6,7 @@ class Account {
   // validate account creation input fields
   static verifyAccountCreationData(req, completion) {
     const schema = Joi.object().keys({
-      type: Joi.string() 
-        .valid('current', 'savings')
-        .min(7)
-        .required()
-        .label('Account type should be savings or current')
+      type: Joi.string().valid('current', 'savings').min(7).required()
     });
     const request = {
       type: req.body.type
@@ -26,15 +22,8 @@ class Account {
   // change account status middleware
   static checkAccountStatus(req, accountNumber, completion) {
     const schema = Joi.object().keys({
-      accountNumber: Joi.number()
-        .min(100)
-        .required()
-        .label('No Account Number Found'),
-      status: Joi.string()
-        .valid('active', 'dormant')
-        .min(5)
-        .required()
-        .label('Account status should be active or  dormant')
+      accountNumber: Joi.number().min(100).required(),
+      status: Joi.string().valid('active', 'dormant').min(5).required()
     });
     const request = {
       accountNumber: accountNumber,
@@ -51,14 +40,8 @@ class Account {
   // debit account status middleware
   static debitCreditVerve(req, accountNumber, completion) {
     const schema = Joi.object().keys({
-      accountNumber: Joi.number()
-        .min(100)
-        .required()
-        .label('No Account Number Found'),
-      amount: Joi.number()
-        .min(1)
-        .required()
-        .label('Amount cannot be negative or zero enter an amount'),
+      accountNumber: Joi.number().min(100).required(),
+      amount: Joi.number().min(1).required()
     });// create schema
     const request = {
       accountNumber: accountNumber,
@@ -72,10 +55,7 @@ class Account {
   // checking for the account number in the parameters for the delete route
   static checkAccountNumber(accountNumber, completion) {
     const schema = Joi.object().keys({
-      accountNumber: Joi.number()
-        .min(100)
-        .required()
-        .label('No Account Number Found')
+      accountNumber: Joi.number().min(100).required()
     });
     const request = {
       accountNumber: accountNumber

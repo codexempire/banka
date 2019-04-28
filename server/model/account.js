@@ -31,10 +31,10 @@ class Account {
 
     query(sql, ({ success, data }) => {
       if(success){
-        completion({ success, data: data[0] });
+        completion({ passed: success, datar: data[0] });
         return;
       }
-      completion({ success, data: new Error('Account not found') });
+      completion({ passed: success, datar: new Error('Account not found') });
       return;
     });
     return;
@@ -76,12 +76,13 @@ class Account {
     const text = `UPDATE accounts SET balance = '${newBalance}' WHERE accountNumber = '${data.accountnumber}'`;
 
 
-    query(sql, ({success,data})=>{
+    query(sql, ({ success, data }) => {
+      let success1 = success;
       let data1 = data;
       if(success){
         query(text, ({ success, data }) => {
           if (success) {
-            completion({ pass: success, info: data1 });
+            completion({ pass: success1, info: data1 });
             return;
           }
           completion({ pass: success, info: data });

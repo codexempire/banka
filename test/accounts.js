@@ -11,7 +11,7 @@ let accountNumber;
 let email;
 const completeData = {
  type: 'savings',
-amount: 20000,
+ amount: 20000,
  status: 'active',
  accountNumber: ''
 };
@@ -133,8 +133,9 @@ describe('users should be able to get all transactions for specific account', ()
    .get(`/api/v1/accounts/${1000}/transactions`)
    .set('x-access-token', process.env.TEST_TOKEN)
    .end((err, res) => {
-    res.should.have.status(404);
-    res.body.should.have.property('error');
+    res.should.have.status(200);
+     res.body.should.have.property('data');
+     res.body.should.have.property('message');
     done();
    });
  });
@@ -198,10 +199,10 @@ describe('staff should be able to credit an account', ()=>{
 });
 
 describe('staff should be able to debit an account', () => {
- it('should return 200 if ebit', (done) => {
+ it('should return 200 if debit', (done) => {
   chai.request(app)
    .post(`/api/v1/transactions/${accountNumber}/debit`)
-   .send({ amount: completeData.amount })
+   .send({ amount: 500 })
    .set('x-access-token', process.env.TEST_TOKEN)
    .end((err, res) => {
     res.body.should.have.status(200);
