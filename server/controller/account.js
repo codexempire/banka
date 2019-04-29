@@ -6,7 +6,7 @@ class Account {
   // account creation controller handle
   static createUserAccount(req, res) {
     middleware.verifyAccountCreationData(req, (error, request) => {
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });// check for error
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message });// check for error
 
       const accountNumber = Math.floor(Math.random() * 899999999 + 100000000);
       const status = 'active';
@@ -26,7 +26,7 @@ class Account {
   static activateDeactivateAccount(req, res) {    
     const accountNumber = parseInt(req.params.accountNumber, 10);// collect account number from header
     middleware.checkAccountStatus(req, accountNumber, (error, request) => {
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });// check for error
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message });// check for error
       
       model.getSingleUserAccount(request.accountNumber, ({ passed, datar }) => {
         if (passed && !datar) return res.status(404).json({ status: 404, error: data.message });
@@ -47,7 +47,7 @@ class Account {
     const accountNumber = parseInt(req.params.accountNumber, 10);
         
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message }); // error
 
       model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
         if (!datar) return res.status(404).json({ status: 404, error: 'Account does not Exist' });// account not found
@@ -68,7 +68,7 @@ class Account {
     const accountNumber = parseInt(req.params.accountNumber, 10);
 
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label }); // error
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message }); // error
 
       model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
         if (passed && datar) {
@@ -112,7 +112,7 @@ class Account {
     const accountNumber = parseInt(req.params.accountNumber, 10);// get user account number for params
 
     middleware.checkAccountNumber(accountNumber, (error, validAccountNumber) => {
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message });
       model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
         if (passed && datar) {
           if (req.data.type !== 'staff' || req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });

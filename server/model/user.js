@@ -5,7 +5,7 @@ import pool from './db';
 class user {
   // creating validator
   static signup(data, type, result, isAdmin, completion) {
-    const text = `INSERT INTO users(firstname,lastname,email,password,type,isAdmin) VALUES ('${data.firstname}', '${data.lastname}', '${data.email}', '${result}', '${type}', ${isAdmin}) RETURNING firstname, lastname, email, type, isAdmin`;
+    const text = `INSERT INTO users(firstname,lastname,email,password,type,isAdmin) VALUES ('${data.firstname}', '${data.lastname}', '${data.email}', '${result}', '${type}', ${isAdmin}) RETURNING *`;
 
     pool
       .query(text)

@@ -25,6 +25,7 @@ class user {
           if (success && data) return res.status(409).json({ status: 409, error: 'Email has been used' });// email has been used          
           model.signup(request, type, result, isAdmin, ({ pass, info }) => {
             if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
+            delete info.password;
             const token = jwt.sign({ data: info }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
             return res.status(201).json({ status: 201, data: { token, data: info } });// successful
           });
