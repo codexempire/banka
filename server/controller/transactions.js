@@ -10,7 +10,7 @@ class Transactions{
    
     middleware.debitCreditVerve(req, accountNumber, (error, request) => {
       // check for error
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message });
 
       const amount = parseFloat(request.amount);
       const transactionType = 'debit';
@@ -20,13 +20,12 @@ class Transactions{
         if (passed && !datar) return res.status(404).json({ status: 404, error: 'Account not found' });
         
         if (datar.status === 'dormant') return res.status(400).json({ status: 400, error: 'Cannot debit a dormant account' });
-        if(datar.balance < amount) return res.status(400).json({ status: 400, error: 'Insufficient Funds' });
+        if (datar.balance < amount) return res.status(400).json({ status: 400, error: 'Insufficient Funds' });
 
         const accountBalance = parseFloat(datar.balance - amount, 10);
 
         // debit account model
         model.debitCreditAccount(accountBalance, datar, accountNumber, req.data.id, datar.balance, amount, transactionType, ({ pass, info }) => {
-          console.log(pass+' '+info.message);
           if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
 
           if (pass && !info) return res.status(501).json({ status: 501, error: 'Transaction Failed' });// server error
@@ -46,7 +45,7 @@ class Transactions{
     // call middleware
     middleware.debitCreditVerve(req, accountNumber, (error, request) => {
       // check for error
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].context.label });
+      if (error) return res.status(400).json({ status: 400, error: error.details[0].message });
 
       const amount = parseFloat(request.amount, 10);
       console.log(typeof amount);
@@ -57,7 +56,6 @@ class Transactions{
         if (passed && !datar) return res.status(404).json({ status: 404, error: 'Account not Found' });
         
         const accountBalance = parseFloat(datar.balance + amount, 10);
-        console.log(accountBalance); console.log(datar.balance);
 
         model.debitCreditAccount(accountBalance, datar, accountNumber, req.data.id, datar.balance, amount, transactionType, ({ pass, info }) => {
           if (!pass) return res.status(500).json({ status: 500, error: info.message });// server error
