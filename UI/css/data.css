@@ -7,3 +7,9 @@
  border-left: 4px solid red;
  border-bottom: 1px solid red;
 }
+.alert-success{
+ color: rgb(29, 167, 36);
+ line-height: 2rem;
+ border-left: 4px solid rgb(51, 255, 0);
+ border-bottom: 1px solid rgb(136, 255, 0);
+}

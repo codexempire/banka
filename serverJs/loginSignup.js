@@ -1,41 +1,48 @@
-class LoginSignup {
+class Signup { 
  constructor() {
   this.firstname = document.querySelector('#firstName');
   this.lastname = document.querySelector('#lastName');
   this.email = document.querySelector('#email');
   this.password = document.querySelector('#password');
   this.box = document.querySelector('.alert');
-  this.endpoint = 'https://banka-pro-app.herokuapp.com';
+  this.btn = document.querySelector('#signup');
  }
  signup() {
-  console.log('works');
+  this.btn.disabled = true;
+  this.btn.style.opacity = '0.5';
+  this.btn.textContent = 'Creating...'
   const error = this.validateFields();
-  console.log(error);
   if (error) {
    this.box.classList.add('alert-danger');
    this.box.innerHTML = `<i class='icofont-error'><i> ${error}`;
+   this.btn.disabled = false;
+   this.btn.style.opacity = '1';
+   this.btn.textContent = 'Create'
    return;
   }
-
+  const endpoint = 'https://banka-pro-app.herokuapp.com';
   const data = {
-   firstname: this.firstname,
-   lastname: this.lastname,
-   email: this.email,
-   password: this.password
+   firstname: this.firstname.value,
+   lastname: this.lastname.value,
+   email: this.email.value,
+   password: this.password.value
   };
-  const method = {
-   method: 'POST', // or 'PUT'
-   body: data, // data can be `string` or {object}!
-   headers: {
+  const options = {
+   method: 'POST',
+   body: JSON.stringify(data),
+   headers: new Headers({
     'Content-Type': 'application/json'
-   }
-  }
-  fetch('https://banka-pro-app.herokuapp.com/api/v1/auth/signup', data, method)
+   })
+  };
+  fetch(`${endpoint}/api/v1/auth/signup`, options)
    .then(response => response.json())
-   .then(data => this.connectUser(data))
+   .then(res => this.connectUser(res))
    .catch(err => {
     this.box.classList.add('alert-danger');
     this.box.innerHTML = `<i class='icofont-error'><i> ${err.message}`;
+    this.btn.disabled = false;
+    this.btn.style.opacity = '1';
+    this.btn.textContent = 'Create';
    });
   return;
  }
@@ -46,12 +53,29 @@ class LoginSignup {
   if (!this.lastname.value) return 'Enter your Lastname';
   if (this.lastname.value.trim().replace(/\s+/g, '').length < 3) return 'Lastname must  have at least 3 alphabets';
   if (!this.email.value) return 'Enter email';
+  // regex used for email validation gotten from stackoverflow
+  // if (!(/.+@[^@]+\.[^@]{2,}$/.test(this.email))) return 'Enter a valid email';
   if (!this.password.value) return 'Enter password';
   if (this.password.value.trim().replace(/\s+/g, '').length < 8) return 'Password should contain at least 8 characters';
   return;
  }
  connectUser(data) {
   console.log(data);
-  data.status === 201 ? this.redirect(data) : this.box.classList.add('alert-danger'); this.box.innerHTML = `<i class='icofont-error'><i> ${data.error || data.msg}`;
+  if (data.status === 201) this.redirect(data);
+  else {
+   this.box.classList.add('alert-danger');
+   this.box.innerHTML = `<i class='icofont-error'><i> ${data.error || data.msg}`;
+   this.btn.disabled = true;
+   this.btn.textContent = 'Create';
+   this.btn.style.opacity = '1';
+  }
+  return;
+ }
+ redirect(data) {
+  this.box.classList.add('alert-success');
+  this.box.innerHTML = `<i class = 'icofont-success'></i> Created User Redirecting...`;
+  localStorage.setItem('user', JSON.stringify(data.data));
+  setTimeout(() => { location.replace('profile.html'); }, 3000);
+  return;
  }
 }

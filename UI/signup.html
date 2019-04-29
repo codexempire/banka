@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="./css/my_styles.css">
     <link rel="stylesheet" href="./css/data.css">
     <link rel="stylesheet" href="./css/icofonts/icofont.min.css">
-    <script src="../serverJs/loginSignup.js"></script>
     <title>Banka signup</title>
 </head>
 
@@ -25,7 +24,7 @@
         <div class="container">
             <div class="form-card">
                 <h3>SIGNUP</h3>
-                <form>
+                <form id="signupForm">
                     <div class="alert"></div>
                     <label>Firstname</label>
                     <div class="form-group">
@@ -57,7 +56,7 @@
     <script src="../serverJs/middleware.js"></script>
     <script src="../serverJs/loginSignup.js"></script>
     <script>
-        const signup = new LoginSignup();
+        const signup = new Signup();
         document.querySelector('#signup').onclick = () =>{
             console.log(document.querySelector('#firstName').value);
             signup.signup();
