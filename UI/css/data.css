@@ -1,13 +1,17 @@
 .alert{
- padding-left: .4rem;
+ text-align:center;
 }
 .alert-danger{
- color: rgb(97, 24, 11);
+ font-family: cursive;
+ color: rgba(176, 11, 190, 0.473);
  line-height: 2rem;
- background-color: rgb(236, 44, 44);
+ border-bottom: 1px solid rgba(176, 11, 190, 0.473);
+ overflow: hidden;
 }
 .alert-success{
- color: rgb(14, 99, 18);
+ color: rgb(255, 255, 255);
  line-height: 2rem;
- background-color: rgb(66, 236, 44);
+ background-color: rgba(17, 107, 5, 0.582);
+ border: 1px solid green;
+ overflow: inherit;
 }
