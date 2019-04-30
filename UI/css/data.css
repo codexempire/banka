@@ -2,14 +2,12 @@
  padding-left: .4rem;
 }
 .alert-danger{
- color: red;
+ color: rgb(97, 24, 11);
  line-height: 2rem;
- border-left: 4px solid red;
- border-bottom: 1px solid red;
+ background-color: rgb(236, 44, 44);
 }
 .alert-success{
- color: rgb(29, 167, 36);
+ color: rgb(14, 99, 18);
  line-height: 2rem;
- border-left: 4px solid rgb(51, 255, 0);
- border-bottom: 1px solid rgb(136, 255, 0);
+ background-color: rgb(66, 236, 44);
 }
