@@ -57,3 +57,60 @@ class Dashboard{
   });
  }
 }
+class CreateAccount {
+ constructor(){
+  this.accountType = document.querySelector('#select');
+  this.user = JSON.parse(localStorage.getItem('user'));
+  this.box = document.querySelector('.alert')
+ }
+ createAccount() {
+  const selectedOption = this.accountType.options[this.accountType.selectedIndex].value;
+  const data = {
+   type: selectedOption
+  };
+  const endpoint = 'https://banka-pro-app.herokuapp.com';
+  const options = {
+   method: 'POST',
+   body: JSON.stringify(data),
+   headers: new Headers({
+    'Content-Type': 'application/json',
+    'x-access-token': `${this.user.token}`
+   })
+  };
+  fetch(`${endpoint}/api/v1/accounts`, options)
+   .then(res => res.json())
+   .then(res => {
+    console.log(res.error);
+    this.checkAccountCreated(res);
+   })
+   .catch(err => {
+    this.box.classList.add('alert-danger');
+    this.box.textContent = `${err.message}`;
+    return;
+   });
+  return;
+ }
+ checkAccountCreated(res) {
+  res.status === 201 ? this.success(res) : this.error(res);
+  return;
+ }
+ error(res) {
+  // if (res.status === 401) {
+  //  this.box.classList.add('alert-danger');
+  //  this.box.textContent = `${res.error}`;
+  //  setTimeout(() => {
+  //   localStorage.clear();
+  //   location.replace('login.html');
+  //  }, 5000);
+  //  return;
+  // }
+  this.box.classList.add('alert-danger');
+  this.box.textContent = `${res.error}`;
+  return;
+ }
+ success(res){
+  this.box.classList.add('alert-success');
+  this.box.textContent = `Account successfully created this is your account number ${res.data.accountnumber}`;
+  return;
+ }
+}
