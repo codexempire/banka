@@ -3,9 +3,10 @@
 }
 .alert-danger{
  font-family: cursive;
- color: rgba(176, 11, 190, 0.473);
+ color: #fff;
  line-height: 2rem;
- border-bottom: 1px solid rgba(176, 11, 190, 0.473);
+ background-color: rgb(253, 7, 7);
+ border: 1px solid red;
  overflow: hidden;
 }
 .alert-success{
