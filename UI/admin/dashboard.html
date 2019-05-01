@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="../css/my_styles.css">
+    <link rel="stylesheet" href="../css/data.css">
+    <script src="../../serverJs/adminPages.js"></script>
     <title>Banka dashboard</title>
 </head>
 
@@ -44,10 +46,10 @@
         <div class="two-third main">
             <div class="container-x">
                 <h2 class="form-head">List of Accounts</h2>
+                <div class="alert"></div>
                 <div class="overflow">
                     <table class="table hover">
                         <tr>
-                            <th>Acc Name</th>
                             <th>Acc Number</th>
                             <th>Status</th>
                             <th>Balance</th>
@@ -55,24 +57,7 @@
                             <th>Opening Date</th>
                             <th>Actions</th>
                         </tr>
-                        <tr>
-                            <td>Print Mike</td>
-                            <td>1098765432</td>
-                            <td><span class="status status-green">Active</span></td>
-                            <td><span>&#8358;</span>90,000</td>
-                            <td>Savings</td>
-                            <td>3 Feb 2019 16:30</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="drop-btn">Action</button>
-                                    <div class="dropdown-content">
-                                        <a href="#" class="active">Active</a>
-                                        <a href="#">Deactivate</a>
-                                        <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+<!--                         
                         <tr>
                             <td>Print Mike</td>
                             <td>1098765432</td>
@@ -144,16 +129,17 @@
                                     </div>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                     </table>
                 </div>
             </div>
         </div>
     </main>
-    <script>
-        
-    </script>
     <script src="../js/mine.js"></script>
+    <script>
+        const fill = new Dashboard();
+        fill.fetchAccounts();
+    </script>
 </body>
 
 </html>
