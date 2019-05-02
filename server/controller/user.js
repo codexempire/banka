@@ -40,7 +40,7 @@ class user {
     middleware.staffValidator(req, (error, request) => {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].message });// check for error
 
-      let isAdmin = request.isAdmin;// isAdmin
+      let isAdmin = req.body.isAdmin;// isAdmin
       const type = 'staff';
       isAdmin === undefined || isAdmin !== 'true' ? isAdmin = false : isAdmin = true  // check if account is an admins account or not
 
