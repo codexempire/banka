@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="../css/my_styles.css">
+    <link rel="stylesheet" href="../css/data.css">
+    <script src="../../serverJs/adminPages.js"></script>
     <title>Banka create account</title>
 </head>
 
@@ -44,6 +46,7 @@
             <div class="container x">
                 <div class="form-card">
                     <h3>CREATE ACCOUNT</h3>
+                    <div class="alert"></div>
                     <form id="adminCreateAccount">
                         <div id="input-half">
                             <label>Firstname</label>
@@ -54,7 +57,7 @@
                         <div id="input-half">
                             <label>Lastname</label>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="lastNam">
+                                <input type="text" class="form-control" id="lastName">
                             </div>
                         </div>
                         <label>Email</label>
@@ -78,13 +81,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-block btn-green">Create</button>
+                            <button type="button" class="btn btn-block btn-green" id="createStaffAdmin">Create</button>
                         </div>
                     </form>
                 </div>
             </div>
     </main>
     <script src="../js/mine.js"></script>
+    <script>
+        const newStaffAdmin = new Signup();
+        document.querySelector('#createStaffAdmin').onclick =()=>{
+            newStaffAdmin.signup();
+        }
+    </script>
 </body>
 
 </html>
