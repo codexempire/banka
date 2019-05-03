@@ -1,3 +1,11 @@
+const user = JSON.parse(localStorage.getItem('user'));
+if (!user) {
+ location.replace('../login.html');
+}
+console.log(user.data.type);
+if (user.data.type !== 'staff') {
+ location.replace('../login.html');
+}
 class Dashboard{
  constructor() {
   this.table = document.querySelector('.hover');
@@ -16,8 +24,12 @@ class Dashboard{
   fetch(`${endpoint}/api/v1/accounts`, options)
    .then(res => res.json())
    .then(res => {
-    console.log(res.error);
-    this.fillTable(res);
+    if(res.status === 200){
+      this.fillTable(res);
+      return;
+    }
+    this.box.textContent = `${res.error}`;
+    return;
    })
    .catch(err => {
     this.box.classList.add('alert-danger');
@@ -27,6 +39,16 @@ class Dashboard{
   return;
  }
  fillTable(res) {
+  this.table.innerHTML = `
+  <tr>
+    <th>Acc Number</th>
+    <th>Status</th>
+    <th>Balance</th>
+    <th>Type</th>
+    <th>Opening Date</th>
+    <th>Actions</th>
+   </tr>
+  `;
   return res.data.map(item => {
    console.log(item.createdon.slice(0,10));
    this.table.innerHTML += `

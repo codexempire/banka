@@ -1,3 +1,7 @@
+const user = JSON.parse(localStorage.getItem('user'));
+if (!user) {
+ location.replace('login.html');
+}
 class Dashboard{
  constructor() {
   this.header = document.querySelector('.amount');
