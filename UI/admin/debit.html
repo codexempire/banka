@@ -54,7 +54,7 @@
                         </div>
                         <label>Account Balance</label>
                         <div class="form-group">
-                            <input type="text" disabled value="&#8358;" class="form-control" id="accountBalance">
+                            <input type="text" disabled value="" class="form-control" id="accountBalance">
                         </div>
                         <label>Amount</label>
                         <div class="form-group">
@@ -73,13 +73,12 @@
         const transaction = new Debit();
         document.querySelector('#accountNumber').onkeyup = ()=>{
             if(document.querySelector('#accountNumber').value.length == 9){
-                console.log(document.querySelector('#accountNumber').value);
                 transaction.getAccount();
             }
             return;
         }
         document.querySelector('#debit').onclick=()=>{
-            console.log('my name');
+           transaction.debitAccount();
         }
     </script>
 </body>
