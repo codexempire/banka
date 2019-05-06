@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="../css/my_styles.css">
     <link rel="stylesheet" href="../css/data.css">
+    <script src="../../serverJs/isAdmin.js"></script>
     <script src="../../serverJs/accounts.js"></script>
     <!-- <script>
         const transaction = new Credit();
@@ -31,8 +32,8 @@
             <a href="dashboard.html"><li>Dashboard</li></a>
             <a href="create_staff.html"><li>Create Account</li></a>
             <a href="credit.html"><li>Credit Account</li></a>
-            <a href="debit.html"><li>Debit Account</li></a>
-            <a href="../login.html"><li>Logout</li></a>
+            <a href="debit.html"><li>Debit Account</li></a>       
+            <a href="#" onclick="logout()"><li>Logout</li></a>
         </ul>
         <div class="one-third aside b">
             <h1 class=" hide-l">Banka </h1><a href="dashboard.html" class="hide hide-l">Back</a>
@@ -42,7 +43,7 @@
                 <li><a href="create_staff.html">Create Account</a></li>
                 <li><a href="credit.html">Credit Account</a></li>
                 <li><a href="debit.html">Debit Account</a></li>
-                <li><a href="../login.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </div>
         <div class="two-third main-d grid">

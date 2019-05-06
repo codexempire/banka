@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="./css/my_styles.css">
+    <script src="../serverJs/isUser.js"></script>
     <script src="../serverJs/userPages.js"></script>
     <title>Banka dashboard</title>
 </head>
@@ -25,7 +26,7 @@
         <ul class=" drop-menu hide">
             <a href="profile.html"><li>Dashboard</li></a>
             <a href="create_account.html"><li>Create Account</li></a>
-            <a href="login.html"><li>Logout</li></a>
+            <a href="#" onclick="logout()"><li>Logout</li></a>
         </ul>
     <main class="flex">
 
@@ -33,7 +34,7 @@
             <ul class="user">
                 <li><a href="profile.html">Dashboard</a></li>
                 <li><a href="create_account.html">Create Account</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </div>
         <div class="two-third main">            
