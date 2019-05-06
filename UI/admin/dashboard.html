@@ -27,7 +27,7 @@
                 
             </h1>
         </div>
-        <ul class=" drop-menu hide">
+        <ul class=" drop-menu hide" style="display: none;">
             <a href="dashboard.html"><li>Dashboard</li></a>
             <a href="create_staff.html"><li>Create Account</li></a>
             <a href="credit.html"><li>Credit Account</li></a>
@@ -48,16 +48,16 @@
 
         <div class="two-third main">
             <div class="container-x">
-                <div class="flex">
-                    <select id="accounts" class="btn btn-green">
+                <div class="flex block">
+                    <select id="accounts" class="btn btn-green ss">
                         <option class="options" value="all">All Accounts</option>
                         <option class="options" value="active">Active Accounts</option>
                         <option class="options" value="dormant">Dormant Accounts</option>
                     </select>
                     <input type="search" placeholder="Account Number" class="search">
-                    <button type="button" class="btn btn-green searcher" ><i class="icofont-search"></i></button>
+                    <button type="button" class="btn btn-green searcher ss" ><i class="icofont-search"></i></button>
 
-                    <button class="right btn btn-border-y transactions">Transactions</button>
+                    <button class="right btn btn-border-y transactions ss">Transactions</button>
                 </div>
                 <div class="first-show">
                     <div class="diva"></div>
@@ -149,20 +149,21 @@
     <script src="../js/mine.js"></script>
     <script>
         const fill = new Dashboard();
+        fill.start();
         fill.fetchAccounts();
         document.querySelector('.transactions').onclick = () => {
+            fill.start();
             fill.fetchTransactions();
         }
         const accountType = document.querySelector('#accounts');
         accountType.onchange = ()=>{
+            fill.start();
             const selectedOption = accountType.options[accountType.selectedIndex].value;
-            console.log(selectedOption);
             if (selectedOption === 'all') {
                 fill.fetchAccounts();
             } else if (selectedOption === 'active') {
                fill.fetchActiveAccounts();
             } else if(selectedOption === 'dormant') {
-                console.log('entered')
                 fill.fetchDormantAccounts();
             }
         }
