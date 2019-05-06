@@ -16,3 +16,32 @@
  border: 1px solid green;
  overflow: inherit;
 }
+
+#accounts{
+ margin-top: 0;
+}
+#accounts option{
+ width: initial;
+}
+
+.transactions{
+ margin-left: auto;
+}
+
+.centee{
+ margin-top: 30px;
+ margin-left: 10%;
+}
+
+.text-center{
+ width: 100%;
+ text-align: center;
+}
+.btn-green{
+ margin-top: 0;
+}
+
+.search{
+ width: 30%;
+ margin-left: 19%;
+}

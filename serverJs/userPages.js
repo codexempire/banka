@@ -1,12 +1,9 @@
-const user = JSON.parse(localStorage.getItem('user'));
-if (!user) {
- location.replace('login.html');
-}
 class Dashboard{
  constructor() {
   this.header = document.querySelector('.amount');
   this.user = JSON.parse(localStorage.getItem('user'));
   this.accountDetails = document.querySelector('.info');
+  this.history = document.querySelector('.form-head');
  }
  welcome() {
   return this.header.innerHTML = `
@@ -29,6 +26,9 @@ class Dashboard{
     if (res.status === 200) {
      this.accDetails(res)
      return;
+    }
+    if (res.status === 401) {
+     logout();
     }
     this.accountDetails.innerHTML = `${res.error}`;
    })
@@ -60,6 +60,30 @@ class Dashboard{
   `
   });
  }
+ getTransactionHistory() {
+  const endpoint = 'https://banka-pro-app.herokuapp.com';
+  console.log(this.user.token);
+  const options = {
+   method: 'GET',
+   headers: new Headers({
+    'Content-Type': 'application/json',
+    'x-access-token': `${this.user.token}`
+   })
+  };
+  fetch(`${endpoint}/api/v1/user/${this.user.data.email}/accounts`, options)
+   .then(response => response.json())
+   .then(res => {
+    if (res.status === 200) {
+     this.accDetails(res)
+     return;
+    }
+    this.accountDetails.innerHTML = `${res.error}`;
+   })
+   .catch(err => {
+    this.accountDetails.innerHTML = `${err.message}`;
+   });
+  return;  
+ }
 }
 class CreateAccount {
  constructor(){
@@ -84,7 +108,6 @@ class CreateAccount {
   fetch(`${endpoint}/api/v1/accounts`, options)
    .then(res => res.json())
    .then(res => {
-    console.log(res.error);
     this.checkAccountCreated(res);
    })
    .catch(err => {
@@ -95,6 +118,9 @@ class CreateAccount {
   return;
  }
  checkAccountCreated(res) {
+  if (res.status === 401) {
+   logout();
+  }
   res.status === 201 ? this.success(res) : this.error(res);
   return;
  }
@@ -117,4 +143,8 @@ class CreateAccount {
   this.box.textContent = `Account successfully created this is your account number ${res.data.accountnumber}`;
   return;
  }
+}
+const logout = () => {
+ localStorage.removeItem('user');
+ location.replace('login.html');
 }
