@@ -4,6 +4,14 @@ class Dashboard{
   this.user = JSON.parse(localStorage.getItem('user'));
   this.accountDetails = document.querySelector('.info');
   this.history = document.querySelector('.form-head');
+  this.box = document.querySelector('.alert');
+  this.table = document.querySelector('.table');
+ }
+ start(){
+  this.accountDetails.innerHTML = `<img class='top' src='./images/ajax-loader.gif'>`;
+ }
+ end() {
+  this.accountDetails.innerHTML = '';
  }
  welcome() {
   return this.header.innerHTML = `
@@ -11,8 +19,9 @@ class Dashboard{
   `;
  }
  getAccounts() {
+  this.table.innerHTML = '';
+  document.querySelector('.diva').innerHTML = '';
   const endpoint = 'https://banka-pro-app.herokuapp.com';
-  console.log(this.user.token);
   const options = {
    method: 'GET',
    headers: new Headers({
@@ -23,6 +32,7 @@ class Dashboard{
   fetch(`${endpoint}/api/v1/user/${this.user.data.email}/accounts`, options)
    .then(response => response.json())
    .then(res => {
+    this.end();
     if (res.status === 200) {
      this.accDetails(res)
      return;
@@ -60,9 +70,11 @@ class Dashboard{
   `
   });
  }
- getTransactionHistory() {
+ 
+ fetchTransactions() {
+  // this.box.textContent = '';
+  // this.box.classList.remove('alert-danger');
   const endpoint = 'https://banka-pro-app.herokuapp.com';
-  console.log(this.user.token);
   const options = {
    method: 'GET',
    headers: new Headers({
@@ -70,19 +82,46 @@ class Dashboard{
     'x-access-token': `${this.user.token}`
    })
   };
-  fetch(`${endpoint}/api/v1/user/${this.user.data.email}/accounts`, options)
-   .then(response => response.json())
+  fetch(`${endpoint}/api/v1/accounts/${document.querySelector('.search').value}/transactions`, options)
+   .then(res => res.json())
    .then(res => {
+    this.end();
     if (res.status === 200) {
-     this.accDetails(res)
+     this.header.innerHTML = `<h2 class='text-center'>List of Account Transactions</h2>`;
+     this.fillTransactionTable(res);
      return;
     }
-    this.accountDetails.innerHTML = `${res.error}`;
+    console.log('here');
+    this.box.textContent = `${res.error}`;
+    return;
    })
    .catch(err => {
-    this.accountDetails.innerHTML = `${err.message}`;
+    console.log('no-here');
+    this.box.textContent = `${err.message}`;
+    return;
    });
-  return;  
+  return;
+ }
+
+ fillTransactionTable(res) {
+  this.table.innerHTML = `
+   <tr>
+    <th>Acc Number</th>
+    <th>Amount</th>
+    <th>Date</th>
+    <th>Type</th>
+   </tr>
+  `;
+  return res.data.map(item => {
+   this.table.innerHTML += `
+   <tr>
+    <td class='accountnumber'>${item.accountnumber}</td>
+    <td><span class="status status-green"><span>&#8358</span>${item.amount}</span></td>
+    <td>${item.createdon.slice(0, 10)}</td>
+    <td>${item.type}</td>
+   </tr>
+   </table>`;
+  });
  }
 }
 class CreateAccount {
