@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="../css/my_styles.css">
+    <link rel="stylesheet" href="../css/data.css">
+    <script src="../../serverJs/isAdmin.js"></script>
+    <script src="../../serverJs/adminPages.js"></script>
+    <script>
+    </script>
     <title>Banka dashboard</title>
 </head>
 
@@ -22,12 +27,12 @@
                 
             </h1>
         </div>
-        <ul class=" drop-menu hide">
+        <ul class=" drop-menu hide" style="display: none;">
             <a href="dashboard.html"><li>Dashboard</li></a>
             <a href="create_staff.html"><li>Create Account</li></a>
             <a href="credit.html"><li>Credit Account</li></a>
-            <a href="debit.html"><li>Debit Account</li></a>
-            <a href="../login.html"><li>Logout</li></a>
+            <a href="debit.html"><li>Debit Account</li></a>       
+            <a href="#" onclick="logout()"><li>Logout</li></a>
         </ul>
         <div class="one-third aside b">
             <h1 class=" hide-l">Banka </h1><a href="dashboard.html" class="hide hide-l">Back</a>
@@ -37,123 +42,135 @@
                 <li><a href="create_staff.html">Create Account</a></li>
                 <li><a href="credit.html">Credit Account</a></li>
                 <li><a href="debit.html">Debit Account</a></li>
-                <li><a href="../login.html">Logout</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
             </ul>
         </div>
 
         <div class="two-third main">
             <div class="container-x">
-                <h2 class="form-head">List of Accounts</h2>
-                <div class="overflow">
-                    <table class="table hover">
-                        <tr>
-                            <th>Acc Name</th>
-                            <th>Acc Number</th>
-                            <th>Status</th>
-                            <th>Balance</th>
-                            <th>Type</th>
-                            <th>Opening Date</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr>
-                            <td>Print Mike</td>
-                            <td>1098765432</td>
-                            <td><span class="status status-green">Active</span></td>
-                            <td><span>&#8358;</span>90,000</td>
-                            <td>Savings</td>
-                            <td>3 Feb 2019 16:30</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="drop-btn">Action</button>
-                                    <div class="dropdown-content">
-                                        <a href="#" class="active">Active</a>
-                                        <a href="#">Deactivate</a>
-                                        <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Print Mike</td>
-                            <td>1098765432</td>
-                            <td><span class="status status-red">Dormant</span></td>
-                            <td><span>&#8358;</span>90,000</td>
-                            <td>Savings</td>
-                            <td>21 Feb 2019 16:30</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="drop-btn">Action</button>
-                                    <div class="dropdown-content">
-                                        <a href="#" class="active">Active</a>
-                                        <a href="#">Deactivate</a>
-                                        <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Print Mike</td>
-                            <td>1098765432</td>
-                            <td><span class="status status-green">Active</span></td>
-                            <td><span>&#8358;</span>90,000</td>
-                            <td>Savings</td>
-                            <td>23 Feb 2019 16:30</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="drop-btn">Action</button>
-                                    <div class="dropdown-content">
-                                        <a href="#" class="active">Active</a>
-                                        <a href="#">Deactivate</a>
-                                        <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Print Mike</td>
-                            <td>1098765432</td>
-                            <td><span class="status status-green">Active</span></td>
-                            <td><span>&#8358;</span>90,000</td>
-                            <td>Savings</td>
-                            <td>13 Feb 2019 16:30</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="drop-btn">Action</button>
-                                    <div class="dropdown-content">
-                                        <a href="#" class="active">Active</a>
-                                        <a href="#">Deactivate</a>
-                                        <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Print Mike</td>
-                            <td>1098765432</td>
-                            <td><span class="status status-red">Dormant</span></td>
-                            <td><span>&#8358;</span>90,000</td>
-                            <td>Savings</td>
-                            <td>6 Feb 2019 16:30</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="drop-btn">Action</button>
-                                    <div class="dropdown-content">
-                                        <a href="#" class="active">Active</a>
-                                        <a href="#">Deactivate</a>
-                                        <a href="#">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="flex block">
+                    <select id="accounts" class="btn btn-green ss">
+                        <option class="options" value="all">All Accounts</option>
+                        <option class="options" value="active">Active Accounts</option>
+                        <option class="options" value="dormant">Dormant Accounts</option>
+                    </select>
+                    <input type="search" placeholder="Account Number" class="search">
+                    <button type="button" class="btn btn-green searcher ss" ><i class="icofont-search"></i></button>
+
+                    <button class="right btn btn-border-y transactions ss">Transactions</button>
+                </div>
+                <div class="first-show">
+                    <div class="diva"></div>
+                        <h2 class="form-head"></h2>
+                        <div class="overflow">
+                            <table class="table hover">
+                                <tr>
+                                    <div class="alert"></div>
+                                </tr>
+                                <!--                         
+                                                <tr>
+                                                    <td>Print Mike</td>
+                                                    <td>1098765432</td>
+                                                    <td><span class="status status-red">Dormant</span></td>
+                                                    <td><span>&#8358;</span>90,000</td>
+                                                    <td>Savings</td>
+                                                    <td>21 Feb 2019 16:30</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="drop-btn">Action</button>
+                                                            <div class="dropdown-content">
+                                                                <a href="#" class="active">Active</a>
+                                                                <a href="#">Deactivate</a>
+                                                                <a href="#">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Print Mike</td>
+                                                    <td>1098765432</td>
+                                                    <td><span class="status status-green">Active</span></td>
+                                                    <td><span>&#8358;</span>90,000</td>
+                                                    <td>Savings</td>
+                                                    <td>23 Feb 2019 16:30</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="drop-btn">Action</button>
+                                                            <div class="dropdown-content">
+                                                                <a href="#" class="active">Active</a>
+                                                                <a href="#">Deactivate</a>
+                                                                <a href="#">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Print Mike</td>
+                                                    <td>1098765432</td>
+                                                    <td><span class="status status-green">Active</span></td>
+                                                    <td><span>&#8358;</span>90,000</td>
+                                                    <td>Savings</td>
+                                                    <td>13 Feb 2019 16:30</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="drop-btn">Action</button>
+                                                            <div class="dropdown-content">
+                                                                <a href="#" class="active">Active</a>
+                                                                <a href="#">Deactivate</a>
+                                                                <a href="#">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Print Mike</td>
+                                                    <td>1098765432</td>
+                                                    <td><span class="status status-red">Dormant</span></td>
+                                                    <td><span>&#8358;</span>90,000</td>
+                                                    <td>Savings</td>
+                                                    <td>6 Feb 2019 16:30</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="drop-btn">Action</button>
+                                                            <div class="dropdown-content">
+                                                                <a href="#" class="active">Active</a>
+                                                                <a href="#">Deactivate</a>
+                                                                <a href="#">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr> -->
+                            </table>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
-    <script>
-        
-    </script>
     <script src="../js/mine.js"></script>
+    <script>
+        const fill = new Dashboard();
+        fill.start();
+        fill.fetchAccounts();
+        document.querySelector('.transactions').onclick = () => {
+            fill.start();
+            fill.fetchTransactions();
+        }
+        const accountType = document.querySelector('#accounts');
+        accountType.onchange = ()=>{
+            fill.start();
+            const selectedOption = accountType.options[accountType.selectedIndex].value;
+            if (selectedOption === 'all') {
+                fill.fetchAccounts();
+            } else if (selectedOption === 'active') {
+               fill.fetchActiveAccounts();
+            } else if(selectedOption === 'dormant') {
+                fill.fetchDormantAccounts();
+            }
+        }
+        document.querySelector('.searcher').onclick = ()=>{
+            fill.search();
+        }
+    </script>
 </body>
 
 </html>

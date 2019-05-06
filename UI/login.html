@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/icofonts/icofont.min.css">
     <link rel="stylesheet" href="./css/my_styles.css">
     <link rel="stylesheet" href="./css/data.css">
+    <script src="../serverJs/loginSignup.js"></script>
     <title>Banka login</title>
 </head>
 
@@ -24,6 +25,7 @@
         <div class="container">
             <div class="form-card">
                 <h3>LOGIN</h3>
+                <div class="alert"></div>
                 <form>
                     <div class="alert"></div>
                     <label>Email</label>
@@ -46,11 +48,10 @@
         Copyright &copy 2019<br> Made by Princewill Michael
     </footer>
     <script src="./js/mine.js"></script>
-    <script src="../JsConnect/userLogSign.js"></script>
     <script>
+        const login = new Logger();
         document.querySelector('#login').onclick = ()=>{
-            const log = new Authet();
-            log.logIn()
+            login.access();
         }
     </script>
 </body>

@@ -1,9 +1,73 @@
 .alert{
- padding-left: .4rem;
+ text-align:center;
 }
 .alert-danger{
- color: red;
+ font-family: cursive;
+ color: #fff;
  line-height: 2rem;
- border-left: 4px solid red;
- border-bottom: 1px solid red;
+ background-color: rgb(253, 7, 7);
+ border: 1px solid red;
+ overflow: hidden;
+}
+.alert-success{
+ color: rgb(255, 255, 255);
+ line-height: 2rem;
+ background-color: rgba(17, 107, 5, 0.582);
+ border: 1px solid green;
+ overflow: inherit;
+}
+
+#accounts{
+ margin-top: 0;
+}
+#accounts option{
+ width: initial;
+}
+
+.transactions{
+ margin-left: auto;
+}
+
+.centee{
+ margin-top: 30px;
+ margin-left: 10%;
+}
+
+.text-center{
+ width: 100%;
+ text-align: center;
+}
+.ss{
+ margin-top: 0;
+}
+
+.search{
+ width: 30%;
+ margin-left: 19%;
+}
+
+.ri{
+ margin-left: auto;
+}
+
+.top{
+ margin-top: 10%;
+}
+
+@media(max-width: 700px){
+ .block{
+  display: inline-block;
+ }
+ .searcher{
+  width: 15%;
+ }
+ .search{
+  margin: .4rem 0;
+  height: 2.5rem;
+  width: 80%;
+ }
+ #accounts{
+  width: 50%;
+  float: right;
+ }
 }

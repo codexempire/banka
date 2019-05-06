@@ -72,7 +72,7 @@ class Account {
 
       model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
         if (passed && datar) {
-          if (req.data.type !== 'staff' || req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });
+          if (req.data.type !== 'staff' && req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });
         }
         // account not found
         if (passed && !datar) return res.status(404).json({ status: 404, error: 'Account not found' });
@@ -115,7 +115,7 @@ class Account {
       if (error) return res.status(400).json({ status: 400, error: error.details[0].message });
       model.getSingleUserAccount(validAccountNumber, ({ passed, datar }) => {
         if (passed && datar) {
-          if (req.data.type !== 'staff' || req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });
+          if (req.data.type !== 'staff' && req.data.id !== datar.owner) return res.status(403).json({ status: 403, error: 'Restricted from veiwing other users private information' });
         }
         model.fetchAllTransactionsForSpecificAccount(validAccountNumber, ({ success, data }) => {
           // server error
