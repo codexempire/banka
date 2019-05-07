@@ -375,6 +375,7 @@ const deleteAccount = (accountNumber) => {
     });
   return;
 }
+
 const viewTransaction = (id) => {
   document.querySelector('.form-head').textContent = '';
   document.querySelector('.hover').innerHTML = '';
