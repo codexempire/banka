@@ -122,5 +122,8 @@ class Debit extends Transaction {
   return;
  }
 }
-// const credit = new Credit();
-// console.log(credit.getAccount());
+
+const logout = () => {
+ localStorage.removeItem('user');
+ location.replace('../login.html');
+}
