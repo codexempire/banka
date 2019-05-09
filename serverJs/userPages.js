@@ -40,7 +40,7 @@ class Dashboard{
     if (res.status === 401) {
      logout();
     }
-    this.accountDetails.innerHTML = `${res.error}`;
+    this.accountDetails.innerHTML = `You have not Opened an Account yet.`;
    })
    .catch(err => {
     this.accountDetails.innerHTML = `${err.message}`;
@@ -91,12 +91,10 @@ class Dashboard{
      this.fillTransactionTable(res);
      return;
     }
-    console.log('here');
     this.box.textContent = `${res.error}`;
     return;
    })
    .catch(err => {
-    console.log('no-here');
     this.box.textContent = `${err.message}`;
     return;
    });

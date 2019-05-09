@@ -292,7 +292,6 @@ class Signup {
   return;
  }
  connectUser(data) {
-  console.log(data);
   if (data.status === 201) {
    this.redirect(data);
    return;
@@ -305,16 +304,22 @@ class Signup {
   return;
  }
  redirect(res) {
-  this.btn.disabled = false;
-  this.btn.textContent = 'Create';
-  this.btn.style.opacity = '1';
-  this.box.classList.add('alert-success');
+   document.querySelector('.form-card').style.display = 'none';
+   this.box.classList.remove('alert-danger');
+   this.box.textContent = '';
+   document.querySelector('.dialog').style.display = 'block';
   console.log(res.data.data.isadmin);
   if (res.data.data.isadmin) {
-   this.box.textContent = `The Administrator account has been created`;
+    document.querySelector('.dialog').innerHTML = `
+      <h3>The Administrator account has been created</h3>
+      <button type='button' class='btn btn-green transactions' onclick = 'dashboard()'>Okay</button>
+    `;
    return;
   }
-  this.box.textContent = `The staff account has been created`;
+   document.querySelector('.dialog').innerHTML = `
+      <h3>The Staff account has been created</h3>
+      <button type='button' class='btn btn-green transactions' onclick = 'dashboard()'>Okay</button>
+    `;
   return;
  }
 }
@@ -338,7 +343,12 @@ const activateDeactivate = (accountNumber, status) => {
     .then(res => res.json())
     .then(res => {
       const accounts = new Dashboard();
-      accounts.fetchAccounts();
+      document.querySelector('.dialog').style.display = 'block';
+      document.querySelector('.dialog').innerHTML = `
+        <h3>Account has been ${res.data.status === 'active' ? 'Activated' : 'Deactivated'}</h3>
+        <button type='button' class='btn btn-green' onclick = 'dashboard()'>Okay</button>
+     `;
+      // accounts.fetchAccounts();
       return;
     })
     .catch(err => {
@@ -439,6 +449,10 @@ const viewTransaction = (id) => {
       return;
     });
   return;
+}
+
+const dashboard = () => {
+  location.replace('dashboard.html');
 }
 
 const logout = () => {

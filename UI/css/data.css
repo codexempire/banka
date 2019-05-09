@@ -28,11 +28,6 @@
  margin-left: auto;
 }
 
-.centee{
- margin-top: 30px;
- margin-left: 10%;
-}
-
 .text-center{
  width: 100%;
  text-align: center;
@@ -54,6 +49,23 @@
  margin-top: 10%;
 }
 
+.dialog{
+ display: none;
+ width: 40%;
+ z-index: 500;
+ padding: 1rem 0.5rem;
+ position: absolute;
+ margin: 5% 15%;
+ background: #fff;
+ border: 1px solid purple;
+}
+
+.dialog button{
+ margin-left: 80%;
+ padding: 1.2rem;
+ width: 20%;
+}
+
 @media(max-width: 700px){
  .block{
   display: inline-block;
@@ -69,5 +81,13 @@
  #accounts{
   width: 50%;
   float: right;
+ }
+ .centee{
+  margin-top: 30px;
+  margin-left: 2%;
+ }
+ .dialog{
+  width: 90%;
+  margin: 50% .4%;
  }
 }
