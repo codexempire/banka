@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="./css/my_styles.css">
     <link rel="stylesheet" href="./css/data.css">
     <script src="../serverJs/isUser.js"></script>
+    <script src="../serverJs/userLogout.js"></script>
+    <script src="../serverJs/fetch.js"></script>    
     <script src="../serverJs/userPages.js"></script>
     <title>Banka dashboard</title>
 </head>
@@ -42,8 +44,10 @@
             <div class="container">
                 <div class="flex block">
                     <button class="right btn btn-border-y accounts ss">Accounts</button>
-                    <input type="search" placeholder="Account Number" class="search ri">
-                    <button type="button" class="btn btn-green ss searcher"><i class="icofont-search"></i></button>
+                    <select id="accounts fill" class="btn btn-green ss fills">
+                        <option>Account Transactions</option>
+                    </select>
+                    <button class="right btn btn-border-y transactions ss">Transactions</button>
                 </div>
                 <div class="diva"></div>
                 <div class="amount">
@@ -78,15 +82,23 @@
         dashboard.start();
         dashboard.welcome();
         dashboard.getAccounts();
-        document.querySelector('.searcher').onclick = () => {
+        document.querySelector('.transactions').onclick = () => {
             dashboard.start();
-            dashboard.fetchTransactions();
+            dashboard.fetchAllTransactions();
         }
         document.querySelector('.accounts').onclick = () => {
             dashboard.start();
             dashboard.welcome();
             dashboard.getAccounts();
         }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const accountType = document.querySelector('.fills');
+            accountType.onchange = () => {
+                dashboard.start();
+                const selectedOption = accountType.options[accountType.selectedIndex].value;
+                dashboard.fetchSingleAccountTransactions(selectedOption);
+            }
+        }, false);
     </script>
 </body>
 

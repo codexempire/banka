@@ -51,7 +51,7 @@
 
 .dialog{
  display: none;
- width: 40%;
+ width: 30.5%;
  z-index: 500;
  padding: 1rem 0.5rem;
  position: absolute;
@@ -65,7 +65,12 @@
  padding: 1.2rem;
  width: 20%;
 }
-
+.m{
+ margin: 5% 0;
+}
+.accounts{
+ margin-right: 2%;
+}
 @media(max-width: 700px){
  .block{
   display: inline-block;
@@ -81,6 +86,9 @@
  #accounts{
   width: 50%;
   float: right;
+ }
+ .accounts{
+  margin-right: 0;
  }
  .centee{
   margin-top: 30px;

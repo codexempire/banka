@@ -5,3 +5,4 @@ if (!user) {
 if (user.data.type !== 'user') {
  location.replace('login.html');
 }
+const endpoint = 'https://banka-pro-app.herokuapp.com';
