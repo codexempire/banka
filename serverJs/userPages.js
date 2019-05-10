@@ -40,7 +40,11 @@ class Dashboard{
   if (result.status === 401) {
    logout();
   }
-  this.accountDetails.innerHTML = `You have not Opened an Account yet.`;
+  if (result.status === 404) {
+   this.accountDetails.innerHTML = `You have not Opened an Account yet.`;
+   return;
+  }
+  this.accountDetails.innerHTML = result.error;
   return;
  }
  accDetails(res) {

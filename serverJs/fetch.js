@@ -4,6 +4,6 @@ const fetcher = async (url, options) => {
   const data = await response.json();
   return data;
  } catch (err) {
-  return { status: 500, error: err.message};
+  return { status: 500, error: 'INTERNET DISCONNECTED'};
  }
 }
