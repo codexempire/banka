@@ -63,8 +63,12 @@ class Credit extends Transaction {
      return;
     }
     if (res.status === 200) {
-     this.box.classList.add('alert-success');
-     this.box.textContent = `Credited ${res.data.accountnumber} with ${res.data.amount}`;
+     document.querySelector('.form-card').style.display = 'none';
+     document.querySelector('.dialog').style.display = 'block';
+     document.querySelector('.dialog').innerHTML = `
+        <h4>Credited ${res.data.accountnumber} with ${res.data.amount}</h4>
+        <button type='button' class='btn btn-green' onclick = 'dashboard()'>Okay</button>
+     `;
      return;     
     }
     this.box.classList.add('alert-danger');
@@ -106,8 +110,12 @@ class Debit extends Transaction {
      return;
     }
     if (res.status === 200) {
-     this.box.classList.add('alert-success');
-     this.box.textContent = `Debited ${res.data.accountnumber} with ${res.data.amount}`;
+     document.querySelector('.form-card').style.display = 'none';
+     document.querySelector('.dialog').style.display = 'block';
+     document.querySelector('.dialog').innerHTML = `
+        <h4>Debited ${res.data.accountnumber} with ${res.data.amount}</h4>
+        <button type='button' class='btn btn-green' onclick = 'dashboard()'>Okay</button>
+     `;
      return;
     }
     this.box.classList.add('alert-danger');
@@ -122,7 +130,9 @@ class Debit extends Transaction {
   return;
  }
 }
-
+const dashboard = () => {
+ location.replace('dashboard.html');
+}
 const logout = () => {
  localStorage.removeItem('user');
  location.replace('../login.html');

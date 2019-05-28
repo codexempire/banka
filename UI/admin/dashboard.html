@@ -9,9 +9,13 @@
     <link rel="stylesheet" href="../css/my_styles.css">
     <link rel="stylesheet" href="../css/data.css">
     <script src="../../serverJs/isAdmin.js"></script>
+    <script src="../../serverJs/fetch.js"></script>
+    <script src="../../serverJs/extras.js"></script>
     <script src="../../serverJs/adminPages.js"></script>
-    <script>
-    </script>
+    <script src="../../serverJs/getAllAccounts.js"></script>
+    <script src="../../serverJs/getAllTransactions.js"></script>
+    <script src="../../serverJs/activeDormantAccounts.js"></script>
+    <script src="../../serverJs/searcher.js"></script>
     <title>Banka dashboard</title>
 </head>
 
@@ -60,6 +64,7 @@
                     <button class="right btn btn-border-y transactions ss">Transactions</button>
                 </div>
                 <div class="first-show">
+                    <div class="dialog"></div>
                     <div class="diva"></div>
                         <h2 class="form-head"></h2>
                         <div class="overflow">
@@ -148,27 +153,27 @@
     </main>
     <script src="../js/mine.js"></script>
     <script>
-        const fill = new Dashboard();
-        fill.start();
-        fill.fetchAccounts();
+        const allAccounts = new getAllAccounts();
+        const getTransactions = new getAllTransactions();
+        const activeDormant = new ActiveDormant();
+        const searcher = new Searcher();
+        allAccounts.fetchAccounts();
         document.querySelector('.transactions').onclick = () => {
-            fill.start();
-            fill.fetchTransactions();
+            getTransactions.fetchTransactions();
         }
         const accountType = document.querySelector('#accounts');
         accountType.onchange = ()=>{
-            fill.start();
             const selectedOption = accountType.options[accountType.selectedIndex].value;
             if (selectedOption === 'all') {
-                fill.fetchAccounts();
+                allAccounts.fetchAccounts();
             } else if (selectedOption === 'active') {
-               fill.fetchActiveAccounts();
+               activeDormant.fetchActiveAccounts();
             } else if(selectedOption === 'dormant') {
-                fill.fetchDormantAccounts();
+                activeDormant.fetchDormantAccounts();
             }
         }
         document.querySelector('.searcher').onclick = ()=>{
-            fill.search();
+            searcher.search();
         }
     </script>
 </body>
