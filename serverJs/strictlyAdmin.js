@@ -3,5 +3,6 @@ if (!user) {
  location.replace('../login.html');
 }
 if (!user.data.isadmin) {
- location.replace('../login.html');
+ alert('Page is only accessible by an Administrator');
+ user.data.type === 'staff' ? location.replace('dashboard.html') : location.replace('../login.html');
 }
