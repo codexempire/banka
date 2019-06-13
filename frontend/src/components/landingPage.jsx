@@ -8,10 +8,10 @@ class LandingPage extends Component {
   render () {
     return (
       <main>
-        <header class="grid head">
-          <div class="image" />
-          <div class="container">
-            <h1><strong>M</strong><i>y</i><strong>B</strong><i>anka</i></h1>
+        <header className="grid head">
+          <div className="image" />
+          <div className="container">
+            <h1>MyBanka</h1>
             <p style={this.paragraphStyle}> A bank you can trust...</p>
             <Link to="/login" className="btn btn-purple">Login</Link>
             <Link to="/signup" className="btn btn-border-y">Signup</Link>

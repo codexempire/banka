@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import LoginForm from './loginForm';
 import Header from './header';
 import Footer from './footer';
+import SignupForm from './signupForm';
 
-class LoginPage extends Component {
+class SignupPage extends Component {
   render () {
     return (
       <React.Fragment>
         <Header />
         <div className="back" />
-        <LoginForm />
+        <SignupForm />
         <Footer />
       </React.Fragment>
     );
   }
 }
 
-export default LoginPage;
+export default SignupPage;
