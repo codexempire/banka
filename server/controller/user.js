@@ -81,7 +81,7 @@ class user {
 
           delete data.password;
           // create token
-          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY);
+          const token = jwt.sign({ data: data }, process.env.TOKEN_KEY, { expiresIn: 60 * 60 });
 
           if (!token) return res.status(500).json({ status: 500, error: 'Failed to generate token' });
           
